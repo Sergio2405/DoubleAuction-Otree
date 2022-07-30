@@ -115,5 +115,8 @@ function liveRecv(data) {
             buy_orders_table.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
         }
     }
-   
+}
+
+window.onload = function () { 
+    liveSend({'Type': 'Connect'})
 }
