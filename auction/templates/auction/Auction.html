@@ -35,10 +35,10 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type = "number" id = "HighBuyMarketPrice">
+                                    <input type = "number" id = "HighBuyLimitPrice">
                                 </td>
                                 <td>
-                                    <input type = "number" id = "HighBuyMarketQuantity"/>
+                                    <input type = "number" id = "HighBuyLimitQuantity"/>
                                 </td>
                             </tr>
                         </tbody>
@@ -51,13 +51,13 @@
                             <th>Offers to Buy</th>
                             <th>Quantity</th>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id = "HighBuyTable"></tbody>
                     </table>    
                 </div>  
                 <div class = "market-half-1-marketOffer">
                     <label>Quantity</label>
-                    <input type = "number" id = "HighSellLimit" style = "width: 70%;"/>
-                    <button type = "button" style = "width:100%" onclick = {liveSend(HighSellLimit.value)}>Sell</button>
+                    <input type = "number" id = "HighSellMarket" style = "width: 70%;"/>
+                    <button type = "button" style = "width:100%" onclick = {HighSell()}>Sell</button>
                 </div>  
             </div>
             <div class = "market-half-2">
@@ -82,10 +82,10 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type = "number" id = "HighSellMarketPrice">
+                                    <input type = "number" id = "HighSellLimitPrice">
                                 </td>
                                 <td>
-                                    <input type = "number" id = "HighSellMarketQuantity"/>
+                                    <input type = "number" id = "HighSellLimitQuantity"/>
                                 </td>
                             </tr>
                         </tbody>
@@ -98,13 +98,13 @@
                             <th>Offers to Sell</th>
                             <th>Quantity</th>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id = "HighSellTable"></tbody>
                     </table>
                 </div>  
                 <div class = "market-half-1-marketOffer">
                     <label>Quantity</label>
-                    <input type = "number" id = "HighBuyLimit" style = "width: 70%;"/>
-                    <button type = "button" onclick = {liveSend(HighBuyLimit.value)}  style = "width: 100%;background-color:rgb(253, 119, 119)">Buy</button>
+                    <input type = "number" id = "HighBuyMarket" style = "width: 70%;"/>
+                    <button type = "button" onclick = {HighBuy()}  style = "width: 100%;background-color:rgb(253, 119, 119)">Buy</button>
                 </div>  
             </div>
         </div>
@@ -170,10 +170,10 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type = "number" id = "LowBuyMarketPrice">
+                                    <input type = "number" id = "LowBuyLimitPrice">
                                 </td>
                                 <td>
-                                    <input type = "number" id = "LowBuyMarketQuantity"/>
+                                    <input type = "number" id = "LowBuyLimitQuantity"/>
                                 </td>
                             </tr>
                         </tbody>
@@ -186,13 +186,13 @@
                             <th>Offers to Buy</th>
                             <th>Quantity</th>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id = "LowBuyTable"></tbody>
                     </table>
                 </div>  
                 <div class = "market-half-1-marketOffer">
                     <label>Quantity</label>
-                    <input type = "number" id = "LowSellLimit" style = "width: 70%;"/>
-                    <button type = "button" onclick = {liveSend(LowSellLimit.value)} style = "width:100%">Sell</button>
+                    <input type = "number" id = "LowSellMarket" style = "width: 70%;"/>
+                    <button type = "button" onclick = {LowSell()} style = "width:100%">Sell</button>
                 </div>  
             </div>
             <div class = "market-half-2">
@@ -217,10 +217,10 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type = "number" id = "LowSellMarketPrice">
+                                    <input type = "number" id = "LowSellLimitPrice">
                                 </td>
                                 <td>
-                                    <input type = "number" id = "LowSellMarketQuantity"/>
+                                    <input type = "number" id = "LowSellLimitQuantity"/>
                                 </td>
                             </tr>
                         </tbody>
@@ -233,13 +233,13 @@
                             <th>Offers to Sell</th>
                             <th>Quantity</th>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id = "LowSellTable"></tbody>
                     </table>
                 </div>  
                 <div class = "market-half-1-marketOffer">
                     <label>Quantity</label>
-                    <input type = "number" id = "LowBuyLimit" style = "width: 70%;"/>
-                    <button type = "button" onclick = {liveSend(LowBuyLimit.value)}
+                    <input type = "number" id = "LowBuyMarket" style = "width: 70%;"/>
+                    <button type = "button" onclick = {LowBuy()}
                     style = "width: 100%;background-color:rgb(253, 119, 119)">Buy</button>
                 </div>  
             </div>
