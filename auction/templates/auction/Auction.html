@@ -1,354 +1,253 @@
 {% extends "global/Page.html" %}
 {% load otree static %}
 
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'auction/css/auction.css' %}">
+{% endblock %}
+
 {% block content %}
-  <style>
-    .auction-market-screen {
-        border: 1px solid black; 
-        margin-left : -220px;
-        margin-top : -5px;
-        width: 1300px;
-        height:600px;
-        display:flex;
-        flex-direction: row
-    }
-
-    .auction-market-1 {
-        width : 40%;
-        height : 100%;
-        display: flex;
-    }
-
-    .market-half-1 { 
-        width : 50%;
-        border : 1px solid black;
-    }
-
-    .market-half-2 { 
-        width : 50%;
-        border : 1px solid black;
-    }
-
-    .auction-market-2 {
-        width : 40%;
-        height : 100%;
-        display: flex;
-    }
-
-    .auction-market-monitor {
-        border : 1px solid green;
-        width : 20%;
-        height : 100%
-    }
-
-    .market-half-1 { 
-        display: inline;
-    }
-
-    .market-half-1-delete { 
-        width: 100%;
-        height: 30%;
-        border: 1px solid black
-    }
-
-    .market-half-1-limitOffer { 
-        width: 100%;
-        height: 15%;
-        border: 1px solid black
-    }
-
-    .market-half-1-list { 
-        width: 100%;
-        height: 45%;
-        border: 1px solid black
-    }
-
-    input { 
-        width: 100%;
-        background-color: rgb(207, 207, 245)
-    }
-
-    button { 
-        border-radius: 2px
-    }
-
-    .auction-market-name { 
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 5px;
-        padding-right: 50px
-    }
-
-    .auction-trader-budget { 
-        border: 1px solid black;
-        width: 100%;
-        height: 30%;
-        padding-top: 30px;
-        padding-right: 20px;
-        padding-left: 20px
-    }
-
-    .auction-market-prices { 
-        border: 1px solid black;
-        width: 100%;
-        height: 70%;
-        padding-top: 30px;
-    }
-    
-  </style>
 
     <div class = "auction-market-name">
         <div>Market High Risk</div>
         <div>Market Low Risk</div>
     </div>
-  <div class = "auction-market-screen">
-    <div class = "auction-market-1">
-        <div class = "market-half-1">
-            <div class = "market-half-1-delete">
-                <div style = "height:80%; border:1px solid black">
-                    <table style = "width:100%">
-                    <thead>
-                        <th>Your Offers to Buy</th>
-                        <th>Quantity</th>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+    <div class = "auction-market-screen">
+        <div class = "auction-market-1">
+            <div class = "market-half-1">
+                <div class = "market-half-1-delete">
+                    <div style = "height:80%; border:1px solid black">
+                        <table style = "width:100%">
+                        <thead>
+                            <th>Your Offers to Buy</th>
+                            <th>Quantity</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    </div>
+                    <button type = "button" style = "width: 100%;background-color:rgb(253, 119, 119)">Delete offer to buy</button>
                 </div>
-                <button type = "button" style = "width: 100%;background-color:rgb(253, 119, 119)">Delete offer to buy</button>
+                <div class = "market-half-1-limitOffer">
+                    <table style = "width:100%">
+                        <thead>
+                            <th>Offer to Buy</th>
+                            <th>Quantity</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type = "number" id = "HighBuyMarketPrice">
+                                </td>
+                                <td>
+                                    <input type = "number" id = "HighBuyMarketQuantity"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type = "button" onclick = {HighOfferToBuy()} style = "width: 100%;background-color:rgb(253, 119, 119)">Offer to buy</button>
+                </div>
+                <div class = "market-half-1-list">
+                    <table style = "width:100%">
+                        <thead>
+                            <th>Offers to Buy</th>
+                            <th>Quantity</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>    
+                </div>  
+                <div class = "market-half-1-marketOffer">
+                    <label>Quantity</label>
+                    <input type = "number" id = "HighSellLimit" style = "width: 70%;"/>
+                    <button type = "button" style = "width:100%" onclick = {liveSend(HighSellLimit.value)}>Sell</button>
+                </div>  
             </div>
-            <div class = "market-half-1-limitOffer">
-                <table style = "width:100%">
-                    <thead>
-                        <th>Offer to Buy</th>
-                        <th>Quantity</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input type = "number">
-                            </td>
-                            <td>
-                                <input type = "number"/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button type = "button" style = "width: 100%;background-color:rgb(253, 119, 119)">Offer to buy</button>
+            <div class = "market-half-2">
+                <div class = "market-half-1-delete">
+                    <div style = "height:80%; border:1px solid black">
+                        <table style = "width:100%">
+                        <thead>
+                            <th>Your Offers to Sell</th>
+                            <th>Quantity</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    </div>
+                    <button type = "button" style = "width: 100%;">Delete offer to Sell</button>
+                </div>
+                <div class = "market-half-1-limitOffer">
+                    <table style = "width:100%">
+                        <thead>
+                            <th>Offer to Sell</th>
+                            <th>Quantity</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type = "number" id = "HighSellMarketPrice">
+                                </td>
+                                <td>
+                                    <input type = "number" id = "HighSellMarketQuantity"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type = "button" onclick = {HighOfferToSell()} style = "width: 100%;">Offer to Sell</button>
+                </div>
+                <div class = "market-half-1-list">
+                    <table style = "width:100%">
+                        <thead>
+                            <th>Offers to Sell</th>
+                            <th>Quantity</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>  
+                <div class = "market-half-1-marketOffer">
+                    <label>Quantity</label>
+                    <input type = "number" id = "HighBuyLimit" style = "width: 70%;"/>
+                    <button type = "button" onclick = {liveSend(HighBuyLimit.value)}  style = "width: 100%;background-color:rgb(253, 119, 119)">Buy</button>
+                </div>  
             </div>
-            <div class = "market-half-1-list">
-                <table style = "width:100%">
-                    <thead>
-                        <th>Offers to Buy</th>
-                        <th>Quantity</th>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>  
-            <div class = "market-half-1-marketOffer">
-                <label>Quantity</label>
-                <input type = "number" style = "width: 70%;"/>
-                <button style = "width:100%">Sell</button>
-            </div>  
         </div>
-        <div class = "market-half-2">
-            <div class = "market-half-1-delete">
-                <div style = "height:80%; border:1px solid black">
-                    <table style = "width:100%">
-                    <thead>
-                        <th>Your Offers to Sell</th>
-                        <th>Quantity</th>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+        <div class = "auction-market-monitor">
+            <div class = "auction-trader-budget">
+                <div style = "text-align: center">
+                    Your Holdings
                 </div>
-                <button type = "button" style = "width: 100%;">Delete offer to Sell</button>
+                <table style = "width:100%">
+                    <tbody>
+                        <tr>
+                            <td>High Risk</td>
+                            <td>25</td>
+                        </tr>
+                        <tr>
+                            <td>Low Risk</td>
+                            <td>15</td>
+                        </tr>
+                        <td>Points</td>
+                        <td>900</td>
+                    </tbody>
+                </table>
             </div>
-            <div class = "market-half-1-limitOffer">
+            <div class = "auction-market-prices">
+                <div style = "text-align: center">
+                    Market Prices
+                </div>
                 <table style = "width:100%">
                     <thead>
-                        <th>Offer to Sell</th>
-                        <th>Quantity</th>
+                        <th>Price High Risk</th>
+                        <th>Price Low Risk</th>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>
-                                <input type = "number" >
-                            </td>
-                            <td>
-                                <input type = "number"/>
-                            </td>
+                            <td>25</td>
+                            <td>25</td>
                         </tr>
                     </tbody>
                 </table>
-                <button type = "button" style = "width: 100%;">Offer to Sell</button>
             </div>
-            <div class = "market-half-1-list">
-                <table style = "width:100%">
-                    <thead>
-                        <th>Offers to Sell</th>
-                        <th>Quantity</th>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>  
-            <div class = "market-half-1-marketOffer">
-                <label>Quantity</label>
-                <input type = "number" style = "width: 70%;"/>
-                <button style = "width: 100%;background-color:rgb(253, 119, 119)">Buy</button>
-            </div>  
+            
+        </div>
+        <div class = "auction-market-2">
+            <div class = "market-half-1">
+                <div class = "market-half-1-delete">
+                    <div style = "height:80%; border:1px solid black">
+                        <table style = "width:100%">
+                        <thead>
+                            <th>Your Offers to Buy</th>
+                            <th>Quantity</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    </div>
+                    <button type = "button" style = "width: 100%;background-color:rgb(253, 119, 119)">Delete offer to buy</button>
+                </div>
+                <div class = "market-half-1-limitOffer">
+                    <table style = "width:100%">
+                        <thead>
+                            <th>Offer to Buy</th>
+                            <th>Quantity</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type = "number" id = "LowBuyMarketPrice">
+                                </td>
+                                <td>
+                                    <input type = "number" id = "LowBuyMarketQuantity"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type = "button" onclick = {LowOfferToBuy()} style = "width: 100%;background-color:rgb(253, 119, 119)">Offer to buy</button>
+                </div>
+                <div class = "market-half-1-list">
+                    <table style = "width:100%">
+                        <thead>
+                            <th>Offers to Buy</th>
+                            <th>Quantity</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>  
+                <div class = "market-half-1-marketOffer">
+                    <label>Quantity</label>
+                    <input type = "number" id = "LowSellLimit" style = "width: 70%;"/>
+                    <button type = "button" onclick = {liveSend(LowSellLimit.value)} style = "width:100%">Sell</button>
+                </div>  
+            </div>
+            <div class = "market-half-2">
+                <div class = "market-half-1-delete">
+                    <div style = "height:80%; border:1px solid black">
+                        <table style = "width:100%">
+                        <thead>
+                            <th>Your Offers to Sell</th>
+                            <th>Quantity</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    </div>
+                    <button type = "button" style = "width: 100%;">Delete offer to Sell</button>
+                </div>
+                <div class = "market-half-1-limitOffer">
+                    <table style = "width:100%">
+                        <thead>
+                            <th>Offer to Sell</th>
+                            <th>Quantity</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type = "number" id = "LowSellMarketPrice">
+                                </td>
+                                <td>
+                                    <input type = "number" id = "LowSellMarketQuantity"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type = "button"  onclick = {LowOfferToSell()} style = "width: 100%;">Offer to Sell</button>
+                </div>
+                <div class = "market-half-1-list">
+                    <table style = "width:100%">
+                        <thead>
+                            <th>Offers to Sell</th>
+                            <th>Quantity</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>  
+                <div class = "market-half-1-marketOffer">
+                    <label>Quantity</label>
+                    <input type = "number" id = "LowBuyLimit" style = "width: 70%;"/>
+                    <button type = "button" onclick = {liveSend(LowBuyLimit.value)}
+                    style = "width: 100%;background-color:rgb(253, 119, 119)">Buy</button>
+                </div>  
+            </div>
         </div>
     </div>
-    <div class = "auction-market-monitor">
-        <div class = "auction-trader-budget">
-            <div style = "text-align: center">
-                Your Holdings
-            </div>
-            <table style = "width:100%">
-                <tbody>
-                    <tr>
-                        <td>High Risk</td>
-                        <td>25</td>
-                    </tr>
-                    <tr>
-                        <td>Low Risk</td>
-                        <td>15</td>
-                    </tr>
-                    <td>Points</td>
-                    <td>900</td>
-                </tbody>
-            </table>
-        </div>
-        <div class = "auction-market-prices">
-            <div style = "text-align: center">
-                Market Prices
-            </div>
-            <table style = "width:100%">
-                <thead>
-                    <th>Price High Risk</th>
-                    <th>Price Low Risk</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>25</td>
-                        <td>25</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-    </div>
-    <div class = "auction-market-2">
-        <div class = "market-half-1">
-            <div class = "market-half-1-delete">
-                <div style = "height:80%; border:1px solid black">
-                    <table style = "width:100%">
-                    <thead>
-                        <th>Your Offers to Buy</th>
-                        <th>Quantity</th>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-                </div>
-                <button type = "button" style = "width: 100%;background-color:rgb(253, 119, 119)">Delete offer to buy</button>
-            </div>
-            <div class = "market-half-1-limitOffer">
-                <table style = "width:100%">
-                    <thead>
-                        <th>Offer to Buy</th>
-                        <th>Quantity</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input type = "number">
-                            </td>
-                            <td>
-                                <input type = "number"/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button type = "button" style = "width: 100%;background-color:rgb(253, 119, 119)">Offer to buy</button>
-            </div>
-            <div class = "market-half-1-list">
-                <table style = "width:100%">
-                    <thead>
-                        <th>Offers to Buy</th>
-                        <th>Quantity</th>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>  
-            <div class = "market-half-1-marketOffer">
-                <label>Quantity</label>
-                <input type = "number" style = "width: 70%;"/>
-                <button style = "width:100%">Sell</button>
-            </div>  
-        </div>
-        <div class = "market-half-2">
-            <div class = "market-half-1-delete">
-                <div style = "height:80%; border:1px solid black">
-                    <table style = "width:100%">
-                    <thead>
-                        <th>Your Offers to Sell</th>
-                        <th>Quantity</th>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-                </div>
-                <button type = "button" style = "width: 100%;">Delete offer to Sell</button>
-            </div>
-            <div class = "market-half-1-limitOffer">
-                <table style = "width:100%">
-                    <thead>
-                        <th>Offer to Sell</th>
-                        <th>Quantity</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input type = "number" >
-                            </td>
-                            <td>
-                                <input type = "number"/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button type = "button" style = "width: 100%;">Offer to Sell</button>
-            </div>
-            <div class = "market-half-1-list">
-                <table style = "width:100%">
-                    <thead>
-                        <th>Offers to Sell</th>
-                        <th>Quantity</th>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>  
-            <div class = "market-half-1-marketOffer">
-                <label>Quantity</label>
-                <input type = "number" style = "width: 70%;"/>
-                <button style = "width: 100%;background-color:rgb(253, 119, 119)">Buy</button>
-            </div>  
-        </div>
-    </div>
-  </div>
 
-  <script>
-  
-      let history = document.getElementById('history');
-      let inputbox = document.getElementById('inputbox');
-      let sendbutton = document.getElementById('sendbutton');
-  
-      function liveRecv(data) {
-          history.innerHTML += '<tr><td>' + data.id_in_group + '</td><td>' + data.bid + '</td></tr>';
-      }
-  
-      sendbutton.onclick = function () {
-          liveSend(parseInt(inputbox.value));
-      };
-  
-  </script>
+{% endblock %}
 
+{% block scripts%}
+    <script type="text/javascript" src="{% static 'auction/js/auction.js' %}"></script> 
 {% endblock %}

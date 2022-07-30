@@ -13,6 +13,7 @@ from otree.api import (
 author = 'Sergio Gonzalo Mejia Ramos'
 
 doc = """
+
 Double Auction Market with 2 Assets to trade
 
 """
@@ -31,11 +32,5 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     
-    def live_auction(self, bid):
-        group = self.group
-        my_id = self.id_in_group
-        if bid > group.highest_bid:
-            group.highest_bid = bid
-            group.highest_bidder = my_id
-            response = dict(id_in_group=my_id, bid=bid)
-            return {0: response}
+    def live_auction(self, data):
+        print("Mandando..: ",data)
