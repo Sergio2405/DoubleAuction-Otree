@@ -3,8 +3,8 @@ function HighOfferToBuy() {
         Asset : "High",
         Type : "Limit",
         Action : "Buy",
-        Price : document.getElementById("HighBuyLimitPrice").value,
-        Quantity : document.getElementById("HighBuyLimitQuantity").value
+        Price : parseFloat(document.getElementById("HighBuyLimitPrice").value),
+        Quantity : parseInt(document.getElementById("HighBuyLimitQuantity").value)
     }
     liveSend(offer)
 }
@@ -14,8 +14,8 @@ function HighOfferToSell() {
         Asset : "High",
         Type : "Limit",
         Action : "Sell",
-        Price : document.getElementById("HighSellLimitPrice").value,
-        Quantity : document.getElementById("HighSellLimitQuantity").value
+        Price : parseFloat(document.getElementById("HighSellLimitPrice").value),
+        Quantity : parseInt(document.getElementById("HighSellLimitQuantity").value)
     }
     liveSend(offer)
 }
@@ -25,8 +25,8 @@ function LowOfferToBuy() {
         Asset : "Low",
         Type : "Limit",
         Action : "Buy",
-        Price : document.getElementById("LowBuyLimitPrice").value,
-        Quantity : document.getElementById("LowBuyLimitQuantity").value
+        Price : parseFloat(document.getElementById("LowBuyLimitPrice").value),
+        Quantity : parseInt(document.getElementById("LowBuyLimitQuantity").value)
     }
     liveSend(offer)
 }
@@ -36,8 +36,8 @@ function LowOfferToSell() {
         Asset : "Low",
         Type : "Limit",
         Action : "Sell",
-        Price : document.getElementById("LowSellLimitPrice").value,
-        Quantity : document.getElementById("LowSellLimitQuantity").value
+        Price : parseFloat(document.getElementById("LowSellLimitPrice").value),
+        Quantity : parseInt(document.getElementById("LowSellLimitQuantity").value)
     }
     liveSend(offer)
 }
@@ -47,7 +47,7 @@ function HighSell() {
         Asset : "High",
         Type : "Market",
         Action : "Sell",
-        Quantity : document.getElementById("HighSellMarket").value
+        Quantity : parseInt(document.getElementById("HighSellMarket").value)
     }
     liveSend(offer)
 }
@@ -57,7 +57,7 @@ function HighBuy() {
         Asset : "High",
         Type : "Market",
         Action : "Buy",
-        Quantity : document.getElementById("HighBuyMarket").value
+        Quantity : parseInt(document.getElementById("HighBuyMarket").value)
     }
     liveSend(offer)
 }
@@ -67,7 +67,7 @@ function LowSell() {
         Asset : "Low",
         Type : "Market",
         Action : "Sell",
-        Quantity : document.getElementById("LowSellMarket").value
+        Quantity : parseInt(document.getElementById("LowSellMarket").value)
     }
     liveSend(offer)
 }
@@ -77,7 +77,7 @@ function LowBuy() {
         Asset : "Low",
         Type : "Market",
         Action : "Buy",
-        Quantity : document.getElementById("LowBuyMarket").value
+        Quantity : parseInt(document.getElementById("LowBuyMarket").value)
     }
     liveSend(offer)
 }
