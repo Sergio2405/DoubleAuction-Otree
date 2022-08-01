@@ -87,6 +87,25 @@ function liveRecv(data) {
     let high_risk_orders = data["high_risk_orders"];
     let low_risk_orders = data["low_risk_orders"];
 
+    let players = data["players"];
+    let my_player;
+
+    console.log(players)
+    console.log(player_id)
+    
+    for (let player of players) { 
+        if (player.player_id == player_id){ 
+            my_player = player
+        }
+    }
+
+    let holdings = my_player["holdings"];
+    let quantity = my_player['quantity'];
+
+    document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>High Risk</td><td>' +  quantity.high_risk + '</td><td>' + holdings.high_risk + '</td></tr>';
+    document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Low Risk</td><td>' + quantity.low_risk + '</td><td>' + holdings.low_risk + '</td></tr>';
+    document.getElementById("TotalHoldings").innerHTML = '<tr><td>Total</td><td>' + quantity.total + '</td><td>' + holdings.total + '</td></tr>'
+
     document.getElementById("HighBuyTable").innerHTML = ""
     document.getElementById("HighSellTable").innerHTML = ""
     document.getElementById("LowBuyTable").innerHTML = ""

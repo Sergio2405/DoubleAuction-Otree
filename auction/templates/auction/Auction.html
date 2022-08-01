@@ -114,17 +114,15 @@
                     Your Holdings
                 </div>
                 <table style = "width:100%">
+                    <thead>
+                        <th>Asset</th>
+                        <th>Quantity</th>
+                        <th>Holdings</th>
+                    </thead>
                     <tbody>
-                        <tr>
-                            <td>High Risk</td>
-                            <td>25</td>
-                        </tr>
-                        <tr>
-                            <td>Low Risk</td>
-                            <td>15</td>
-                        </tr>
-                        <td>Points</td>
-                        <td>900</td>
+                        <tr id = "HighRiskHoldings"></tr>
+                        <tr id = "LowRiskHoldings"></tr>
+                        <tr id = "TotalHoldings" style = "border-top: 2px solid black"> </tr>
                     </tbody>
                 </table>
             </div>
@@ -249,5 +247,8 @@
 {% endblock %}
 
 {% block scripts%}
+    <script type="text/javascript">
+        var player_id = {{ player_id }};
+    </script>
     <script type="text/javascript" src="{% static 'auction/js/auction.js' %}"></script> 
 {% endblock %}

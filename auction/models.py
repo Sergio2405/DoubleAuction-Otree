@@ -20,9 +20,16 @@ Double Auction Market with 2 Assets to trade
 """
 
 class Constants(BaseConstants):
+
     name_in_url = 'auction'
     players_per_group = None
     num_rounds = 1
+
+    time_per_round = 2 # time in minutes
+
+    endowment = 4000 # points
+    high_risk_assets_initial = 100
+    low_risk_assets_initial = 100
     
 class Subsession(BaseSubsession):
     pass
@@ -32,13 +39,41 @@ class Group(BaseGroup):
     high_risk_orders = models.LongStringField(default = "")
     low_risk_orders = models.LongStringField(default = "")
 
+    def get_players_parser(self):
+        
+        players = self.get_players()
+        players_parsed = []
+        
+        for player in players: 
+
+            player_dict = {
+                "player_id" : player.id_in_group,
+                "holdings" : {
+                        "total" : player.total_holdings,
+                        "high_risk" : player.high_risk_holdings,
+                        "low_risk" : player.low_risk_holdings
+                    },
+                "quantity" : {
+                        "total" : player.total_quantity,
+                        "high_risk" : player.high_risk_quantity,
+                        "low_risk" : player.low_risk_quantity
+                    }
+                }
+
+            players_parsed.append(player_dict)
+        
+        return players_parsed
+
 class Player(BasePlayer):
 
-    high_risk_quantity = models.IntegerField(default = 0)
-    high_risk_holdings = models.FloatField(default = 0)
+    total_holdings = models.FloatField(default = 0)
+    total_quantity = models.FloatField(default = 0)
 
-    low_risk_quantity = models.IntegerField(default = 0)
-    low_risk_holdings = models.FloatField(default = 0)
+    high_risk_quantity = models.IntegerField(default = Constants.high_risk_assets_initial)
+    high_risk_holdings = models.FloatField(default = Constants.endowment/2)
+
+    low_risk_quantity = models.IntegerField(default = Constants.low_risk_assets_initial)
+    low_risk_holdings = models.FloatField(default = Constants.endowment/2)
     
     def live_auction(self, data):
 
@@ -119,10 +154,17 @@ class Player(BasePlayer):
 
                     low_risk_orders.remove(low_risk_best_buy_offer)
 
-        response = {0:{
-            "high_risk_orders" : high_risk_orders,
-            "low_risk_orders" : low_risk_orders
-        }}
+            self.total_holdings = self.low_risk_holdings + self.high_risk_holdings 
+            self.total_quantity = self.low_risk_quantity + self.high_risk_quantity
+
+
+        response = {
+            0 : {
+                "high_risk_orders" : high_risk_orders,
+                "low_risk_orders" : low_risk_orders,
+                "players" : self.group.get_players_parser()
+            },
+        }
 
         # updating the orders "database"
         if high_risk_orders: 
