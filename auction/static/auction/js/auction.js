@@ -96,11 +96,13 @@ function liveRecv(data) {
     for (let player of players) { 
         if (player.player_id == player_id){ 
             my_player = player
+            break
         }
     }
 
     let holdings = my_player["holdings"];
-    let quantity = my_player['quantity'];
+    let quantity = my_player["quantity"];
+    let orders_issued = my_player["orders"];
 
     document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>High Risk</td><td>' +  quantity.high_risk + '</td><td>' + holdings.high_risk + '</td></tr>';
     document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Low Risk</td><td>' + quantity.low_risk + '</td><td>' + holdings.low_risk + '</td></tr>';
@@ -110,6 +112,33 @@ function liveRecv(data) {
     document.getElementById("HighSellTable").innerHTML = ""
     document.getElementById("LowBuyTable").innerHTML = ""
     document.getElementById("LowSellTable").innerHTML = ""
+
+    document.getElementById("HighBuyMyOffersTable").innerHTML = ""
+    document.getElementById("HighSellMyOffersTable").innerHTML = ""
+    document.getElementById("LowBuyMyOffersTable").innerHTML = ""
+    document.getElementById("LowSellMyOffersTable").innerHTML = ""
+
+    for (let order of orders_issued) { 
+        if (order.Asset == "High"){ 
+            let buy_orders_table1 = document.getElementById("HighBuyMyOffersTable");
+            let sell_orders_table1 = document.getElementById("HighSellMyOffersTable");
+
+            if (order.Action == "Sell") { 
+                sell_orders_table1.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
+            } else { 
+                buy_orders_table1.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
+            }
+        }else{
+            let buy_orders_table = document.getElementById("LowBuyMyOffersTable");
+            let sell_orders_table = document.getElementById("LowSellMyOffersTable");
+
+            if (order.Action == "Sell") { 
+                sell_orders_table.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
+            } else { 
+                buy_orders_table.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
+            }
+        }
+    }
 
     for (let order of high_risk_orders) { 
 

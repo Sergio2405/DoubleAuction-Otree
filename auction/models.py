@@ -56,10 +56,12 @@ class Group(BaseGroup):
                         "total" : player.total_quantity,
                         "high_risk" : player.high_risk_quantity,
                         "low_risk" : player.low_risk_quantity
-                    }
+                    },
+                "orders" : player.parse_orders()
                 }
 
             players_parsed.append(player_dict)
+            print(players_parsed)
         
         return players_parsed
 
@@ -86,6 +88,13 @@ class Player(BasePlayer):
 
     low_risk_quantity = models.IntegerField(default = Constants.initial_quantity/2)
     low_risk_holdings = models.FloatField(default = Constants.endowment/2)
+
+    orders_issued = models.LongStringField(default = "")
+
+    def parse_orders(self): 
+
+        orders_issued = list(map(lambda order: ast.literal_eval(order),self.orders_issued.split("-")[:-1]))
+        return orders_issued
 
     def update_issuer_holdings(self,order,price,quantity):
 
@@ -114,6 +123,8 @@ class Player(BasePlayer):
         data["player_id"] = self.id_in_group
     
         if data["Type"] == "Limit":
+            
+            self.orders_issued += str(data) + "-"
 
             if data["Asset"] == "High": 
                 self.group.high_risk_orders += str(data) + "-"
@@ -123,6 +134,8 @@ class Player(BasePlayer):
         # cualquier operacion que se quiera realizar con las ordenes se hace a partir del mapeo
         high_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.high_risk_orders.split("-")[:-1]))
         low_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.low_risk_orders.split("-")[:-1]))
+
+        orders_issued = self.parse_orders() # obtener ordenes en formato de dict - lista
 
         if data["Type"] == "Market": 
 
@@ -206,7 +219,7 @@ class Player(BasePlayer):
             0 : {
                 "high_risk_orders" : high_risk_orders,
                 "low_risk_orders" : low_risk_orders,
-                "players" : self.group.get_players_parser()
+                "players" : self.group.get_players_parser(),
             },
         }
 
@@ -216,6 +229,6 @@ class Player(BasePlayer):
         if low_risk_orders: 
             self.group.low_risk_orders = "-".join(list(map(lambda order: str(order),low_risk_orders))) + "-"
 
-        print(response)
+        # print(response)
 
         return response
