@@ -28,8 +28,7 @@ class Constants(BaseConstants):
     time_per_round = 2 # time in minutes
 
     endowment = 4000 # points
-    high_risk_assets_initial = 100
-    low_risk_assets_initial = 100
+    initial_quantity = 200 # total initial asset units
     
 class Subsession(BaseSubsession):
     pass
@@ -64,16 +63,51 @@ class Group(BaseGroup):
         
         return players_parsed
 
+    def get_order_issuer(self,order): 
+
+        players = self.get_players()
+        issuer_id = order["player_id"] 
+        issuer = None
+
+        for player in players: 
+            if player.id_in_group == issuer_id:
+                issuer = player
+                break
+
+        return issuer
+        
 class Player(BasePlayer):
 
-    total_holdings = models.FloatField(default = 0)
-    total_quantity = models.FloatField(default = 0)
+    total_holdings = models.FloatField(default = Constants.endowment)
+    total_quantity = models.FloatField(default = Constants.initial_quantity)
 
-    high_risk_quantity = models.IntegerField(default = Constants.high_risk_assets_initial)
+    high_risk_quantity = models.IntegerField(default = Constants.initial_quantity/2)
     high_risk_holdings = models.FloatField(default = Constants.endowment/2)
 
-    low_risk_quantity = models.IntegerField(default = Constants.low_risk_assets_initial)
+    low_risk_quantity = models.IntegerField(default = Constants.initial_quantity/2)
     low_risk_holdings = models.FloatField(default = Constants.endowment/2)
+
+    def update_issuer_holdings(self,order,price,quantity):
+
+        if order["Action"] == "Buy":
+
+            if order["Asset"] == "High":
+                self.high_risk_quantity -= quantity 
+                self.high_risk_holdings += quantity * price
+            else: 
+                self.low_risk_quantity -= quantity 
+                self.low_risk_holdings += quantity * price 
+        else: 
+
+            if order["Asset"] == "High":
+                self.high_risk_quantity += quantity 
+                self.high_risk_holdings -= quantity * price
+            else: 
+                self.low_risk_quantity += quantity 
+                self.low_risk_holdings -= quantity * price
+
+        self.total_holdings = self.high_risk_holdings + self.low_risk_holdings
+        self.total_quantity = self.high_risk_quantity + self.low_risk_quantity
     
     def live_auction(self, data):
 
@@ -107,6 +141,8 @@ class Player(BasePlayer):
                     self.high_risk_quantity += quantity_to_buy 
                     self.high_risk_holdings -= quantity_to_buy * high_risk_best_sell_offer["Price"]
 
+                    order_issuer = self.group.get_order_issuer(high_risk_best_sell_offer)
+                    order_issuer.update_issuer_holdings(data,high_risk_best_sell_offer["Price"],quantity_to_buy)
                     #delete offer from high_risk_orders
                     high_risk_orders.remove(high_risk_best_sell_offer)
 
@@ -120,6 +156,9 @@ class Player(BasePlayer):
 
                     self.high_risk_quantity -= quantity_to_sell 
                     self.high_risk_holdings += quantity_to_sell * high_risk_best_buy_offer["Price"]
+
+                    order_issuer = self.group.get_order_issuer(high_risk_best_buy_offer)
+                    order_issuer.update_issuer_holdings(data,high_risk_best_buy_offer["Price"],quantity_to_sell)
 
                     high_risk_orders.remove(high_risk_best_buy_offer)
 
@@ -138,6 +177,9 @@ class Player(BasePlayer):
                     self.low_risk_quantity += quantity_to_buy 
                     self.low_risk_holdings -= quantity_to_buy * low_risk_best_sell_offer["Price"]
 
+                    order_issuer = self.group.get_order_issuer(low_risk_best_sell_offer)
+                    order_issuer.update_issuer_holdings(data,low_risk_best_sell_offer["Price"],quantity_to_buy)
+
                     #delete offer from high_risk_orders
                     low_risk_orders.remove(low_risk_best_sell_offer)
 
@@ -152,11 +194,13 @@ class Player(BasePlayer):
                     self.low_risk_quantity -= quantity_to_sell 
                     self.low_risk_holdings += quantity_to_sell * low_risk_best_buy_offer["Price"]
 
+                    order_issuer = self.group.get_order_issuer(low_risk_best_buy_offer)
+                    order_issuer.update_issuer_holdings(data,low_risk_best_buy_offer["Price"],quantity_to_sell)
+
                     low_risk_orders.remove(low_risk_best_buy_offer)
 
             self.total_holdings = self.low_risk_holdings + self.high_risk_holdings 
             self.total_quantity = self.low_risk_quantity + self.high_risk_quantity
-
 
         response = {
             0 : {
