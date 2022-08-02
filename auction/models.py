@@ -35,8 +35,22 @@ class Subsession(BaseSubsession):
 
 class Group(BaseGroup):
     
+    # vars usadas como almacenadores de ordenes temporales (vars auxiliares)
     high_risk_orders = models.LongStringField(default = "")
     low_risk_orders = models.LongStringField(default = "")
+
+    # variables de interes 
+
+    # cantidad de ordenes segun tipo
+    limit_orders = models.IntegerField(default = 0) # num de limit orders
+    market_orders = models.IntegerField(default = 0) # num de market orders
+
+    # guardando las ordenes segun tipo
+    high_risk_limit_orders = models.LongStringField(default = "")
+    high_risk_market_orders = models.LongStringField(default = "")
+
+    low_risk_limit_orders = models.LongStringField(default = "")
+    low_risk_market_orders = models.LongStringField(default = "")
 
     def get_players_parser(self):
         
@@ -89,7 +103,7 @@ class Player(BasePlayer):
     low_risk_quantity = models.IntegerField(default = Constants.initial_quantity/2)
     low_risk_holdings = models.FloatField(default = Constants.endowment/2)
 
-    orders_issued = models.LongStringField(default = "")
+    orders_issued = models.LongStringField(default = "") 
 
     def parse_orders(self): 
 
@@ -123,13 +137,19 @@ class Player(BasePlayer):
         data["player_id"] = self.id_in_group
     
         if data["Type"] == "Limit":
+
+            data["order_id"] = self.group.limit_orders
+
+            self.group.limit_orders += 1
             
             self.orders_issued += str(data) + "-"
 
             if data["Asset"] == "High": 
                 self.group.high_risk_orders += str(data) + "-"
+                self.group.high_risk_limit_orders += str(data) + "-"
             else: 
                 self.group.low_risk_orders += str(data) + "-"
+                self.group.low_risk_limit_orders += str(data) + "-"
     
         # cualquier operacion que se quiera realizar con las ordenes se hace a partir del mapeo
         high_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.high_risk_orders.split("-")[:-1]))
@@ -139,7 +159,13 @@ class Player(BasePlayer):
 
         if data["Type"] == "Market": 
 
+            data["order_id"] = self.group.market_orders
+
+            self.group.market_orders += 1
+
             if data["Asset"] == "High": 
+
+                self.group.high_risk_market_orders += str(data) + "-"
 
                 high_risk_orders_rest = filter(lambda order: order["player_id"] != self.id_in_group ,high_risk_orders)
 
@@ -176,6 +202,8 @@ class Player(BasePlayer):
                     high_risk_orders.remove(high_risk_best_buy_offer)
 
             if data["Asset"] == "Low": 
+
+                self.group.low_risk_market_orders += str(data) + "-"
 
                 low_risk_orders_rest = filter(lambda order: order["player_id"] != self.id_in_group ,low_risk_orders)
 
