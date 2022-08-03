@@ -23,17 +23,26 @@ class Constants(BaseConstants):
 
     name_in_url = 'auction'
     players_per_group = None
-    num_rounds = 1
+    num_rounds = 6
 
     time_per_round = 2 # time in minutes
 
     endowment = 4000 # points
     initial_quantity = 200 # total initial asset units
     
+    treatments = ["AB","TB1","TB2","AP","TP1","TP2"]
+
 class Subsession(BaseSubsession):
-    pass
+    
+    def creating_session(self):
+      
+        group = self.get_groups()[0]
+        group.treatment = Constants.treatments[self.round_number-1]
+        print(group.treatment)
 
 class Group(BaseGroup):
+
+    treatment = models.StringField(default = "")
     
     # vars usadas como almacenadores de ordenes temporales (vars auxiliares)
     high_risk_orders = models.LongStringField(default = "")
@@ -104,6 +113,11 @@ class Player(BasePlayer):
     low_risk_holdings = models.FloatField(default = Constants.endowment/2)
 
     orders_issued = models.LongStringField(default = "") 
+
+    bonus = models.FloatField(default = 0)
+
+    def set_payoff(self): 
+        pass
 
     def parse_orders(self): 
 

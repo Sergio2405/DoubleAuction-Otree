@@ -1,0 +1,33 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Ranking
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <th>Player</th>
+            <th>Payoff</th>
+            <th>Bonus</th>
+        </thead>
+        <tbody>
+            {% for player in players_ranking %}
+                {% if player.id == player_id %}
+                <tr>
+                    <td>You</td>
+                    <td>{{ player.payoff }}</td>
+                    <td>{{ player.bonus }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>{{ player.id }}</td>
+                    <td>{{ player.payoff }}</td>
+                    <td>{{ player.bonus }}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
