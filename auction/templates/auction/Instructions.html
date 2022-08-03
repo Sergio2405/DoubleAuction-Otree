@@ -2,9 +2,107 @@
 {% load otree static %}
 
 {% block title %}
-    Ranking
+    Parte I 
 {% endblock %}
 
 {% block content %}
-    
+
+<h4>Información general</h4>
+
+<p>
+    Este experimento trata de replicar un mercado de activos donde 10 traders pueden negociar dos activos:
+    un activo de <strong>Alto Riesgo</strong> y un activo de <strong>Bajo Riesgo</strong>, simultáneamente. 
+    De este modo, actúa como un manager que gestiona activamente una cartera compuesta por los dos activos. 
+    Al final del experimento, se le paga de acuerdo con su actuación.
+</p>
+
+<h4>Descripción del mercado</h4>
+
+<p>
+    Cada trader obtiene una dotación inicial de 20 unidades de activo de <strong>Alto Riesgo</strong> y 20 unidades de activo de 
+    <strong>Bajo Riesgo</strong>. Además, cada trader obtiene un capital de trabajo de <strong>2000 Puntos</strong> (moneda experimental)
+</p>
+
+<p>Puntos a tener en consideración</p>
+<ul>
+    <li>
+        Cada uno de los activos pueden ser intercambiados separadamente y depende de usted cuantas unidades de cada activo desea intercambiar
+    </li>
+    <li>
+        La interfaz está partida en 2 áreas. Una es para que intercambies el activo de <strong>Alto Riesgo</strong> y 
+        la otra para que intercambies el activo de <strong>Bajo Riesgo</strong>.
+    </li>
+    <li>
+       Los precios de los activos son independientes y se determinan a partir de los intercambios entre los 10 traders. 
+    </li>
+</ul>
+
+<h5>
+    Información del activo de Alto Riesgo
+</h5>
+
+<p>
+    Al final de esta parte del experimento se elegirá una de las rondas al azar y se tomará las unidades del activo de 
+    <strong>Alto Riesgo</strong> que tuviste al finalizar la ronda y serán recompradas por el experimentador. El precio de recompra está determinado 
+    de manera aleatoria y puede tomar los diferentes valores
+</p>
+
+<table class = "table">
+    <thead>
+        <th>Precio de Recompra en Puntos</th>
+        <th>Probabilidad</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>15</td>
+            <td>80%</td>
+        </tr>
+        <tr>
+            <td>65</td>
+            <td>20%</td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>
+    Información del activo de Bajo Riesgo
+</h5>
+
+<p>
+    Al final de esta parte del experimento se elegirá una de las rondas al azar y se tomará las unidades del activo de 
+    <strong>Bajo Riesgo</strong> que tuviste al finalizar la ronda y serán recompradas por el experimentador. El precio de recompra está determinado 
+    de manera aleatoria y puede tomar los diferentes valores
+</p>
+
+<table class = "table">
+    <thead>
+        <th>Precio de Recompra en Puntos</th>
+        <th>Probabilidad</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>20</td>
+            <td>50%</td>
+        </tr>
+        <tr>
+            <td>30</td>
+            <td>50%</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Trading </h4>
+
+<p>
+    El trading se logra a través de un mercado de subasta doble (double auction market), cada trader puede comprar y vender activos al mismo tiempo
+    . El activo de <strong>Alto Riesgo</strong> y <strong>Bajo Riesgo</strong> son intercambiados en 2 mercados separados. Usted puede cotizar cada 
+    activo un precio dentro del rango de 0 Puntos a 999 Puntos (con un máximo de 2 puntos decimales). 
+</p>
+
+<p>
+    Para cada cotización que usted realice, tiene que introducir el número de activos que está dispuesto a intercambiar. 
+    Note que tus Puntos y la cantidad de activos que retengas no puede ser menor a 0. Si compra activos, tus Puntos serán 
+    disminuidos por el respectivo monto gastado (Precio x Cantidad) y el número de activos se incrementará por la cantidad obtenida de los nuevos activos. 
+    De manera inversa, si vendes activos, tus Puntos aumentarán por los respectivos ingresos (Precio x Cantidad) y el número de activos que tengas disminuirá por la cantidad de activos vendidos.
+</p>
 {% endblock %}

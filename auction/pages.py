@@ -38,4 +38,4 @@ class Ranking(Page):
             player_id = self.player.id
         )
 
-page_sequence = [Auction, Ranking]
+page_sequence = [Instructions, Auction, Ranking]
