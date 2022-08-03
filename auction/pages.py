@@ -27,7 +27,8 @@ class Statistics(Page):
     def vars_for_template(self):
         pass
 
-    def before_next_page(self): 
+    def before_next_page(self):
+        self.group.generate_ranking() 
         for player in self.group.get_players():
             player.set_payoff()
 

@@ -36,13 +36,21 @@ class Constants(BaseConstants):
         "Low" : [[20,30],[0.5,0.5]]
     }
     
-    treatments = ["AB","TB1","TB2","AP","TP1","TP2"]
+    treatments = dict(
+        AB = {"fixed": 20, "bonus": 0.01, "exceed": 1000},
+        TB1 = {"fixed" : 20, "bonus": 80, "threshold": 0.25},
+        TB2 = {"fixed" : 20, "bonus": 80, "threshold": 0.75},
+        AP = {"fixed": 100, "penalty": 0.01, "exceed": 1000, "below": 5000},
+        TP1 = {"fixed" : 100, "penalty": 80, "threshold": 0.25},
+        TP2 = {"fixed" : 100, "penalty": 80, "threshold": 0.75},
+    )
 
 class Subsession(BaseSubsession):
     
     def creating_session(self):
       
         group = self.get_groups()[0]
+        treatments = list(Constants.treatments.keys())
         group.treatment = Constants.treatments[self.round_number-1]
 
         high_buyback_prices = Constants.buyback_prices["High"].copy()
@@ -75,6 +83,25 @@ class Group(BaseGroup):
 
     low_risk_limit_orders = models.LongStringField(default = "")
     low_risk_market_orders = models.LongStringField(default = "")
+
+    def generate_ranking(self): 
+        
+        players_ranking = sorted(self.get_players(), key = lambda player: player.payoff, reverse = True)
+
+        for player in players_ranking: 
+
+            if self.treatment == "AB":
+                pass
+            elif self.treatment == "TB1": 
+                pass
+            elif self.treatment == "TB2": 
+                pass 
+            elif self.treatment == "AP":
+                pass
+            elif self.treatment == "TP1":
+                pass
+            else: 
+                pass
 
     def get_players_parser(self):
         
