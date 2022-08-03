@@ -21,6 +21,9 @@ class Auction(Page):
 
 class Statistics(Page):
 
+    timeout_seconds = 40
+    timer_text = 'Tiempo restante para ver sus resultados :'
+
     def vars_for_template(self):
         pass
 
@@ -38,4 +41,4 @@ class Ranking(Page):
             player_id = self.player.id
         )
 
-page_sequence = [Instructions, Auction, Ranking]
+page_sequence = [Instructions, Auction, Statistics, Ranking]

@@ -10,6 +10,8 @@ from otree.api import (
 )
 
 import ast
+import random
+import numpy 
 
 author = 'Sergio Gonzalo Mejia Ramos'
 
@@ -27,8 +29,12 @@ class Constants(BaseConstants):
 
     time_per_round = 2 # time in minutes
 
-    endowment = 4000 # points
-    initial_quantity = 200 # total initial asset units
+    endowment = 2000 # points
+    initial_quantity = 40 # total initial asset units
+    buyback_prices = {
+        "High" : [[15,65],[0.8,0.2]],
+        "Low" : [[20,30],[0.5,0.5]]
+    }
     
     treatments = ["AB","TB1","TB2","AP","TP1","TP2"]
 
@@ -38,9 +44,18 @@ class Subsession(BaseSubsession):
       
         group = self.get_groups()[0]
         group.treatment = Constants.treatments[self.round_number-1]
-        print(group.treatment)
+
+        high_buyback_prices = Constants.buyback_prices["High"].copy()
+        low_buyback_prices = Constants.buyback_prices["Low"].copy()
+        
+        group.high_risk_buyback = np.random.choice(np.array(high_buyback_prices[0]), p = high_buyback_prices[1])
+        group.low_risk_buyback = np.random.choice(np.array(low_buyback_prices[0]), p = low_buyback_prices[1])
 
 class Group(BaseGroup):
+
+    # buyback prices 
+    high_risk_buyback = models.IntegerField(default = 0)
+    low_risk_buyback = models.IntegerField(default = 0)
 
     treatment = models.StringField(default = "")
     
@@ -84,7 +99,6 @@ class Group(BaseGroup):
                 }
 
             players_parsed.append(player_dict)
-            print(players_parsed)
         
         return players_parsed
 
