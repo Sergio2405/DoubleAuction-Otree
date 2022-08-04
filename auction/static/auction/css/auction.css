@@ -1,9 +1,9 @@
 .auction-market-screen {
     border: 1px solid black; 
-    margin-left : -220px;
+    margin-left : -170px;
     margin-top : -5px;
     width: 1300px;
-    height:600px;
+    height:550px;
     display:flex;
     flex-direction: row
 }
@@ -67,9 +67,11 @@ input {
 
 .auction-market-name { 
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     margin-bottom: 5px;
-    padding-right: 50px
+    font-size: 30px;
+    font-weight : bold
 }
 
 .auction-trader-budget { 

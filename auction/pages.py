@@ -25,7 +25,13 @@ class Statistics(Page):
     timer_text = 'Tiempo restante para ver sus resultados :'
 
     def vars_for_template(self):
-        pass
+        return dict(
+            high_risk_quantity = self.player.high_risk_quantity,
+            low_risk_quantity = self.player.low_risk_quantity,
+            total_holdings = self.player.total_holdings,
+            high_risk_buyback = self.group.high_risk_buyback,
+            low_risk_buyback = self.group.low_risk_buyback,
+        )
 
     def before_next_page(self):
         self.group.set_payoffs() 
@@ -34,8 +40,8 @@ class Ranking(Page):
 
     def vars_for_template(self): 
         
-        players_ranking = sorted(self.group.get_players(), key = lambda player: player.payoff, reverse = True)
-        dict(
+        players_ranking = self.group.generate_ranking()
+        return dict(
             players_ranking = players_ranking,
             player_id = self.player.id
         )

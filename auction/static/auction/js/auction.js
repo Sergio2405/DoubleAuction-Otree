@@ -104,8 +104,8 @@ function liveRecv(data) {
     let quantity = my_player["quantity"];
     let orders_issued = my_player["orders"];
 
-    document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>High Risk</td><td>' +  quantity.high_risk + '</td><td>' + holdings.high_risk + '</td></tr>';
-    document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Low Risk</td><td>' + quantity.low_risk + '</td><td>' + holdings.low_risk + '</td></tr>';
+    document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>High Risk</td><td>' +  quantity.high_risk + '</td></tr>';
+    document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Low Risk</td><td>' + quantity.low_risk + '</td></tr>';
     document.getElementById("TotalHoldings").innerHTML = '<tr><td>Total</td><td>' + quantity.total + '</td><td>' + holdings.total + '</td></tr>'
 
     document.getElementById("HighBuyTable").innerHTML = ""

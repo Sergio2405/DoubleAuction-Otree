@@ -95,14 +95,8 @@ class Group(BaseGroup):
         return players_ranking
     
     def set_payoffs(self):
-         # treatments = dict(
-    #     AB = {"fixed": 20, "bonus": 0.01, "exceed": 1000},
-    #     TB1 = {"fixed" : 20, "bonus": 80, "threshold": 0.25},
-    #     TB2 = {"fixed" : 20, "bonus": 80, "threshold": 0.75},
-    #     AP = {"fixed": 100, "penalty": 0.01, "exceed": 1000, "below": 5000},
-    #     TP1 = {"fixed" : 100, "penalty": 80, "threshold": 0.25},
-    #     TP2 = {"fixed" : 100, "penalty": 80, "threshold": 0.75},
-    # )
+
+        players = self.get_players()
         players_ranking = self.generate_ranking()
         treatments = Constants.treatments
 
@@ -112,24 +106,71 @@ class Group(BaseGroup):
 
                 treatment = treatments["AB"]
 
-                var_payment = treatment["bonus"] * (player.total_holdings - treatment["exceed"]) + treatment["fixed"] if player.total_holdings > treatment["exceed"] else player.total_holdings
-                player.payoff = treatment["fixed"] + var_payment
+                bonus_payment = treatment["bonus"] * (player.earnings - treatment["exceed"]) if player.earnings > treatment["exceed"] else 0
+                player.payoff = treatment["fixed"] + bonus_payment
 
-            elif self.treatment == "TB1": 
+            elif self.treatment == "TB1": # 0.30
 
                 treatment = treatments["TB1"]
+                
+                bonus_index = len(players_ranking) * (1-treatment["threshold"])
+                bonus_players = players_ranking[0:bonus_index]
+                
+                if player in bonus_players: 
+                    player.payoff = treatment["fixed"] + treatment["bonus"]
+                    player.bonus_or_penalty = True
+                else:
+                    player.payoff = treatment["fixed"]
+                    player.bonus_or_penalty = False
 
-                var_payment = treatment["bonus"] * (player.total_holdings - treatment["exceed"]) + treatment["fixed"] if player.total_holdings > treatment["exceed"] else player.total_holdings
-                player.payoff = treatment["fixed"] + var_payment
+            elif self.treatment == "TB2": # 0.70
 
-            elif self.treatment == "TB2": 
-                pass 
+                treatment = treatments["TB2"]
+                
+                bonus_index = len(players_ranking) * (1-treatment["threshold"])
+                bonus_players = players_ranking[0:bonus_index]
+                
+                if player in bonus_players: 
+                    player.payoff = treatment["fixed"] + treatment["bonus"]
+                    player.bonus_or_penalty = True
+                else:
+                    player.payoff = treatment["fixed"]
+                    player.bonus_or_penalty = False
+
             elif self.treatment == "AP":
-                pass
-            elif self.treatment == "TP1":
-                pass
+                
+                treatment = treatments["AP"]
+
+                penalty_payment = treatment["penalty"] * (player.earnings - treatment["exceed"])  if player.earnings < treatment["below"] else 0
+                player.payoff = treatment["fixed"] - penalty_payment
+
+            elif self.treatment == "TP1":  # 0.30
+                
+                treatment = treatments["TP1"]
+
+                penalty_index = len(players_ranking) * (1-treatment["threshold"])
+                penalty_players = players_ranking[penalty_index:]
+                
+                if player in penalty_players: 
+                    player.payoff = treatment["fixed"] - treatment["penalty"]
+                    player.bonus_or_penalty = True
+                else:
+                    player.payoff = treatment["fixed"]
+                    player.bonus_or_penalty = False
+
             else: 
-                pass
+                
+                treatment = treatments["TP2"] # 0.70
+
+                penalty_index = len(players_ranking) * (1-treatment["threshold"])
+                penalty_players = players_ranking[penalty_index:]
+                
+                if player in penalty_players: 
+                    player.payoff = treatment["fixed"] - treatment["penalty"]
+                    player.bonus_or_penalty = True
+                else:
+                    player.payoff = treatment["fixed"]
+                    player.bonus_or_penalty = False
 
     def get_players_parser(self):
         
@@ -183,7 +224,7 @@ class Player(BasePlayer):
 
     orders_issued = models.LongStringField(default = "") 
 
-    bonus = models.FloatField(default = 0)
+    bonus_penalty = models.BooleanField()
 
     earnings = models.FloatField(default = 0)
 
