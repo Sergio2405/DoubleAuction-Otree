@@ -9,8 +9,8 @@ class Instructions(Page):
 
 class Auction(Page):
 
-    timeout_seconds = 30
-    timer_text = 'El mercado cierra en :'
+    # timeout_seconds = 30
+    # timer_text = 'El mercado cierra en :'
 
     live_method = 'live_auction'
 
@@ -28,9 +28,7 @@ class Statistics(Page):
         pass
 
     def before_next_page(self):
-        self.group.generate_ranking() 
-        for player in self.group.get_players():
-            player.set_payoff()
+        self.group.set_payoffs() 
 
 class Ranking(Page): 
 

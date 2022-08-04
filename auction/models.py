@@ -11,7 +11,7 @@ from otree.api import (
 
 import ast
 import random
-import numpy 
+import numpy as np
 
 author = 'Sergio Gonzalo Mejia Ramos'
 
@@ -38,11 +38,11 @@ class Constants(BaseConstants):
     
     treatments = dict(
         AB = {"fixed": 20, "bonus": 0.01, "exceed": 1000},
-        TB1 = {"fixed" : 20, "bonus": 80, "threshold": 0.25},
-        TB2 = {"fixed" : 20, "bonus": 80, "threshold": 0.75},
+        TB1 = {"fixed" : 20, "bonus": 80, "threshold": 0.30},
+        TB2 = {"fixed" : 20, "bonus": 80, "threshold": 0.70},
         AP = {"fixed": 100, "penalty": 0.01, "exceed": 1000, "below": 5000},
-        TP1 = {"fixed" : 100, "penalty": 80, "threshold": 0.25},
-        TP2 = {"fixed" : 100, "penalty": 80, "threshold": 0.75},
+        TP1 = {"fixed" : 100, "penalty": 80, "threshold": 0.30},
+        TP2 = {"fixed" : 100, "penalty": 80, "threshold": 0.70},
     )
 
 class Subsession(BaseSubsession):
@@ -51,7 +51,7 @@ class Subsession(BaseSubsession):
       
         group = self.get_groups()[0]
         treatments = list(Constants.treatments.keys())
-        group.treatment = Constants.treatments[self.round_number-1]
+        group.treatment = treatments[self.round_number-1]
 
         high_buyback_prices = Constants.buyback_prices["High"].copy()
         low_buyback_prices = Constants.buyback_prices["Low"].copy()
@@ -85,15 +85,43 @@ class Group(BaseGroup):
     low_risk_market_orders = models.LongStringField(default = "")
 
     def generate_ranking(self): 
-        
-        players_ranking = sorted(self.get_players(), key = lambda player: player.payoff, reverse = True)
 
-        for player in players_ranking: 
+        players = self.get_players()
+        for player in players: 
+            player.earnings = player.high_risk_quantity * self.high_risk_buyback + player.low_risk_quantity * self.low_risk_buyback
+
+        players_ranking = sorted(players, key = lambda player: player.earnings, reverse = True)
+
+        return players_ranking
+    
+    def set_payoffs(self):
+         # treatments = dict(
+    #     AB = {"fixed": 20, "bonus": 0.01, "exceed": 1000},
+    #     TB1 = {"fixed" : 20, "bonus": 80, "threshold": 0.25},
+    #     TB2 = {"fixed" : 20, "bonus": 80, "threshold": 0.75},
+    #     AP = {"fixed": 100, "penalty": 0.01, "exceed": 1000, "below": 5000},
+    #     TP1 = {"fixed" : 100, "penalty": 80, "threshold": 0.25},
+    #     TP2 = {"fixed" : 100, "penalty": 80, "threshold": 0.75},
+    # )
+        players_ranking = self.generate_ranking()
+        treatments = Constants.treatments
+
+        for player in players: 
 
             if self.treatment == "AB":
-                pass
+
+                treatment = treatments["AB"]
+
+                var_payment = treatment["bonus"] * (player.total_holdings - treatment["exceed"]) + treatment["fixed"] if player.total_holdings > treatment["exceed"] else player.total_holdings
+                player.payoff = treatment["fixed"] + var_payment
+
             elif self.treatment == "TB1": 
-                pass
+
+                treatment = treatments["TB1"]
+
+                var_payment = treatment["bonus"] * (player.total_holdings - treatment["exceed"]) + treatment["fixed"] if player.total_holdings > treatment["exceed"] else player.total_holdings
+                player.payoff = treatment["fixed"] + var_payment
+
             elif self.treatment == "TB2": 
                 pass 
             elif self.treatment == "AP":
@@ -157,8 +185,7 @@ class Player(BasePlayer):
 
     bonus = models.FloatField(default = 0)
 
-    def set_payoff(self): 
-        pass
+    earnings = models.FloatField(default = 0)
 
     def parse_orders(self): 
 
