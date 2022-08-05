@@ -59,6 +59,8 @@ class Subsession(BaseSubsession):
         group.high_risk_buyback = np.random.choice(np.array(high_buyback_prices[0]), p = high_buyback_prices[1])
         group.low_risk_buyback = np.random.choice(np.array(low_buyback_prices[0]), p = low_buyback_prices[1])
 
+        print("high buyback ",group.high_risk_buyback," - low buyback ",group.low_risk_buyback )
+
 class Group(BaseGroup):
 
     # buyback prices 
@@ -90,7 +92,10 @@ class Group(BaseGroup):
         for player in players: 
             player.earnings = player.high_risk_quantity * self.high_risk_buyback + player.low_risk_quantity * self.low_risk_buyback
 
+        players = self.get_players()
         players_ranking = sorted(players, key = lambda player: player.earnings, reverse = True)
+
+        print("Ranking generated!")
 
         return players_ranking
     
@@ -107,6 +112,9 @@ class Group(BaseGroup):
                 treatment = treatments["AB"]
 
                 bonus_payment = treatment["bonus"] * (player.earnings - treatment["exceed"]) if player.earnings > treatment["exceed"] else 0
+                
+                print("bonus: ", bonus_payment)
+                
                 player.payoff = treatment["fixed"] + bonus_payment
 
             elif self.treatment == "TB1": # 0.30

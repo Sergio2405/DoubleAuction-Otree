@@ -6,13 +6,32 @@
 {% endblock %}
 
 {% block content %}
-    <table>
+    <table class = "table">
         <thead>
-            <th>High</th>
-            <th>Low</th>
-            <th>Holdings</th>
+            <th>Asset</th>
+            <th>Quantity</th>
+            <th>Buyback</th>
+            <th>Earnings</th>
         </thead>
         <tbody>
+            <tr>
+                <td>High Risk</td>
+                <td>{{ high_risk_quantity }}</td>
+                <td>{{ high_risk_buyback }}</td>
+                <td>{{ high_buyback_holdings }} Points</td>
+            </tr>
+            <tr>
+                <td>Low Risk</td>
+                <td>{{ low_risk_quantity }}</td>
+                <td>{{ low_risk_buyback }}</td>
+                <td>{{ low_buyback_holdings }} Points</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><strong>Total</strong></td>
+                <td><strong>{{ total_holdings }} Points</strong></td>
+            </tr>
         </tbody>
     </table>
 {% endblock %}

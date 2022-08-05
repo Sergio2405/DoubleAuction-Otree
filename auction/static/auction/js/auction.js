@@ -106,7 +106,7 @@ function liveRecv(data) {
 
     document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>High Risk</td><td>' +  quantity.high_risk + '</td></tr>';
     document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Low Risk</td><td>' + quantity.low_risk + '</td></tr>';
-    document.getElementById("TotalHoldings").innerHTML = '<tr><td>Total</td><td>' + quantity.total + '</td><td>' + holdings.total + '</td></tr>'
+    document.getElementById("TotalHoldings").innerHTML = 'Capital =  '  + '<strong>' + holdings.total + ' Puntos</strong>'
 
     document.getElementById("HighBuyTable").innerHTML = ""
     document.getElementById("HighSellTable").innerHTML = ""
