@@ -59,8 +59,6 @@ class Subsession(BaseSubsession):
         group.high_risk_buyback = np.random.choice(np.array(high_buyback_prices[0]), p = high_buyback_prices[1])
         group.low_risk_buyback = np.random.choice(np.array(low_buyback_prices[0]), p = low_buyback_prices[1])
 
-        print("high buyback ",group.high_risk_buyback," - low buyback ",group.low_risk_buyback )
-
 class Group(BaseGroup):
 
     # buyback prices 
@@ -105,13 +103,22 @@ class Group(BaseGroup):
         players_ranking = self.generate_ranking()
         treatments = Constants.treatments
 
+        print("Ranking: ",players_ranking)
+
         for player in players: 
 
             if self.treatment == "AB":
 
                 treatment = treatments["AB"]
 
-                bonus_payment = treatment["bonus"] * (player.earnings - treatment["exceed"]) if player.earnings > treatment["exceed"] else 0
+                print("Earning: ", player.earnings )
+
+                if player.earnings > treatment["exceed"]:
+                    bonus_payment = treatment["bonus"] * (player.earnings - treatment["exceed"])
+                    player.bonus_penalty = True
+                else: 
+                    bonus_payment = 0
+                    player.bonus_penalty = False
                 
                 print("bonus: ", bonus_payment)
                 
@@ -126,10 +133,10 @@ class Group(BaseGroup):
                 
                 if player in bonus_players: 
                     player.payoff = treatment["fixed"] + treatment["bonus"]
-                    player.bonus_or_penalty = True
+                    player.bonus_penalty = True
                 else:
                     player.payoff = treatment["fixed"]
-                    player.bonus_or_penalty = False
+                    player.bonus_penalty = False
 
             elif self.treatment == "TB2": # 0.70
 
@@ -140,16 +147,21 @@ class Group(BaseGroup):
                 
                 if player in bonus_players: 
                     player.payoff = treatment["fixed"] + treatment["bonus"]
-                    player.bonus_or_penalty = True
+                    player.bonus_penalty = True
                 else:
                     player.payoff = treatment["fixed"]
-                    player.bonus_or_penalty = False
+                    player.bonus_penalty = False
 
             elif self.treatment == "AP":
                 
                 treatment = treatments["AP"]
-
-                penalty_payment = treatment["penalty"] * (player.earnings - treatment["exceed"])  if player.earnings < treatment["below"] else 0
+                if player.earnings < treatment["below"]:
+                    penalty_payment = treatment["penalty"] * (player.earnings - treatment["exceed"]) 
+                    player.bonus_penalty = True
+                else:
+                    penalty_payment = 0
+                    player.bonus_penalty = False
+                 
                 player.payoff = treatment["fixed"] - penalty_payment
 
             elif self.treatment == "TP1":  # 0.30
@@ -161,10 +173,10 @@ class Group(BaseGroup):
                 
                 if player in penalty_players: 
                     player.payoff = treatment["fixed"] - treatment["penalty"]
-                    player.bonus_or_penalty = True
+                    player.bonus_penalty = True
                 else:
                     player.payoff = treatment["fixed"]
-                    player.bonus_or_penalty = False
+                    player.bonus_penalty = False
 
             else: 
                 
@@ -175,10 +187,10 @@ class Group(BaseGroup):
                 
                 if player in penalty_players: 
                     player.payoff = treatment["fixed"] - treatment["penalty"]
-                    player.bonus_or_penalty = True
+                    player.bonus_penalty = True
                 else:
                     player.payoff = treatment["fixed"]
-                    player.bonus_or_penalty = False
+                    player.bonus_penalty = False
 
     def get_players_parser(self):
         

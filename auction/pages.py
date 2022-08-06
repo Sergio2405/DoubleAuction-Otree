@@ -12,8 +12,8 @@ class AuctionWaitPage(WaitPage):
 
 class Auction(Page):
 
-    # timeout_seconds = 30
-    # timer_text = 'El mercado cierra en :'
+    timeout_seconds = 60
+    timer_text = 'El mercado cierra en :'
 
     live_method = 'live_auction'
 
@@ -24,8 +24,8 @@ class Auction(Page):
 
 class Statistics(Page):
 
-    # timeout_seconds = 30
-    # timer_text = 'Tiempo restante para ver sus resultados :'
+    timeout_seconds = 30
+    timer_text = 'Tiempo restante para ver sus resultados :'
 
     def vars_for_template(self):
 
@@ -37,15 +37,18 @@ class Statistics(Page):
         high_buyback_holdings = high_risk_quantity * high_risk_buyback
         low_buyback_holdings = low_risk_quantity * low_risk_buyback
 
-        return dict(
-            high_risk_quantity = high_risk_quantity,
-            low_risk_quantity = low_risk_quantity,
-            high_risk_buyback = high_risk_buyback,
-            low_risk_buyback = low_risk_buyback,
-            high_buyback_holdings = high_buyback_holdings,
-            low_buyback_holdings = low_buyback_holdings,
-            total_holdings = high_buyback_holdings + low_buyback_holdings
-        )
+        return {
+            "high_risk_quantity" : high_risk_quantity,
+            "low_risk_quantity" : low_risk_quantity,
+            "high_risk_buyback" : high_risk_buyback,
+            "low_risk_buyback" : low_risk_buyback,
+            "high_buyback_holdings" : high_buyback_holdings,
+            "low_buyback_holdings" : low_buyback_holdings,
+            "total_holdings" : high_buyback_holdings + low_buyback_holdings
+        }
+
+    def before_next_page(self):
+        self.group.generate_ranking()
 
 class RankingWaitPage(WaitPage):
     after_all_players_arrive = 'set_payoffs'

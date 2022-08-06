@@ -14,19 +14,19 @@
         </thead>
         <tbody>
             {% for player in players_ranking %}
-                {% if player.id_in_group == player_id %}
                 <tr>
-                    <td>You</td>
-                    <td>{{ player.payoff }}</td>
-                    <td>{{ player.bonus_penalty }}</td>
+                    {% if player.id_in_group == player_id %}
+                        <td>You</td>
+                    {% else %}
+                        <td>{{ player.id_in_group }}</td>
+                    {% endif %}
+                    <td>{{ player.earnings }}</td>
+                    {% if player.bonus_penalty == False %}
+                        <td>0</td>
+                    {% else %}
+                        <td>player.bonus_penalty</td>
+                    {% endif %}
                 </tr>
-                {% else %}
-                <tr>
-                    <td>{{ player.id_in_group }}</td>
-                    <td>{{ player.payoff }}</td>
-                    <td>{{ player.bonus_penalty }}</td>
-                </tr>
-                {% endif %}
             {% endfor %}
         </tbody>
     </table>
