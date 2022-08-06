@@ -10,6 +10,8 @@ from otree.api import (
 )
 
 import ast
+import random
+import numpy as np
 
 author = 'Sergio Gonzalo Mejia Ramos'
 
@@ -27,20 +29,43 @@ class Constants(BaseConstants):
 
     time_per_round = 2 # time in minutes
 
-    endowment = 4000 # points
-    initial_quantity = 200 # total initial asset units
+    endowment = 2000 # points
+    initial_quantity = 40 # total initial asset units
+    buyback_prices = {
+        "High" : [[15,65],[0.8,0.2]],
+        "Low" : [[20,30],[0.5,0.5]]
+    }
     
-    treatments = ["AB","TB1","TB2","AP","TP1","TP2"]
+    treatments = dict(
+        AB = {"fixed": 20, "bonus": 0.01, "exceed": 1000},
+        TB1 = {"fixed" : 20, "bonus": 80, "threshold": 0.30},
+        TB2 = {"fixed" : 20, "bonus": 80, "threshold": 0.70},
+        AP = {"fixed": 100, "penalty": 0.01, "exceed": 1000, "below": 5000},
+        TP1 = {"fixed" : 100, "penalty": 80, "threshold": 0.30},
+        TP2 = {"fixed" : 100, "penalty": 80, "threshold": 0.70},
+    )
 
 class Subsession(BaseSubsession):
     
     def creating_session(self):
       
         group = self.get_groups()[0]
-        group.treatment = Constants.treatments[self.round_number-1]
-        print(group.treatment)
+        treatments = list(Constants.treatments.keys())
+        group.treatment = treatments[self.round_number-1]
+
+        high_buyback_prices = Constants.buyback_prices["High"].copy()
+        low_buyback_prices = Constants.buyback_prices["Low"].copy()
+        
+        group.high_risk_buyback = np.random.choice(np.array(high_buyback_prices[0]), p = high_buyback_prices[1])
+        group.low_risk_buyback = np.random.choice(np.array(low_buyback_prices[0]), p = low_buyback_prices[1])
+
+        print("high buyback ",group.high_risk_buyback," - low buyback ",group.low_risk_buyback )
 
 class Group(BaseGroup):
+
+    # buyback prices 
+    high_risk_buyback = models.IntegerField(default = 0)
+    low_risk_buyback = models.IntegerField(default = 0)
 
     treatment = models.StringField(default = "")
     
@@ -60,6 +85,100 @@ class Group(BaseGroup):
 
     low_risk_limit_orders = models.LongStringField(default = "")
     low_risk_market_orders = models.LongStringField(default = "")
+
+    def generate_ranking(self): 
+
+        players = self.get_players()
+        for player in players: 
+            player.earnings = player.high_risk_quantity * self.high_risk_buyback + player.low_risk_quantity * self.low_risk_buyback
+
+        players = self.get_players()
+        players_ranking = sorted(players, key = lambda player: player.earnings, reverse = True)
+
+        print("Ranking generated!")
+
+        return players_ranking
+    
+    def set_payoffs(self):
+
+        players = self.get_players()
+        players_ranking = self.generate_ranking()
+        treatments = Constants.treatments
+
+        for player in players: 
+
+            if self.treatment == "AB":
+
+                treatment = treatments["AB"]
+
+                bonus_payment = treatment["bonus"] * (player.earnings - treatment["exceed"]) if player.earnings > treatment["exceed"] else 0
+                
+                print("bonus: ", bonus_payment)
+                
+                player.payoff = treatment["fixed"] + bonus_payment
+
+            elif self.treatment == "TB1": # 0.30
+
+                treatment = treatments["TB1"]
+                
+                bonus_index = len(players_ranking) * (1-treatment["threshold"])
+                bonus_players = players_ranking[0:bonus_index]
+                
+                if player in bonus_players: 
+                    player.payoff = treatment["fixed"] + treatment["bonus"]
+                    player.bonus_or_penalty = True
+                else:
+                    player.payoff = treatment["fixed"]
+                    player.bonus_or_penalty = False
+
+            elif self.treatment == "TB2": # 0.70
+
+                treatment = treatments["TB2"]
+                
+                bonus_index = len(players_ranking) * (1-treatment["threshold"])
+                bonus_players = players_ranking[0:bonus_index]
+                
+                if player in bonus_players: 
+                    player.payoff = treatment["fixed"] + treatment["bonus"]
+                    player.bonus_or_penalty = True
+                else:
+                    player.payoff = treatment["fixed"]
+                    player.bonus_or_penalty = False
+
+            elif self.treatment == "AP":
+                
+                treatment = treatments["AP"]
+
+                penalty_payment = treatment["penalty"] * (player.earnings - treatment["exceed"])  if player.earnings < treatment["below"] else 0
+                player.payoff = treatment["fixed"] - penalty_payment
+
+            elif self.treatment == "TP1":  # 0.30
+                
+                treatment = treatments["TP1"]
+
+                penalty_index = len(players_ranking) * (1-treatment["threshold"])
+                penalty_players = players_ranking[penalty_index:]
+                
+                if player in penalty_players: 
+                    player.payoff = treatment["fixed"] - treatment["penalty"]
+                    player.bonus_or_penalty = True
+                else:
+                    player.payoff = treatment["fixed"]
+                    player.bonus_or_penalty = False
+
+            else: 
+                
+                treatment = treatments["TP2"] # 0.70
+
+                penalty_index = len(players_ranking) * (1-treatment["threshold"])
+                penalty_players = players_ranking[penalty_index:]
+                
+                if player in penalty_players: 
+                    player.payoff = treatment["fixed"] - treatment["penalty"]
+                    player.bonus_or_penalty = True
+                else:
+                    player.payoff = treatment["fixed"]
+                    player.bonus_or_penalty = False
 
     def get_players_parser(self):
         
@@ -84,7 +203,6 @@ class Group(BaseGroup):
                 }
 
             players_parsed.append(player_dict)
-            print(players_parsed)
         
         return players_parsed
 
@@ -114,10 +232,9 @@ class Player(BasePlayer):
 
     orders_issued = models.LongStringField(default = "") 
 
-    bonus = models.FloatField(default = 0)
+    bonus_penalty = models.BooleanField()
 
-    def set_payoff(self): 
-        pass
+    earnings = models.FloatField(default = 0)
 
     def parse_orders(self): 
 

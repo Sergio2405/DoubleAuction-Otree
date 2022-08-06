@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <table>
+    <table class = "table">
         <thead>
             <th>Player</th>
             <th>Payoff</th>
@@ -14,17 +14,17 @@
         </thead>
         <tbody>
             {% for player in players_ranking %}
-                {% if player.id == player_id %}
+                {% if player.id_in_group == player_id %}
                 <tr>
                     <td>You</td>
                     <td>{{ player.payoff }}</td>
-                    <td>{{ player.bonus }}</td>
+                    <td>{{ player.bonus_penalty }}</td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td>{{ player.id }}</td>
+                    <td>{{ player.id_in_group }}</td>
                     <td>{{ player.payoff }}</td>
-                    <td>{{ player.bonus }}</td>
+                    <td>{{ player.bonus_penalty }}</td>
                 </tr>
                 {% endif %}
             {% endfor %}
