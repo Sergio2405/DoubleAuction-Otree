@@ -9,11 +9,12 @@
     <table class = "table">
         <thead>
             <th>Player</th>
-            <th>Payoff</th>
+            <th>Earnings</th>
             <th>Bonus</th>
+            <th>Payoff</th>
         </thead>
         <tbody>
-            {% for player in players_ranking %}
+            {% for player in players %}
                 <tr>
                     {% if player.id_in_group == player_id %}
                         <td>You</td>
@@ -26,6 +27,7 @@
                     {% else %}
                         <td>player.bonus_penalty</td>
                     {% endif %}
+                    <td>player.payoff</td>
                 </tr>
             {% endfor %}
         </tbody>

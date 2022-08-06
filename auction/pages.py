@@ -7,6 +7,19 @@ class Instructions(Page):
     def is_displayed(self):
         return self.player.round_number == 1
 
+class InstructionsWaitPage(WaitPage):
+    
+    def is_displayed(self):
+        return self.player.round_number == 1
+
+class Instructions_Treatment(Page):
+    
+    def vars_for_template(self):
+        return {
+            "round_number" : self.player.round_number,
+            "treatment": self.group.treatment
+        }
+
 class AuctionWaitPage(WaitPage):
     pass
 
@@ -59,10 +72,23 @@ class Ranking(Page):
 
         players = self.group.get_players()
         players_ranking = sorted(players, key = lambda player: player.earnings, reverse = True)
+
+        ranking = False if self.group.treatment != "AB" or self.group.treatment != "AP" else True
+
+        players_list = players_ranking if ranking else players
       
         return dict(
-            players_ranking = players_ranking,
+            players = players_list,
             player_id = self.player.id_in_group
         )
 
-page_sequence = [Instructions, AuctionWaitPage, Auction, Statistics, RankingWaitPage, Ranking]
+page_sequence = [
+    Instructions, 
+    InstructionsWaitPage, 
+    Instructions_Treatment, 
+    AuctionWaitPage, 
+    Auction, 
+    Statistics, 
+    RankingWaitPage, 
+    Ranking
+]

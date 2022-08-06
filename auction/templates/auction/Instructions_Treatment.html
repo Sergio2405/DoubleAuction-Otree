@@ -1,0 +1,58 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Instrucciones {{ round_number }}
+{% endblock %}
+
+{% block content %}
+
+    <h4>Pagos</h4>
+
+    <p>Los pagos de esta ronda serán de la siguiente manera:</p>
+
+    {% if treatment == "AB" %}
+    <p>
+        Cada trader recibirá un pago fijo de 20 Soles más un bonus de 0.01 Soles por cada Punto de su beneficio final
+        que exceda los 1000 Puntos.  
+    </p>
+    {% endif %}
+
+    {% if treatment == "AP" %}
+    <p>
+        Cada trader recibirá un pago fijo de 100 Soles menos una deducción de 0.01 Soles por cada Punto de su beneficio final
+        que este por debajo de los 5000 Puntos. 
+    </p>
+    {% endif %}
+
+    {% if treatment == "TB1" %}
+    <p>
+        Cada trader recibirá un pago fijo de 20 Soles más un bonus de 80 Soles si su beneficio final se encuentra dentro del top 7  
+        de mejores beneficios de la ronda
+    </p>
+    {% endif %}
+
+    {% if treatment == "TB2" %}
+    <p>
+        Cada trader recibirá un pago fijo de 20 Soles más un bonus de 80 Soles si su beneficio final se encuentra dentro del top 3  
+        de mejores beneficios de la ronda
+    </p>
+    {% endif %}
+
+    {% if treatment == "TP1" %}
+    <p>
+        Cada trader recibirá un pago fijo de 100 Soles menos una dedución de 80 Soles si su beneficio final se encuentra fuera del top 7  
+        de mejores beneficios de la ronda
+    </p>
+    {% endif %}
+
+    {% if treatment == "TP2" %}
+    <p>
+        Cada trader recibirá un pago fijo de 100 Soles menos una dedución de 80 Soles si su beneficio final se encuentra <strong>fuera</strong> del 
+        <strong>top 3</strong> de mejores beneficios de la ronda
+    </p>
+    {% endif %}
+
+    {% next_button %}
+
+{% endblock %}
