@@ -115,10 +115,10 @@ class Group(BaseGroup):
 
                 if player.earnings > treatment["exceed"]:
                     bonus_payment = treatment["bonus"] * (player.earnings - treatment["exceed"])
-                    player.bonus_penalty = True
+                    player.bonus_penalty = bonus_payment
                 else: 
                     bonus_payment = 0
-                    player.bonus_penalty = False
+                    player.bonus_penalty = bonus_payment
                 
                 print("bonus: ", bonus_payment)
                 
@@ -133,10 +133,10 @@ class Group(BaseGroup):
                 
                 if player in bonus_players: 
                     player.payoff = treatment["fixed"] + treatment["bonus"]
-                    player.bonus_penalty = True
+                    player.bonus_penalty = treatment["bonus"]
                 else:
                     player.payoff = treatment["fixed"]
-                    player.bonus_penalty = False
+                    player.bonus_penalty = 0
 
             elif self.treatment == "TB2": # 0.70
 
@@ -147,20 +147,20 @@ class Group(BaseGroup):
                 
                 if player in bonus_players: 
                     player.payoff = treatment["fixed"] + treatment["bonus"]
-                    player.bonus_penalty = True
+                    player.bonus_penalty = treatment["bonus"]
                 else:
                     player.payoff = treatment["fixed"]
-                    player.bonus_penalty = False
+                    player.bonus_penalty = 0
 
             elif self.treatment == "AP":
                 
                 treatment = treatments["AP"]
                 if player.earnings < treatment["below"]:
                     penalty_payment = treatment["penalty"] * (player.earnings - treatment["exceed"]) 
-                    player.bonus_penalty = True
+                    player.bonus_penalty = penalty_payment
                 else:
                     penalty_payment = 0
-                    player.bonus_penalty = False
+                    player.bonus_penalty = penalty_payment
                  
                 player.payoff = treatment["fixed"] - penalty_payment
 
@@ -173,10 +173,10 @@ class Group(BaseGroup):
                 
                 if player in penalty_players: 
                     player.payoff = treatment["fixed"] - treatment["penalty"]
-                    player.bonus_penalty = True
+                    player.bonus_penalty = treatment["penalty"]
                 else:
                     player.payoff = treatment["fixed"]
-                    player.bonus_penalty = False
+                    player.bonus_penalty = 0
 
             else: 
                 
@@ -187,10 +187,10 @@ class Group(BaseGroup):
                 
                 if player in penalty_players: 
                     player.payoff = treatment["fixed"] - treatment["penalty"]
-                    player.bonus_penalty = True
+                    player.bonus_penalty = treatment["penalty"]
                 else:
                     player.payoff = treatment["fixed"]
-                    player.bonus_penalty = False
+                    player.bonus_penalty = 0
 
     def get_players_parser(self):
         
@@ -211,7 +211,7 @@ class Group(BaseGroup):
                         "high_risk" : player.high_risk_quantity,
                         "low_risk" : player.low_risk_quantity
                     },
-                "orders" : player.parse_orders()
+                "orders" : player.orders_issued
                 }
 
             players_parsed.append(player_dict)
@@ -243,15 +243,11 @@ class Player(BasePlayer):
     low_risk_holdings = models.FloatField(default = Constants.endowment/2)
 
     orders_issued = models.LongStringField(default = "") 
+    orders_save = models.LongStringField(default = "")
 
-    bonus_penalty = models.BooleanField()
+    bonus_penalty = models.FloatField(default = 0)
 
     earnings = models.FloatField(default = 0)
-
-    def parse_orders(self): 
-
-        orders_issued = list(map(lambda order: ast.literal_eval(order),self.orders_issued.split("-")[:-1]))
-        return orders_issued
 
     def update_issuer_holdings(self,order,price,quantity):
 
@@ -297,8 +293,7 @@ class Player(BasePlayer):
         # cualquier operacion que se quiera realizar con las ordenes se hace a partir del mapeo
         high_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.high_risk_orders.split("-")[:-1]))
         low_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.low_risk_orders.split("-")[:-1]))
-
-        orders_issued = self.parse_orders() # obtener ordenes en formato de dict - lista
+        orders_issued = list(map(lambda order: ast.literal_eval(order),self.orders_issued.split("-")[:-1]))
 
         if data["Type"] == "Market": 
 
@@ -386,6 +381,8 @@ class Player(BasePlayer):
             self.total_holdings = self.low_risk_holdings + self.high_risk_holdings 
             self.total_quantity = self.low_risk_quantity + self.high_risk_quantity
 
+        self.orders_save += str(data) + "-"
+
         response = {
             0 : {
                 "high_risk_orders" : high_risk_orders,
@@ -397,8 +394,10 @@ class Player(BasePlayer):
         # updating the orders "database"
         if high_risk_orders: 
             self.group.high_risk_orders = "-".join(list(map(lambda order: str(order),high_risk_orders))) + "-"
+            orders_issued = list(map(lambda order: ast.literal_eval(order),self.orders_issued.split("-")[:-1]))
         if low_risk_orders: 
             self.group.low_risk_orders = "-".join(list(map(lambda order: str(order),low_risk_orders))) + "-"
+            orders_issued = list(map(lambda order: ast.literal_eval(order),self.orders_issued.split("-")[:-1]))
 
         # print(response)
 
