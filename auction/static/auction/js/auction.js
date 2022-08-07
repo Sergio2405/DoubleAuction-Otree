@@ -83,15 +83,12 @@ function LowBuy() {
 }
 
 function liveRecv(data) {
-
+    
     let high_risk_orders = data["high_risk_orders"];
     let low_risk_orders = data["low_risk_orders"];
 
     let players = data["players"];
     let my_player;
-
-    console.log(players)
-    console.log(player_id)
     
     for (let player of players) { 
         if (player.player_id == player_id){ 
@@ -102,7 +99,7 @@ function liveRecv(data) {
 
     let holdings = my_player["holdings"];
     let quantity = my_player["quantity"];
-    let orders_issued = my_player["orders"];
+
 
     document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>High Risk</td><td>' +  quantity.high_risk + '</td></tr>';
     document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Low Risk</td><td>' + quantity.low_risk + '</td></tr>';
@@ -113,54 +110,31 @@ function liveRecv(data) {
     document.getElementById("LowBuyTable").innerHTML = ""
     document.getElementById("LowSellTable").innerHTML = ""
 
-    document.getElementById("HighBuyMyOffersTable").innerHTML = ""
-    document.getElementById("HighSellMyOffersTable").innerHTML = ""
-    document.getElementById("LowBuyMyOffersTable").innerHTML = ""
-    document.getElementById("LowSellMyOffersTable").innerHTML = ""
-
-    for (let order of orders_issued) { 
-        if (order.Asset == "High"){ 
-            let buy_orders_table1 = document.getElementById("HighBuyMyOffersTable");
-            let sell_orders_table1 = document.getElementById("HighSellMyOffersTable");
-
-            if (order.Action == "Sell") { 
-                sell_orders_table1.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
-            } else { 
-                buy_orders_table1.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
-            }
-        }else{
-            let buy_orders_table = document.getElementById("LowBuyMyOffersTable");
-            let sell_orders_table = document.getElementById("LowSellMyOffersTable");
-
-            if (order.Action == "Sell") { 
-                sell_orders_table.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
-            } else { 
-                buy_orders_table.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
-            }
-        }
-    }
-
     for (let order of high_risk_orders) { 
+
+        let color_order = order.player_id == player_id ? "bbbbfc" : "ababad";
 
         let buy_orders_table = document.getElementById("HighBuyTable");
         let sell_orders_table = document.getElementById("HighSellTable");
 
         if (order.Action == "Sell") { 
-            sell_orders_table.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
+            sell_orders_table.innerHTML += `<tr style = "background-color:${color_order}"><td>${order.Price}</td><td>${order.Quantity}</td></tr>`
         } else { 
-            buy_orders_table.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
+            buy_orders_table.innerHTML += `<tr style = "background-color:${color_order}"><td>${order.Price}</td><td>${order.Quantity}</td></tr>`
         }
     }
 
     for (order of low_risk_orders) { 
 
+        let color_order = order.player_id == player_id ? "bbbbfc" : "ababad";
+
         let buy_orders_table = document.getElementById("LowBuyTable");
         let sell_orders_table = document.getElementById("LowSellTable");
 
         if (order.Action == "Sell") { 
-            sell_orders_table.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
+            sell_orders_table.innerHTML += `<tr style = "background-color:${color_order}"><td>${order.Price}</td><td>${order.Quantity}</td></tr>`
         } else { 
-            buy_orders_table.innerHTML += '<tr><td>' + order.Price + '</td><td>' + order.Quantity + '</td></tr>'
+            buy_orders_table.innerHTML += `<tr style = "background-color:${color_order}"><td>${order.Price}</td><td>${order.Quantity}</td></tr>`
         }
     }
 }

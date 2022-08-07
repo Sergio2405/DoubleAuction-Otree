@@ -295,7 +295,6 @@ class Player(BasePlayer):
                 self.group.low_risk_orders += str(data) + "-"
                 self.group.low_risk_limit_orders += str(data) + "-"
     
-        print(f"##_{self.id_in_group} ->  ",self.group.high_risk_orders)
         # cualquier operacion que se quiera realizar con las ordenes se hace a partir del mapeo
         high_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.high_risk_orders.split("-")[:-1]))
         low_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.low_risk_orders.split("-")[:-1]))
@@ -404,7 +403,7 @@ class Player(BasePlayer):
             if aux == "-":
                 self.group.low_risk_orders = ""
             else:
-                self.group.high_risk_orders = aux
+                self.group.low_risk_orders = aux
 
         response = {
             0 : {
@@ -413,11 +412,5 @@ class Player(BasePlayer):
                 "players" : self.group.get_players_parser(),
             },
         }
-
-        # print("high -> ",high_risk_orders, self.group.high_risk_orders)
-        # print("low -> ",low_risk_orders,self.group.low_risk_orders)
-
-        # updating the orders "database"
-        # print(response)
 
         return response
