@@ -25,8 +25,8 @@ class AuctionWaitPage(WaitPage):
 
 class Auction(Page):
 
-    timeout_seconds = 60
-    timer_text = 'El mercado cierra en :'
+    # timeout_seconds = 60
+    # timer_text = 'El mercado cierra en :'
 
     live_method = 'live_auction'
 
@@ -83,10 +83,10 @@ class Ranking(Page):
         )
 
 page_sequence = [
-    Instructions, 
-    InstructionsWaitPage, 
-    Instructions_Treatment, 
-    AuctionWaitPage, 
+    # Instructions, 
+    # InstructionsWaitPage, 
+    # Instructions_Treatment, 
+    # AuctionWaitPage, 
     Auction, 
     Statistics, 
     RankingWaitPage, 

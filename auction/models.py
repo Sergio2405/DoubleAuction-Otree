@@ -211,11 +211,11 @@ class Group(BaseGroup):
                         "high_risk" : player.high_risk_quantity,
                         "low_risk" : player.low_risk_quantity
                     },
-                "orders" : player.orders_issued
+                "orders" : player.parse_orders()
                 }
 
             players_parsed.append(player_dict)
-        
+
         return players_parsed
 
     def get_order_issuer(self,order): 
@@ -248,6 +248,11 @@ class Player(BasePlayer):
     bonus_penalty = models.FloatField(default = 0)
 
     earnings = models.FloatField(default = 0)
+
+    def parse_orders(self): 
+
+        orders_issued = list(map(lambda order: ast.literal_eval(order),self.orders_issued.split("-")[:-1]))
+        return orders_issued
 
     def update_issuer_holdings(self,order,price,quantity):
 
@@ -290,10 +295,12 @@ class Player(BasePlayer):
                 self.group.low_risk_orders += str(data) + "-"
                 self.group.low_risk_limit_orders += str(data) + "-"
     
+        print(f"##_{self.id_in_group} ->  ",self.group.high_risk_orders)
         # cualquier operacion que se quiera realizar con las ordenes se hace a partir del mapeo
         high_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.high_risk_orders.split("-")[:-1]))
         low_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.low_risk_orders.split("-")[:-1]))
-        orders_issued = list(map(lambda order: ast.literal_eval(order),self.orders_issued.split("-")[:-1]))
+
+        orders_issued = self.parse_orders() # obtener ordenes en formato de dict - lista
 
         if data["Type"] == "Market": 
 
@@ -301,87 +308,103 @@ class Player(BasePlayer):
 
             self.group.market_orders += 1
 
-            if data["Asset"] == "High": 
+            if high_risk_orders:
+                
+                if data["Asset"] == "High": 
 
-                self.group.high_risk_market_orders += str(data) + "-"
+                    self.group.high_risk_market_orders += str(data) + "-"
 
-                high_risk_orders_rest = filter(lambda order: order["player_id"] != self.id_in_group ,high_risk_orders)
+                    high_risk_orders_rest = filter(lambda order: order["player_id"] != self.id_in_group ,high_risk_orders)
 
-                if data["Action"] == "Buy":
+                    if data["Action"] == "Buy":
 
-                    high_risk_sell_offers = filter(lambda order: order["Action"] == "Sell", high_risk_orders_rest)
+                        high_risk_sell_offers = filter(lambda order: order["Action"] == "Sell", high_risk_orders_rest)
 
-                    high_risk_best_sell_offer = sorted(high_risk_sell_offers, key = lambda order: order["Price"])[0]
+                        high_risk_best_sell_offer = sorted(high_risk_sell_offers, key = lambda order: order["Price"])[0]
 
-                    quantity_to_buy = data["Quantity"] if data["Quantity"] <= high_risk_best_sell_offer["Quantity"] else high_risk_best_sell_offer["Quantity"]
+                        quantity_to_buy = data["Quantity"] if data["Quantity"] <= high_risk_best_sell_offer["Quantity"] else high_risk_best_sell_offer["Quantity"]
 
-                    self.high_risk_quantity += quantity_to_buy 
-                    self.high_risk_holdings -= quantity_to_buy * high_risk_best_sell_offer["Price"]
+                        self.high_risk_quantity += quantity_to_buy 
+                        self.high_risk_holdings -= quantity_to_buy * high_risk_best_sell_offer["Price"]
 
-                    order_issuer = self.group.get_order_issuer(high_risk_best_sell_offer)
-                    order_issuer.update_issuer_holdings(data,high_risk_best_sell_offer["Price"],quantity_to_buy)
-                    #delete offer from high_risk_orders
-                    high_risk_orders.remove(high_risk_best_sell_offer)
+                        order_issuer = self.group.get_order_issuer(high_risk_best_sell_offer)
+                        order_issuer.update_issuer_holdings(data,high_risk_best_sell_offer["Price"],quantity_to_buy)
+                        #delete offer from high_risk_orders
+                        high_risk_orders.remove(high_risk_best_sell_offer)
 
-                else: 
+                    else: 
 
-                    high_risk_buy_offers = filter(lambda order: order["Action"] == "Buy", high_risk_orders_rest)
+                        high_risk_buy_offers = filter(lambda order: order["Action"] == "Buy", high_risk_orders_rest)
 
-                    high_risk_best_buy_offer = sorted(high_risk_buy_offers, key = lambda order: order["Price"])[-1]
+                        high_risk_best_buy_offer = sorted(high_risk_buy_offers, key = lambda order: order["Price"])[-1]
 
-                    quantity_to_sell = data["Quantity"] if data["Quantity"] <= high_risk_best_buy_offer["Quantity"] else high_risk_best_buy_offer["Quantity"]
+                        quantity_to_sell = data["Quantity"] if data["Quantity"] <= high_risk_best_buy_offer["Quantity"] else high_risk_best_buy_offer["Quantity"]
 
-                    self.high_risk_quantity -= quantity_to_sell 
-                    self.high_risk_holdings += quantity_to_sell * high_risk_best_buy_offer["Price"]
+                        self.high_risk_quantity -= quantity_to_sell 
+                        self.high_risk_holdings += quantity_to_sell * high_risk_best_buy_offer["Price"]
 
-                    order_issuer = self.group.get_order_issuer(high_risk_best_buy_offer)
-                    order_issuer.update_issuer_holdings(data,high_risk_best_buy_offer["Price"],quantity_to_sell)
+                        order_issuer = self.group.get_order_issuer(high_risk_best_buy_offer)
+                        order_issuer.update_issuer_holdings(data,high_risk_best_buy_offer["Price"],quantity_to_sell)
 
-                    high_risk_orders.remove(high_risk_best_buy_offer)
+                        high_risk_orders.remove(high_risk_best_buy_offer)
 
-            if data["Asset"] == "Low": 
+            if low_risk_orders:
 
-                self.group.low_risk_market_orders += str(data) + "-"
+                if data["Asset"] == "Low": 
 
-                low_risk_orders_rest = filter(lambda order: order["player_id"] != self.id_in_group ,low_risk_orders)
+                    self.group.low_risk_market_orders += str(data) + "-"
 
-                if data["Action"] == "Buy":
+                    low_risk_orders_rest = filter(lambda order: order["player_id"] != self.id_in_group ,low_risk_orders)
 
-                    low_risk_sell_offers = filter(lambda order: order["Action"] == "Sell", low_risk_orders_rest)
+                    if data["Action"] == "Buy":
 
-                    low_risk_best_sell_offer = sorted(low_risk_sell_offers, key = lambda order: order["Price"])[0]
+                        low_risk_sell_offers = filter(lambda order: order["Action"] == "Sell", low_risk_orders_rest)
 
-                    quantity_to_buy = data["Quantity"] if data["Quantity"] <= low_risk_best_sell_offer["Quantity"] else low_risk_best_sell_offer["Quantity"]
+                        low_risk_best_sell_offer = sorted(low_risk_sell_offers, key = lambda order: order["Price"])[0]
 
-                    self.low_risk_quantity += quantity_to_buy 
-                    self.low_risk_holdings -= quantity_to_buy * low_risk_best_sell_offer["Price"]
+                        quantity_to_buy = data["Quantity"] if data["Quantity"] <= low_risk_best_sell_offer["Quantity"] else low_risk_best_sell_offer["Quantity"]
 
-                    order_issuer = self.group.get_order_issuer(low_risk_best_sell_offer)
-                    order_issuer.update_issuer_holdings(data,low_risk_best_sell_offer["Price"],quantity_to_buy)
+                        self.low_risk_quantity += quantity_to_buy 
+                        self.low_risk_holdings -= quantity_to_buy * low_risk_best_sell_offer["Price"]
 
-                    #delete offer from high_risk_orders
-                    low_risk_orders.remove(low_risk_best_sell_offer)
+                        order_issuer = self.group.get_order_issuer(low_risk_best_sell_offer)
+                        order_issuer.update_issuer_holdings(data,low_risk_best_sell_offer["Price"],quantity_to_buy)
 
-                else: 
+                        #delete offer from high_risk_orders
+                        low_risk_orders.remove(low_risk_best_sell_offer)
 
-                    low_risk_buy_offers = filter(lambda order: order["Action"] == "Buy", low_risk_orders_rest)
+                    else: 
 
-                    low_risk_best_buy_offer = sorted(low_risk_buy_offers, key = lambda order: order["Price"])[-1]
+                        low_risk_buy_offers = filter(lambda order: order["Action"] == "Buy", low_risk_orders_rest)
 
-                    quantity_to_sell = data["Quantity"] if data["Quantity"] <= low_risk_best_buy_offer["Quantity"] else low_risk_best_buy_offer["Quantity"]
+                        low_risk_best_buy_offer = sorted(low_risk_buy_offers, key = lambda order: order["Price"])[-1]
 
-                    self.low_risk_quantity -= quantity_to_sell 
-                    self.low_risk_holdings += quantity_to_sell * low_risk_best_buy_offer["Price"]
+                        quantity_to_sell = data["Quantity"] if data["Quantity"] <= low_risk_best_buy_offer["Quantity"] else low_risk_best_buy_offer["Quantity"]
 
-                    order_issuer = self.group.get_order_issuer(low_risk_best_buy_offer)
-                    order_issuer.update_issuer_holdings(data,low_risk_best_buy_offer["Price"],quantity_to_sell)
+                        self.low_risk_quantity -= quantity_to_sell 
+                        self.low_risk_holdings += quantity_to_sell * low_risk_best_buy_offer["Price"]
 
-                    low_risk_orders.remove(low_risk_best_buy_offer)
+                        order_issuer = self.group.get_order_issuer(low_risk_best_buy_offer)
+                        order_issuer.update_issuer_holdings(data,low_risk_best_buy_offer["Price"],quantity_to_sell)
+
+                        low_risk_orders.remove(low_risk_best_buy_offer)
 
             self.total_holdings = self.low_risk_holdings + self.high_risk_holdings 
             self.total_quantity = self.low_risk_quantity + self.high_risk_quantity
 
-        self.orders_save += str(data) + "-"
+        if  self.group.high_risk_orders != "": 
+            aux = ("-".join(list(map(lambda order: str(order),high_risk_orders))) + "-")[0:]
+            if aux == "-":
+                self.group.high_risk_orders = ""
+            else:
+                self.group.high_risk_orders = aux
+            # print(self.group.high_risk_orders)
+        if self.group.low_risk_orders != "": 
+            aux  = ("-".join(list(map(lambda order: str(order),low_risk_orders))) + "-")[0:]
+            if aux == "-":
+                self.group.low_risk_orders = ""
+            else:
+                self.group.high_risk_orders = aux
 
         response = {
             0 : {
@@ -391,14 +414,10 @@ class Player(BasePlayer):
             },
         }
 
-        # updating the orders "database"
-        if high_risk_orders: 
-            self.group.high_risk_orders = "-".join(list(map(lambda order: str(order),high_risk_orders))) + "-"
-            orders_issued = list(map(lambda order: ast.literal_eval(order),self.orders_issued.split("-")[:-1]))
-        if low_risk_orders: 
-            self.group.low_risk_orders = "-".join(list(map(lambda order: str(order),low_risk_orders))) + "-"
-            orders_issued = list(map(lambda order: ast.literal_eval(order),self.orders_issued.split("-")[:-1]))
+        # print("high -> ",high_risk_orders, self.group.high_risk_orders)
+        # print("low -> ",low_risk_orders,self.group.low_risk_orders)
 
+        # updating the orders "database"
         # print(response)
 
         return response

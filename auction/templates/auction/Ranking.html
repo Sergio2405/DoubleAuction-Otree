@@ -25,9 +25,9 @@
                     {% if player.bonus_penalty == False %}
                         <td>0</td>
                     {% else %}
-                        <td>player.bonus_penalty</td>
+                        <td>{{ player.bonus_penalty }}</td>
                     {% endif %}
-                    <td>player.payoff</td>
+                    <td>{{ player.payoff }}</td>
                 </tr>
             {% endfor %}
         </tbody>
