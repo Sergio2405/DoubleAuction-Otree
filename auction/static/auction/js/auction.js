@@ -1,3 +1,7 @@
+function validation(price, quantity) {
+    return ((price > 0) && (quantity >0))
+}
+
 function HighOfferToBuy() {
     
     let holdings = parseFloat(document.getElementById("Total").value);
@@ -5,25 +9,33 @@ function HighOfferToBuy() {
     let price = parseFloat(document.getElementById("HighBuyLimitPrice").value);
     let quantity = parseInt(document.getElementById("HighBuyLimitQuantity").value)
 
-    let offer = {
-        Asset : "High",
-        Type : "Limit",
-        Action : "Buy",
-        Price : price,
-        Quantity : quantity
-    }
+    if (validation(price,quantity)){
+        let offer = {
+            Asset : "High",
+            Type : "Limit",
+            Action : "Buy",
+            Price : price,
+            Quantity : quantity
+        }
 
-    let amount = price * quantity;
-
-    if (amount > holdings){
+        let amount = price * quantity;
+        console.log(holdings)
+        if (amount > holdings){
+            alert(`
+                \t NO PROCEDE LA OFERTA DE COMPRA \t \n
+                Nota: \t
+                • Ofreces pagar un precio: ${price} por una cantidad: ${quantity} 
+                • lo cual supera tu actual presupuesto de: ${holdings} 
+            `)
+        }else{
+            liveSend(offer)
+        }
+    }else {
         alert(`
-            \t NO PROCEDE LA OFERTA DE COMPRA \t \n
-            Nota: \t
-            • Ofreces pagar un precio: ${price} por una cantidad: ${quantity} 
-            • lo cual supera tu actual presupuesto de: ${holdings} 
-        `)
-    }else{
-        liveSend(offer)
+                \t VALORES INGRESADOS NO VÁLIDOS \t \n
+                Nota: \t
+                • El Precio o la Cantidad es negativo o igual a 0
+            `)
     }
 }
 
@@ -34,23 +46,32 @@ function HighOfferToSell() {
     let price = parseFloat(document.getElementById("HighSellLimitPrice").value);
     let quantity = parseInt(document.getElementById("HighSellLimitQuantity").value)
 
-    let offer = {
-        Asset : "High",
-        Type : "Limit",
-        Action : "Sell",
-        Price : price,
-        Quantity : quantity
-    }
-  
-    if ((quantity >= high_risk_quantity)){
+    if (validation(price,quantity)){
+
+        let offer = {
+            Asset : "High",
+            Type : "Limit",
+            Action : "Sell",
+            Price : price,
+            Quantity : quantity
+        }
+      
+        if ((quantity >= high_risk_quantity)){
+            alert(`
+                \t NO PROCEDE LA OFERTA DE VENTA \t \n
+                Nota: \t
+                • Ofreces vender una cantidad: ${quantity} 
+                • la cual supera la cantidad que tienes de este activo: ${high_risk_quantity} 
+            `)
+        }else{
+            liveSend(offer)
+        }
+    }else {
         alert(`
-            \t NO PROCEDE LA OFERTA DE VENTA \t \n
-            Nota: \t
-            • Ofreces vender una cantidad: ${quantity} 
-            • la cual supera la cantidad que tienes de este activo: ${high_risk_quantity} 
-        `)
-    }else{
-        liveSend(offer)
+                \t VALORES INGRESADOS NO VÁLIDOS \t \n
+                Nota: \t
+                • El Precio o la Cantidad es negativo o igual a 0
+            `)
     }
 }
 
@@ -61,26 +82,36 @@ function LowOfferToBuy() {
     let price = parseFloat(document.getElementById("LowBuyLimitPrice").value);
     let quantity = parseInt(document.getElementById("LowBuyLimitQuantity").value)
 
-    let offer = {
-        Asset : "Low",
-        Type : "Limit",
-        Action : "Buy",
-        Price : price,
-        Quantity : quantity
-    }
+    if (validation(price,quantity)) {
 
-    let amount = price * quantity;
-
-    if (amount > holdings){
+        let offer = {
+            Asset : "Low",
+            Type : "Limit",
+            Action : "Buy",
+            Price : price,
+            Quantity : quantity
+        }
+    
+        let amount = price * quantity;
+    
+        if (amount > holdings){
+            alert(`
+                \t NO PROCEDE LA OFERTA DE COMPRA \t \n
+                Nota: \t
+                • Ofreces pagar un precio: ${price} por una cantidad: ${quantity} 
+                • lo cual supera tu actual presupuesto de: ${holdings} 
+            `)
+        }else{
+            liveSend(offer)
+        }
+    }else {
         alert(`
-            \t NO PROCEDE LA OFERTA DE COMPRA \t \n
-            Nota: \t
-            • Ofreces pagar un precio: ${price} por una cantidad: ${quantity} 
-            • lo cual supera tu actual presupuesto de: ${holdings} 
-        `)
-    }else{
-        liveSend(offer)
+                \t VALORES INGRESADOS NO VÁLIDOS \t \n
+                Nota: \t
+                • El Precio o la Cantidad es negativo o igual a 0
+            `)
     }
+
 }
 
 function LowOfferToSell() {
@@ -90,24 +121,35 @@ function LowOfferToSell() {
     let price = parseFloat(document.getElementById("LowSellLimitPrice").value);
     let quantity = parseInt(document.getElementById("LowSellLimitQuantity").value)
     
-    let offer = {
-        Asset : "Low",
-        Type : "Limit",
-        Action : "Sell",
-        Price : price,
-        Quantity : quantity
+    if (validation(price,quantity)){
+
+        let offer = {
+                Asset : "Low",
+                Type : "Limit",
+                Action : "Sell",
+                Price : price,
+                Quantity : quantity
+            }
+
+        if ((quantity >= low_risk_quantity)){
+            alert(`
+                \t NO PROCEDE LA OFERTA DE VENTA \t \n
+                Nota: \t
+                • Ofreces vender una cantidad: ${quantity} 
+                • la cual supera la cantidad que tienes de este activo: ${low_risk_quantity} 
+            `)
+        }else{
+            liveSend(offer)
+        }
+    }else {
+        alert(`
+                \t VALORES INGRESADOS NO VÁLIDOS \t \n
+                Nota: \t
+                • El Precio o la Cantidad es negativo o igual a 0
+            `)
     }
 
-    if ((quantity >= low_risk_quantity)){
-        alert(`
-            \t NO PROCEDE LA OFERTA DE VENTA \t \n
-            Nota: \t
-            • Ofreces vender una cantidad: ${quantity} 
-            • la cual supera la cantidad que tienes de este activo: ${low_risk_quantity} 
-        `)
-    }else{
-        liveSend(offer)
-    }
+    
 }
 
 function HighSell() {
@@ -116,22 +158,32 @@ function HighSell() {
 
     let quantity = parseInt(document.getElementById("HighSellMarket").value)
 
-    let offer = {
-        Asset : "High",
-        Type : "Market",
-        Action : "Sell",
-        Quantity : quantity
-    }
 
-    if ((quantity >= high_risk_quantity)){
+    if (quantity > 0) {
+
+        let offer = {
+            Asset : "High",
+            Type : "Market",
+            Action : "Sell",
+            Quantity : quantity
+        }
+    
+        if ((quantity >= high_risk_quantity)){
+            alert(`
+                \t NO PROCEDE LA OFERTA DE VENTA \t \n
+                Nota: \t
+                • Ofreces vender una cantidad: ${quantity} 
+                • la cual supera la cantidad que tienes de este activo: ${low_risk_quantity} 
+            `)
+        }else{
+            liveSend(offer)
+        }
+    }else {
         alert(`
-            \t NO PROCEDE LA OFERTA DE VENTA \t \n
-            Nota: \t
-            • Ofreces vender una cantidad: ${quantity} 
-            • la cual supera la cantidad que tienes de este activo: ${low_risk_quantity} 
-        `)
-    }else{
-        liveSend(offer)
+                \t VALORES INGRESADOS NO VÁLIDOS \t \n
+                Nota: \t
+                • El Precio debe ser mayor que 0
+            `)
     }
 }
 
@@ -141,24 +193,33 @@ function HighBuy() {
 
     let quantity = parseInt(document.getElementById("HighBuyMarket").value)
 
-    let offer = {
-        Asset : "High",
-        Type : "Market",
-        Action : "Buy",
-        Quantity : quantity
-    }
+    if (quantity > 0) {
 
-    let amount = 0 * quantity;
-
-    if (amount > holdings){
+        let offer = {
+            Asset : "High",
+            Type : "Market",
+            Action : "Buy",
+            Quantity : quantity
+        }
+    
+        let amount = 0 * quantity;
+    
+        if (amount > holdings){
+            alert(`
+                \t NO PROCEDE LA OFERTA DE COMPRA \t \n
+                Nota: \t
+                • Ofreces pagar un precio: ${price} por una cantidad: ${quantity} 
+                • lo cual supera tu actual presupuesto de: ${holdings} 
+            `)
+        }else{
+            liveSend(offer)
+        }
+    }else {
         alert(`
-            \t NO PROCEDE LA OFERTA DE COMPRA \t \n
-            Nota: \t
-            • Ofreces pagar un precio: ${price} por una cantidad: ${quantity} 
-            • lo cual supera tu actual presupuesto de: ${holdings} 
-        `)
-    }else{
-        liveSend(offer)
+                \t VALORES INGRESADOS NO VÁLIDOS \t \n
+                Nota: \t
+                • El Precio debe ser mayor que 0
+            `)
     }
 }
 
@@ -168,22 +229,31 @@ function LowSell() {
 
     let quantity = parseInt(document.getElementById("LowSellMarket").value)
 
-    let offer = {
-        Asset : "Low",
-        Type : "Market",
-        Action : "Sell",
-        Quantity : quantity
-    }
+    if (quantity > 0) { 
 
-    if ((quantity >= low_risk_quantity)){
+        let offer = {
+            Asset : "Low",
+            Type : "Market",
+            Action : "Sell",
+            Quantity : quantity
+        }
+    
+        if ((quantity >= low_risk_quantity)){
+            alert(`
+                \t NO PROCEDE LA OFERTA DE VENTA \t \n
+                Nota: \t
+                • Ofreces vender una cantidad: ${quantity} 
+                • la cual supera la cantidad que tienes de este activo: ${low_risk_quantity} 
+            `)
+        }else{
+            liveSend(offer)
+        }
+    }else {
         alert(`
-            \t NO PROCEDE LA OFERTA DE VENTA \t \n
-            Nota: \t
-            • Ofreces vender una cantidad: ${quantity} 
-            • la cual supera la cantidad que tienes de este activo: ${low_risk_quantity} 
-        `)
-    }else{
-        liveSend(offer)
+                \t VALORES INGRESADOS NO VÁLIDOS \t \n
+                Nota: \t
+                • El Precio debe ser mayor que 0
+            `)
     }
 }
 
@@ -193,24 +263,33 @@ function LowBuy() {
 
     let quantity = parseInt(document.getElementById("LowBuyMarket").value)
 
-    let offer = {
-        Asset : "Low",
-        Type : "Market",
-        Action : "Buy",
-        Quantity : quantity
-    }
+    if (quantity > 0) {
 
-    let amount = 0 * quantity;
-
-    if (amount > holdings){
+        let offer = {
+            Asset : "Low",
+            Type : "Market",
+            Action : "Buy",
+            Quantity : quantity
+        }
+    
+        let amount = 0 * quantity;
+    
+        if (amount > holdings){
+            alert(`
+                \t NO PROCEDE LA OFERTA DE COMPRA \t \n
+                Nota: \t
+                • Ofreces pagar un precio: ${price} por una cantidad: ${quantity} 
+                • lo cual supera tu actual presupuesto de: ${holdings} 
+            `)
+        }else{
+            liveSend(offer)
+        }
+    }else {
         alert(`
-            \t NO PROCEDE LA OFERTA DE COMPRA \t \n
-            Nota: \t
-            • Ofreces pagar un precio: ${price} por una cantidad: ${quantity} 
-            • lo cual supera tu actual presupuesto de: ${holdings} 
-        `)
-    }else{
-        liveSend(offer)
+                \t VALORES INGRESADOS NO VÁLIDOS \t \n
+                Nota: \t
+                • El Precio debe ser mayor que 0
+            `)
     }
 }
 
@@ -231,11 +310,14 @@ function liveRecv(data) {
 
     let holdings = my_player["holdings"];
     let quantity = my_player["quantity"];
+    let prices = my_player["prices"];
 
 
     document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>High Risk</td><td>' +  quantity.high_risk + '</td></tr>';
     document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Low Risk</td><td>' + quantity.low_risk + '</td></tr>';
     document.getElementById("TotalHoldings").innerHTML = 'Capital =  '  + '<strong>' + holdings.total + ' Puntos</strong>'
+
+    document.getElementById("AssetPrices").innerHTML = `<td>${prices["high"]}</td><td>${prices["low"]}</td>`
 
     document.getElementById("Total").value = holdings.total;
     document.getElementById("Low").value = quantity.low_risk;
