@@ -83,10 +83,10 @@ class Ranking(Page):
         )
 
 page_sequence = [
-    # Instructions, 
-    # InstructionsWaitPage, 
-    # Instructions_Treatment, 
-    # AuctionWaitPage, 
+    Instructions, 
+    InstructionsWaitPage, 
+    Instructions_Treatment, 
+    AuctionWaitPage, 
     Auction, 
     Statistics, 
     RankingWaitPage, 
