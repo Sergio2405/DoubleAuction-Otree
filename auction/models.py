@@ -94,7 +94,11 @@ class Group(BaseGroup):
 
         players = self.get_players()
         for player in players: 
-            player.earnings = player.high_risk_quantity * self.high_risk_buyback + player.low_risk_quantity * self.low_risk_buyback
+            
+            high_risk_quantity = 0 if player.high_risk_quantity < 0 else player.high_risk_quantity
+            low_risk_quantity = 0 if player.low_risk_quantity < 0 else player.low_risk_quantity
+
+            player.earnings = high_risk_quantity * self.high_risk_buyback + low_risk_quantity * self.low_risk_buyback
 
         players = self.get_players()
         players_ranking = sorted(players, key = lambda player: player.earnings, reverse = True)
