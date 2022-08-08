@@ -7,6 +7,8 @@ function HighOfferToBuy() {
     let holdings = parseFloat(document.getElementById("HighHoldings").value);
 
     let price = parseFloat(document.getElementById("HighBuyLimitPrice").value);
+    price = Math.round(price * 100) / 100;
+    
     let quantity = parseInt(document.getElementById("HighBuyLimitQuantity").value)
 
     if (validation(price,quantity)){
@@ -44,6 +46,8 @@ function HighOfferToSell() {
     let high_risk_quantity = parseInt(document.getElementById("High").value);
 
     let price = parseFloat(document.getElementById("HighSellLimitPrice").value);
+    price = Math.round(price * 100) / 100;
+
     let quantity = parseInt(document.getElementById("HighSellLimitQuantity").value)
 
     if (validation(price,quantity)){
@@ -80,6 +84,8 @@ function LowOfferToBuy() {
     let holdings = parseFloat(document.getElementById("LowHoldings").value);
 
     let price = parseFloat(document.getElementById("LowBuyLimitPrice").value);
+    price = Math.round(price * 100) / 100;
+
     let quantity = parseInt(document.getElementById("LowBuyLimitQuantity").value)
 
     if (validation(price,quantity)) {
@@ -119,6 +125,8 @@ function LowOfferToSell() {
     let low_risk_quantity = parseInt(document.getElementById("Low").value);
 
     let price = parseFloat(document.getElementById("LowSellLimitPrice").value);
+    price = Math.round(price * 100) / 100;
+
     let quantity = parseInt(document.getElementById("LowSellLimitQuantity").value)
     
     if (validation(price,quantity)){
@@ -192,6 +200,8 @@ function HighBuy() {
     let holdings = parseFloat(document.getElementById("HighHoldings").value);
 
     let price = parseFloat(document.getElementById("HighPrice").value);
+    price = Math.round(price * 100) / 100;
+
     let quantity = parseInt(document.getElementById("HighBuyMarket").value)
 
     if (quantity > 0) {
@@ -263,6 +273,8 @@ function LowBuy() {
     let holdings = parseInt(document.getElementById("LowHoldings").value);
 
     let price = parseFloat(document.getElementById("LowPrice").value);
+    price = Math.round(price * 100) / 100;
+
     let quantity = parseInt(document.getElementById("LowBuyMarket").value);
 
     if (quantity > 0) {
@@ -313,6 +325,9 @@ function liveRecv(data) {
     let holdings = my_player["holdings"];
     let quantity = my_player["quantity"];
     let prices = my_player["prices"];
+    
+    let high_price = Math.round(prices["high"] * 100) / 100;
+    let low_price = Math.round(prices["low"] * 100) / 100;
 
 
     document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>High Risk</td><td>' +  quantity.high_risk + '</td><td>'+ holdings.high_risk +'</td></tr>';
@@ -320,9 +335,9 @@ function liveRecv(data) {
 
     document.getElementById("TotalHoldings").innerHTML = 'Capital Total =  '  + '<strong>' + holdings.total + ' Puntos</strong>';
 
-    document.getElementById("AssetPrices").innerHTML = `<td>${prices["high"]}</td><td>${prices["low"]}</td>`;
-    document.getElementById("HighPrice").value = prices["high"]
-    document.getElementById("LowPrice").value = prices["low"]
+    document.getElementById("AssetPrices").innerHTML = `<td>${high_price}</td><td>${low_price}</td>`;
+    document.getElementById("HighPrice").value = high_price
+    document.getElementById("LowPrice").value = low_price
 
     document.getElementById("Total").value = holdings.total;
 
