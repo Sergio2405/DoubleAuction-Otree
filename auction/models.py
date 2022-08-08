@@ -213,14 +213,16 @@ class Group(BaseGroup):
                 "player_id" : player.id_in_group,
                 "holdings" : {
                         "total" : player.total_holdings,
+                        "high_risk" : player.high_risk_holdings,
+                        "low_risk" : player.low_risk_holdings
                     },
                 "quantity" : {
                         "high_risk" : player.high_risk_quantity,
                         "low_risk" : player.low_risk_quantity
                     },
                 "prices" : {
-                    "high" : 0 if self.high_risk_orders_count == 0 else self.high_risk_acum_price/self.high_risk_orders_count,
-                    "low" :  0 if self.low_risk_orders_count == 0 else self.low_risk_acum_price/self.low_risk_orders_count,
+                        "high" : 0 if self.high_risk_orders_count == 0 else self.high_risk_acum_price/self.high_risk_orders_count,
+                        "low" :  0 if self.low_risk_orders_count == 0 else self.low_risk_acum_price/self.low_risk_orders_count,
                     }
                 }
 
