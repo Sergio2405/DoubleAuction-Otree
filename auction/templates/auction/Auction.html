@@ -14,18 +14,6 @@
     <div class = "auction-market-screen">
         <div class = "auction-market-1">
             <div class = "market-half-1">
-                <div class = "market-half-1-delete">
-                    <div style = "height:80%; border:1px solid black">
-                        <table style = "width:100%">
-                        <thead>
-                            <th>Your Offers to Buy</th>
-                            <th>Quantity</th>
-                        </thead>
-                        <tbody id = "HighBuyMyOffersTable"></tbody>
-                    </table>
-                    </div>
-                    <button type = "button" style = "width: 100%;background-color:rgb(253, 119, 119)">Delete offer to buy</button>
-                </div>
                 <div class = "market-half-1-limitOffer">
                     <table style = "width:100%">
                         <thead>
@@ -43,7 +31,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button type = "button" onclick = {HighOfferToBuy()} style = "width: 100%;background-color:rgb(253, 119, 119)">Offer to buy</button>
+                    <button type = "button" id = "HighOfferToBuyButton" onclick = {HighOfferToBuy()} style = "width: 100%;background-color:rgb(253, 119, 119)">Offer to buy</button>
                 </div>
                 <div class = "market-half-1-list">
                     <table style = "width:100%">
@@ -61,18 +49,6 @@
                 </div>  
             </div>
             <div class = "market-half-2">
-                <div class = "market-half-1-delete">
-                    <div style = "height:80%; border:1px solid black">
-                        <table style = "width:100%">
-                        <thead>
-                            <th>Your Offers to Sell</th>
-                            <th>Quantity</th>
-                        </thead>
-                        <tbody id = "HighSellMyOffersTable"></tbody>
-                    </table>
-                    </div>
-                    <button type = "button" style = "width: 100%;">Delete offer to Sell</button>
-                </div>
                 <div class = "market-half-1-limitOffer">
                     <table style = "width:100%">
                         <thead>
@@ -90,7 +66,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button type = "button" onclick = {HighOfferToSell()} style = "width: 100%;">Offer to Sell</button>
+                    <button type = "button" id = "HighOfferToSellButton" onclick = {HighOfferToSell()} style = "width: 100%;">Offer to Sell</button>
                 </div>
                 <div class = "market-half-1-list">
                     <table style = "width:100%">
@@ -113,16 +89,16 @@
                 <div style = "text-align: center">
                     Your Holdings
                 </div>
+                <div style = "text-align: center" id = "TotalHoldings"></div>
                 <table style = "width:100%">
                     <thead>
                         <th>Asset</th>
                         <th>Quantity</th>
-                        <th>Holdings</th>
+                        <th>Capital</th>
                     </thead>
                     <tbody>
                         <tr id = "HighRiskHoldings"></tr>
                         <tr id = "LowRiskHoldings"></tr>
-                        <tr id = "TotalHoldings" style = "border-top: 2px solid black"></tr>
                     </tbody>
                 </table>
             </div>
@@ -136,9 +112,7 @@
                         <th>Price Low Risk</th>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>25</td>
-                            <td>25</td>
+                        <tr id = "AssetPrices">
                         </tr>
                     </tbody>
                 </table>
@@ -147,18 +121,6 @@
         </div>
         <div class = "auction-market-2">
             <div class = "market-half-1">
-                <div class = "market-half-1-delete">
-                    <div style = "height:80%; border:1px solid black">
-                        <table style = "width:100%">
-                        <thead>
-                            <th>Your Offers to Buy</th>
-                            <th>Quantity</th>
-                        </thead>
-                        <tbody id = "LowBuyMyOffersTable"></tbody>
-                    </table>
-                    </div>
-                    <button type = "button" style = "width: 100%;background-color:rgb(253, 119, 119)">Delete offer to buy</button>
-                </div>
                 <div class = "market-half-1-limitOffer">
                     <table style = "width:100%">
                         <thead>
@@ -176,7 +138,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button type = "button" onclick = {LowOfferToBuy()} style = "width: 100%;background-color:rgb(253, 119, 119)">Offer to buy</button>
+                    <button type = "button" id = "LowOfferToBuyButton" onclick = {LowOfferToBuy()} style = "width: 100%;background-color:rgb(253, 119, 119)">Offer to buy</button>
                 </div>
                 <div class = "market-half-1-list">
                     <table style = "width:100%">
@@ -194,18 +156,6 @@
                 </div>  
             </div>
             <div class = "market-half-2">
-                <div class = "market-half-1-delete">
-                    <div style = "height:80%; border:1px solid black">
-                        <table style = "width:100%">
-                        <thead>
-                            <th>Your Offers to Sell</th>
-                            <th>Quantity</th>
-                        </thead>
-                        <tbody id = "LowSellMyOffersTable"></tbody>
-                    </table>
-                    </div>
-                    <button type = "button" style = "width: 100%;">Delete offer to Sell</button>
-                </div>
                 <div class = "market-half-1-limitOffer">
                     <table style = "width:100%">
                         <thead>
@@ -223,7 +173,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button type = "button"  onclick = {LowOfferToSell()} style = "width: 100%;">Offer to Sell</button>
+                    <button type = "button" id = "LowOfferToSellButton" onclick = {LowOfferToSell()} style = "width: 100%;">Offer to Sell</button>
                 </div>
                 <div class = "market-half-1-list">
                     <table style = "width:100%">
@@ -243,6 +193,16 @@
             </div>
         </div>
     </div>
+
+    <input id = "Total" hidden/>
+
+    <input id = "Low" hidden/>
+    <input id = "LowPrice" hidden/>
+    <input id = "LowHoldings" hidden/>
+
+    <input id = "High" hidden/>
+    <input id = "HighPrice" hidden/>
+    <input id = "HighHoldings" hidden/>
 
 {% endblock %}
 

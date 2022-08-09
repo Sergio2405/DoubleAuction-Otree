@@ -1,0 +1,125 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Instrucciones: Ronda {{ round_number }}
+{% endblock %}
+
+{% block styles %}
+    <style>
+        table, th, td { 
+            text-align: center
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <p>Lo que esta dentró de este recuadro <strong>cambiará cada ronda,</strong> por favor siempre leerlo.</p>
+    <div class = "card bg-light" style="padding:10px;margin-bottom: 8px;">
+        <h4>Pagos</h4>
+
+        <p>Los pagos de esta ronda serán de la siguiente manera:</p>
+
+        {% if treatment == "AB" %}
+        <strong>
+            Cada trader recibirá un pago fijo de 20 Soles más un bonus de 0.01 Soles por cada Punto de su beneficio final
+            que exceda los 1000 Puntos.  
+        </strong>
+        {% endif %}
+
+        {% if treatment == "AP" %}
+        <strong>
+            Cada trader recibirá un pago fijo de 100 Soles menos una deducción de 0.01 Soles por cada Punto de su beneficio final
+            que este por debajo de los 5000 Puntos. 
+        </strong>
+        {% endif %}
+
+        {% if treatment == "TB1" %}
+        <strong>
+            Cada trader recibirá un pago fijo de 20 Soles más un bonus de 80 Soles si su beneficio final se encuentra dentro del top 7  
+            de mejores beneficios de la ronda.
+        </strong>
+        {% endif %}
+
+        {% if treatment == "TB2" %}
+        <strong>
+            Cada trader recibirá un pago fijo de 20 Soles más un bonus de 80 Soles si su beneficio final se encuentra dentro del top 3  
+            de mejores beneficios de la ronda.
+        </strong>
+        {% endif %}
+
+        {% if treatment == "TP1" %}
+        <strong>
+            Cada trader recibirá un pago fijo de 100 Soles menos una dedución de 80 Soles si su beneficio final se encuentra fuera del top 7  
+            de mejores beneficios de la ronda.
+        </strong>
+        {% endif %}
+
+        {% if treatment == "TP2" %}
+        <strong>
+            Cada trader recibirá un pago fijo de 100 Soles menos una dedución de 80 Soles si su beneficio final se encuentra fuera del 
+            top 3 de mejores beneficios de la ronda.
+        </strong>
+        {% endif %}
+    </div>
+
+    <div>
+        <p>Puntos importantes a tener en cosideración una vez que se abre el mercado.</p>
+        <ul>
+            <li>
+                <strong>El Precio puede tener decimales</strong>, mientras que <strong>la Cantidad solo puede tener valores enteros</strong>. En caso usted introduzca un valor decimal en la casilla 
+                donde se coloca la cantidad y coloca la oferta en el mercado, la computadora va a redondear hacia abajo la Cantidad que usted puso en la casilla.
+            </li>
+            <br>
+            <li>
+                <strong>Coloque sus ofertas con moderación</strong>, es decir, no presione repetidas veces el botón de enviar oferta porque esta, lógicamente, aparecerá en las pantallas de los demás
+                traders por lo que puede saturar tanto el mercado como confundir a los demás.
+            </li>
+            <br>
+            <li>
+                <strong>Esté atento al temporizador</strong> que aparecerá en la pantalla ya que cuando resten aproximadamente 10 segundos, la computadora ya no recibirá más ofertas, por lo que le pedimos
+                tener este punto en cuenta.
+            </li>
+            <br>
+            <li>
+                <strong>Las ofertas irán apareciendo conforme los traders las coloquen.</strong> No hay necesidad de actualizar la página para que carguen las ofertas, todo sucede de manera sincrónica.
+            </li>
+        </ul>
+    </div>
+
+    <p>A continuación, nuevamente, le adjuntamos los precios de recompra que puede tomar cada activo, con su respectiva probabilidad.</p>
+
+    <table class = "table">
+        <thead>
+            <th>Activo</th>
+            <th>Precio de Recompra</th>
+            <th>Probabilidad</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan = "2" style = "padding: 5%;">Alto Riesgo</td>
+                <td>15 Puntos</td>
+                <td>80%</td>
+            </tr>
+            <tr>
+                <td>65 Puntos</td>
+                <td>20%</td>
+            </tr>
+            <tr>
+                <td rowspan = "2" style = "padding: 5%;">Bajo Riesgo</td>
+                <td>20 Puntos</td>
+                <td>50%</td>
+            </tr>
+            <tr>
+                <td>30 Puntos</td>
+                <td>50%</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Si está listo para entrar al mercado, haga click en el botón Siguiente</p>
+
+    {% next_button %}
+
+{% endblock %}

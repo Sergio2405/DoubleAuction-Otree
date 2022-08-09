@@ -6,27 +6,31 @@
 {% endblock %}
 
 {% block content %}
-    <table>
+    <table class = "table">
         <thead>
             <th>Player</th>
-            <th>Payoff</th>
+            <th>Earnings</th>
             <th>Bonus</th>
+            <th>Fixed</th>
+            <th>Payoff</th>
         </thead>
         <tbody>
-            {% for player in players_ranking %}
-                {% if player.id == player_id %}
+            {% for player in players %}
                 <tr>
-                    <td>You</td>
+                    {% if player.id_in_group == player_id %}
+                        <td>You</td>
+                    {% else %}
+                        <td>{{ player.id_in_group }}</td>
+                    {% endif %}
+                    <td>{{ player.earnings }}</td>
+                    {% if player.bonus_penalty == False %}
+                        <td>0</td>
+                    {% else %}
+                        <td>{{ player.bonus_penalty }}</td>
+                    {% endif %}
+                    <td>{{ player.fixed_payment }}</td>
                     <td>{{ player.payoff }}</td>
-                    <td>{{ player.bonus }}</td>
                 </tr>
-                {% else %}
-                <tr>
-                    <td>{{ player.id }}</td>
-                    <td>{{ player.payoff }}</td>
-                    <td>{{ player.bonus }}</td>
-                </tr>
-                {% endif %}
             {% endfor %}
         </tbody>
     </table>

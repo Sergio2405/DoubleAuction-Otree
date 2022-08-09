@@ -7,9 +7,25 @@ class Instructions(Page):
     def is_displayed(self):
         return self.player.round_number == 1
 
+class InstructionsWaitPage(WaitPage):
+    
+    def is_displayed(self):
+        return self.player.round_number == 1
+
+class Instructions_Treatment(Page):
+    
+    def vars_for_template(self):
+        return {
+            "round_number" : self.player.round_number,
+            "treatment": self.group.treatment
+        }
+
+class AuctionWaitPage(WaitPage):
+    pass
+
 class Auction(Page):
 
-    timeout_seconds = 30
+    timeout_seconds = 60
     timer_text = 'El mercado cierra en :'
 
     live_method = 'live_auction'
@@ -21,21 +37,61 @@ class Auction(Page):
 
 class Statistics(Page):
 
-    def vars_for_template(self):
-        pass
+    timeout_seconds = 30
+    timer_text = 'Tiempo restante para ver sus resultados :'
 
-    def before_next_page(self): 
-        for player in self.group.get_players():
-            player.set_payoff()
+    def vars_for_template(self):
+
+        high_risk_quantity = self.player.high_risk_quantity
+        low_risk_quantity = self.player.low_risk_quantity
+        high_risk_buyback = self.group.high_risk_buyback
+        low_risk_buyback = self.group.low_risk_buyback
+
+        high_buyback_holdings = high_risk_quantity * high_risk_buyback
+        low_buyback_holdings = low_risk_quantity * low_risk_buyback
+
+        return {
+            "high_risk_quantity" : high_risk_quantity,
+            "low_risk_quantity" : low_risk_quantity,
+            "high_risk_buyback" : high_risk_buyback,
+            "low_risk_buyback" : low_risk_buyback,
+            "high_buyback_holdings" : high_buyback_holdings,
+            "low_buyback_holdings" : low_buyback_holdings,
+            "total_holdings" : high_buyback_holdings + low_buyback_holdings
+        }
+
+    def before_next_page(self):
+        self.group.generate_ranking()
+
+class RankingWaitPage(WaitPage):
+    after_all_players_arrive = 'set_payoffs'
 
 class Ranking(Page): 
 
+    timeout_seconds = 30
+    timer_text = 'Tiempo restante para ver sus resultados :'
+
     def vars_for_template(self): 
-        
-        players_ranking = sorted(self.group.get_players(), key = lambda player: player.payoff, reverse = True)
-        dict(
-            players_ranking = players_ranking,
-            player_id = self.player.id
+
+        players = self.group.get_players()
+        players_ranking = sorted(players, key = lambda player: player.earnings, reverse = True)
+
+        ranking = True if self.group.treatment != "AB" or self.group.treatment != "AP" else False
+
+        players_list = players_ranking if ranking else players
+      
+        return dict(
+            players = players_list,
+            player_id = self.player.id_in_group
         )
 
-page_sequence = [Instructions, Auction, Ranking]
+page_sequence = [
+    Instructions, 
+    InstructionsWaitPage, 
+    Instructions_Treatment, 
+    AuctionWaitPage, 
+    Auction, 
+    Statistics, 
+    RankingWaitPage, 
+    Ranking
+]
