@@ -76,7 +76,7 @@ class Ranking(Page):
         players = self.group.get_players()
         players_ranking = sorted(players, key = lambda player: player.earnings, reverse = True)
 
-        ranking = False if self.group.treatment != "AB" or self.group.treatment != "AP" else True
+        ranking = True if self.group.treatment != "AB" or self.group.treatment != "AP" else False
 
         players_list = players_ranking if ranking else players
       
