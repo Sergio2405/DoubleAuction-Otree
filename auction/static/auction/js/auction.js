@@ -1,5 +1,5 @@
 function validation(price, quantity) {
-    return ((price > 0) && (quantity >0))
+    return ((price > 0) && (quantity > 0))
 }
 
 function HighOfferToBuy() {
@@ -8,7 +8,7 @@ function HighOfferToBuy() {
 
     let price = parseFloat(document.getElementById("HighBuyLimitPrice").value);
     price = Math.round(price * 100) / 100;
-    
+
     let quantity = parseInt(document.getElementById("HighBuyLimitQuantity").value)
 
     if (validation(price,quantity)){

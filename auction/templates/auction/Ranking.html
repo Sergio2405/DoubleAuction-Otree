@@ -11,6 +11,7 @@
             <th>Player</th>
             <th>Earnings</th>
             <th>Bonus</th>
+            <th>Fixed</th>
             <th>Payoff</th>
         </thead>
         <tbody>
@@ -27,6 +28,7 @@
                     {% else %}
                         <td>{{ player.bonus_penalty }}</td>
                     {% endif %}
+                    <td>{{ player.fixed_payment }}</td>
                     <td>{{ player.payoff }}</td>
                 </tr>
             {% endfor %}

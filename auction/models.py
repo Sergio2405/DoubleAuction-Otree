@@ -121,16 +121,14 @@ class Group(BaseGroup):
 
                 treatment = treatments["AB"]
 
-                print("Earning: ", player.earnings )
-
                 if player.earnings > treatment["exceed"]:
                     bonus_payment = treatment["bonus"] * (player.earnings - treatment["exceed"])
                     player.bonus_penalty = bonus_payment
                 else: 
                     bonus_payment = 0
-                    player.bonus_penalty = bonus_payment
-                
-                print("bonus: ", bonus_payment)
+                    player.bonus_penalty = round(bonus_payment,2)
+
+                player.fixed_payment = treatment["fixed"]
                 
                 player.payoff = treatment["fixed"] + bonus_payment
 
@@ -138,7 +136,7 @@ class Group(BaseGroup):
 
                 treatment = treatments["TB1"]
                 
-                bonus_index = len(players_ranking) * (1-treatment["threshold"])
+                bonus_index = round(len(players_ranking) * (1-treatment["threshold"]))
                 bonus_players = players_ranking[0:bonus_index]
                 
                 if player in bonus_players: 
@@ -147,12 +145,14 @@ class Group(BaseGroup):
                 else:
                     player.payoff = treatment["fixed"]
                     player.bonus_penalty = 0
+
+                player.fixed_payment = treatment["fixed"]
 
             elif self.treatment == "TB2": # 0.70
 
                 treatment = treatments["TB2"]
                 
-                bonus_index = len(players_ranking) * (1-treatment["threshold"])
+                bonus_index = round(len(players_ranking) * (1-treatment["threshold"]))
                 bonus_players = players_ranking[0:bonus_index]
                 
                 if player in bonus_players: 
@@ -161,6 +161,8 @@ class Group(BaseGroup):
                 else:
                     player.payoff = treatment["fixed"]
                     player.bonus_penalty = 0
+
+                player.fixed_payment = treatment["fixed"]
 
             elif self.treatment == "AP":
                 
@@ -170,15 +172,17 @@ class Group(BaseGroup):
                     player.bonus_penalty = penalty_payment
                 else:
                     penalty_payment = 0
-                    player.bonus_penalty = penalty_payment
+                    player.bonus_penalty = round(penalty_payment,2)
                  
                 player.payoff = treatment["fixed"] - penalty_payment
+
+                player.fixed_payment = treatment["fixed"]
 
             elif self.treatment == "TP1":  # 0.30
                 
                 treatment = treatments["TP1"]
 
-                penalty_index = len(players_ranking) * (1-treatment["threshold"])
+                penalty_index = round(len(players_ranking) * (1-treatment["threshold"]))
                 penalty_players = players_ranking[penalty_index:]
                 
                 if player in penalty_players: 
@@ -187,12 +191,14 @@ class Group(BaseGroup):
                 else:
                     player.payoff = treatment["fixed"]
                     player.bonus_penalty = 0
+
+                player.fixed_payment = treatment["fixed"]
 
             else: 
                 
                 treatment = treatments["TP2"] # 0.70
 
-                penalty_index = len(players_ranking) * (1-treatment["threshold"])
+                penalty_index = round(len(players_ranking) * (1-treatment["threshold"]))
                 penalty_players = players_ranking[penalty_index:]
                 
                 if player in penalty_players: 
@@ -201,6 +207,8 @@ class Group(BaseGroup):
                 else:
                     player.payoff = treatment["fixed"]
                     player.bonus_penalty = 0
+                
+                player.fixed_payment = treatment["fixed"]
 
     def get_players_parser(self):
         
@@ -258,6 +266,7 @@ class Player(BasePlayer):
     orders_save = models.LongStringField(default = "")
 
     bonus_penalty = models.FloatField(default = 0)
+    fixed_payment = models.IntegerField(default = 0)
 
     earnings = models.FloatField(default = 0)
 

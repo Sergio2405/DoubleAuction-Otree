@@ -25,8 +25,8 @@ class AuctionWaitPage(WaitPage):
 
 class Auction(Page):
 
-    # timeout_seconds = 60
-    # timer_text = 'El mercado cierra en :'
+    timeout_seconds = 60
+    timer_text = 'El mercado cierra en :'
 
     live_method = 'live_auction'
 
@@ -67,6 +67,9 @@ class RankingWaitPage(WaitPage):
     after_all_players_arrive = 'set_payoffs'
 
 class Ranking(Page): 
+
+    timeout_seconds = 30
+    timer_text = 'Tiempo restante para ver sus resultados :'
 
     def vars_for_template(self): 
 
