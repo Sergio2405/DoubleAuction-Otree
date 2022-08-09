@@ -25,8 +25,8 @@ class AuctionWaitPage(WaitPage):
 
 class Auction(Page):
 
-    # timeout_seconds = 60
-    # timer_text = 'El mercado cierra en :'
+    timeout_seconds = 60
+    timer_text = 'El mercado cierra en :'
 
     live_method = 'live_auction'
 
@@ -68,12 +68,15 @@ class RankingWaitPage(WaitPage):
 
 class Ranking(Page): 
 
+    timeout_seconds = 30
+    timer_text = 'Tiempo restante para ver sus resultados :'
+
     def vars_for_template(self): 
 
         players = self.group.get_players()
         players_ranking = sorted(players, key = lambda player: player.earnings, reverse = True)
 
-        ranking = False if self.group.treatment != "AB" or self.group.treatment != "AP" else True
+        ranking = True if self.group.treatment != "AB" or self.group.treatment != "AP" else False
 
         players_list = players_ranking if ranking else players
       
@@ -83,10 +86,10 @@ class Ranking(Page):
         )
 
 page_sequence = [
-    # Instructions, 
-    # InstructionsWaitPage, 
-    # Instructions_Treatment, 
-    # AuctionWaitPage, 
+    Instructions, 
+    InstructionsWaitPage, 
+    Instructions_Treatment, 
+    AuctionWaitPage, 
     Auction, 
     Statistics, 
     RankingWaitPage, 
