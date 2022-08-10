@@ -37,7 +37,7 @@ class Auction(Page):
 
 class Statistics(Page):
 
-    timeout_seconds = 30
+    timeout_seconds = 20
     timer_text = 'Tiempo restante para ver sus resultados :'
 
     def vars_for_template(self):
