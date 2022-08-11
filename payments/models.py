@@ -144,7 +144,7 @@ class Player(BasePlayer):
     nivel_estudios_padres = models.IntegerField(
         label = 'Indica el nivel de estudio de tus padres',
         choices = [
-            [0,"Ninguno"]
+            [0,"Ninguno"],
             [1,"Primaria"],
             [2,"Secundaria"],
             [3,"Superior no universitaria"],
