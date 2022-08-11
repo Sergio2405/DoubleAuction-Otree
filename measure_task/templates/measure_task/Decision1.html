@@ -479,7 +479,7 @@ text-align: center;}
 </table>
 
 <br>
-{{ formfield_errors 'first_choice_1' }}
+
 <p><b>Importante:</b> para poder mover el deslizador haga click sobre él</p>
 
 <label for="slider" class="form-label">Mueva el deslizador para escoger el número de preguntas para el <strong>plan A</strong> y para el <strong>plan B</strong></label>
@@ -503,6 +503,8 @@ text-align: center;}
 
 <input name = 'first_choice_1' id = 'first_choice_1' hidden>
 <input name = 'second_choice_1' id = 'second_choice_1' hidden>
+
+{{ form.first_choice_1.errors }}
 
 <button id = "boton" type = "button" class="otree-btn-next btn btn-primary" onclick="validate()">Siguiente</button>
 

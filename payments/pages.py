@@ -2,7 +2,6 @@ from otree.api import Currency as c, currency_range
 from ._builtin import Page, WaitPage
 from .models import Constants
 
-
 class Pagos(Page):
     
     def vars_for_template(self):
@@ -18,8 +17,6 @@ class Pagos(Page):
             name = apps[app]
             pago = self.player.participant.vars['payoff_'+app]
             
-            # pagos_apps[name] = {"Moneda":"", "Soles":""}
-
             pagos_apps[name] = pago
 
             exchange_rate =  self.session.config["exchange_rates"]["Points"] if name != "Cuarta" else self.session.config["exchange_rates"]["Solex"]
@@ -40,27 +37,10 @@ class Pagos(Page):
             exchange_solex = self.session.config['exchange_rates']['Solex']
         )
 
-class Comments(Page):
-
-    form_model = 'player'
-    form_fields = [
-        'interfaz',
-        'instrucciones',
-        'espera',
-        'preguntas_control',
-        'sugerencia',
-        'pregunta1',
-        'pregunta2'
-        ]
-
-class Gracias(Page):
-    pass
 
 class Pagos_info(Page):
     def vars_for_template(self):
         return dict(participant_id=self.participant.label)
 
-page_sequence = [
-    Pagos,
-Comments,Pagos_info]
+page_sequence = [Pagos,Pagos_info]
 
