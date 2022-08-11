@@ -63,17 +63,15 @@ class Subsession(BaseSubsession):
 
 class Group(BaseGroup):
 
+    treatment = models.StringField(default = "")
+
     # buyback prices 
     high_risk_buyback = models.IntegerField(default = 0)
     low_risk_buyback = models.IntegerField(default = 0)
-
-    treatment = models.StringField(default = "")
     
     # vars usadas como almacenadores de ordenes temporales (vars auxiliares)
     high_risk_orders = models.LongStringField(default = "")
     low_risk_orders = models.LongStringField(default = "")
-
-    # variables de interes 
 
     # cantidad de ordenes segun tipo
     limit_orders = models.IntegerField(default = 0) # num de limit orders
@@ -83,14 +81,14 @@ class Group(BaseGroup):
     high_risk_limit_orders = models.LongStringField(default = "")
     high_risk_market_orders = models.LongStringField(default = "")
 
+    low_risk_limit_orders = models.LongStringField(default = "")
+    low_risk_market_orders = models.LongStringField(default = "")
+
     high_risk_orders_count = models.IntegerField(default = 0)
     low_risk_orders_count = models.IntegerField(default = 0)
     
     high_risk_acum_price = models.FloatField(default = 0)
     low_risk_acum_price = models.FloatField(default = 0)
-
-    low_risk_limit_orders = models.LongStringField(default = "")
-    low_risk_market_orders = models.LongStringField(default = "")
 
     def generate_ranking(self): 
 
@@ -267,20 +265,31 @@ class Player(BasePlayer):
     low_risk_quantity = models.IntegerField(default = Constants.initial_quantity/2)
     low_risk_holdings = models.FloatField(default = Constants.endowment/2)
 
-    orders_issued = models.LongStringField(default = "") 
-    orders_save = models.LongStringField(default = "")
+    demand_high_risk_price = models.FloatField(default = 0)
+    demand_high_risk_quantity = models.FloatField(default = 0)
+    demand_high_risk_offers = models.IntegerField(default = 0)
+
+    supply_high_risk_price = models.FloatField(default = 0)
+    supply_high_risk_quantity = models.FloatField(default = 0)
+    supply_high_risk_offers = models.IntegerField(default = 0)
+
+    demand_low_risk_price = models.FloatField(default = 0)
+    demand_low_risk_quantity = models.FloatField(default = 0)
+    demand_low_risk_offers = models.IntegerField(default = 0)
+
+    supply_low_risk_price = models.FloatField(default = 0)
+    supply_low_risk_quantity = models.FloatField(default = 0)
+    supply_low_risk_offers = models.IntegerField(default = 0)
+
+    market_orders = models.IntegerField(default = 0)
+    limit_orders = models.IntegerField(default = 0)
 
     bonus_penalty = models.FloatField(default = 0)
     fixed_payment = models.IntegerField(default = 0)
 
     earnings = models.FloatField(default = 0)
 
-    def parse_orders(self): 
-
-        orders_issued = list(map(lambda order: ast.literal_eval(order),self.orders_issued.split("-")[:-1]))
-        return orders_issued
-
-    def update_issuer_holdings(self,order,price,quantity):
+    def update_issuer_holdings(self, order, price, quantity):
 
         if order["Action"] == "Buy":
 
@@ -309,30 +318,54 @@ class Player(BasePlayer):
         if data["Type"] == "Limit":
 
             data["order_id"] = self.group.limit_orders
+            
+            self.limit_orders += 1
 
             self.group.limit_orders += 1
-            
-            self.orders_issued += str(data) + "-"
 
             if data["Asset"] == "High": 
 
                 self.group.high_risk_orders += str(data) + "-"
                 self.group.high_risk_limit_orders += str(data) + "-"
 
+                if data["Action"] == "Buy":
+
+                    self.demand_high_risk_price += data["Price"]
+                    self.demand_high_risk_quantity += data["Quantity"]
+                    self.demand_high_risk_offers += 1
+
+                else:
+
+                    self.supply_high_risk_price += data["Price"]
+                    self.supply_high_risk_quantity += data["Quantity"]
+                    self.supply_high_risk_offers += 1
+
             else: 
 
                 self.group.low_risk_orders += str(data) + "-"
                 self.group.low_risk_limit_orders += str(data) + "-"
+
+                if data["Action"] == "Buy":
+
+                    self.demand_low_risk_price += data["Price"]
+                    self.demand_low_risk_quantity += data["Quantity"]
+                    self.demand_low_risk_offers += 1
+
+                else:
+
+                    self.supply_low_risk_price += data["Price"]
+                    self.supply_low_risk_quantity += data["Quantity"]
+                    self.supply_low_risk_offers += 1
     
         # cualquier operacion que se quiera realizar con las ordenes se hace a partir del mapeo
         high_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.high_risk_orders.split("-")[:-1]))
         low_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.low_risk_orders.split("-")[:-1]))
 
-        orders_issued = self.parse_orders() # obtener ordenes en formato de dict - lista
-
         if data["Type"] == "Market": 
 
             data["order_id"] = self.group.market_orders
+
+            self.market_orders += 1
 
             self.group.market_orders += 1
 
