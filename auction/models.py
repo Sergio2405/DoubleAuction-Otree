@@ -35,6 +35,8 @@ class Constants(BaseConstants):
         "High" : [[15,65],[0.8,0.2]],
         "Low" : [[20,30],[0.5,0.5]]
     }
+
+    pay_round = random.randint(1,num_rounds) # chossing pay round
     
     treatments = dict(
         AB = {"fixed": 20, "bonus": 0.01, "exceed": 1000},
@@ -209,6 +211,9 @@ class Group(BaseGroup):
                     player.bonus_penalty = 0
                 
                 player.fixed_payment = treatment["fixed"]
+
+            if player.round_number == Constants.pay_round:
+                player.participant.vars["payoff_auction"] = player.payoff
 
     def get_players_parser(self):
         

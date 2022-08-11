@@ -19,7 +19,7 @@ class Pagos(Page):
             
             pagos_apps[name] = pago
 
-            exchange_rate =  self.session.config["exchange_rates"]["Points"] if name != "Cuarta" else self.session.config["exchange_rates"]["Solex"]
+            exchange_rate =  self.session.config["exchange_rates"]["Points"] if name != "Segunda" else self.session.config["exchange_rates"]["Solex"]
 
             pago_soles = pago *  exchange_rate
 
@@ -36,7 +36,6 @@ class Pagos(Page):
             exchange_points = self.session.config['exchange_rates']['Points'],
             exchange_solex = self.session.config['exchange_rates']['Solex']
         )
-
 
 class Pagos_info(Page):
     def vars_for_template(self):

@@ -8,10 +8,10 @@ PARTICIPANT_FIELDS = ['payoff_auction','payoff_measure_task']
 
 SESSION_CONFIGS = [
     dict(
-       name='Tesis_Sergio_Mejia',
-       display_name="Tesis_Sergio_Mejia",
-       num_demo_participants=10,
-       app_sequence=['measure_task','initial_page', 'auction', 'payments'],
+       name = 'Tesis_Sergio_Mejia',
+       display_name = "Tesis_Sergio_Mejia",
+       num_demo_participants = 10,
+       app_sequence = ['initial_page', 'auction', 'measure_task', 'payments'],
        app_names = {'auction':'Primera','measure_task':'Segunda'},
        participant_fee = SESSION_CONFIG_DEFAULTS["participation_fee"],
        exchange_rates = {"Solex": SESSION_CONFIG_DEFAULTS["solex_soles"], "Points": SESSION_CONFIG_DEFAULTS['points_soles']}
