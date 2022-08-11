@@ -1,0 +1,46 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Pagos
+{% endblock %}
+
+{% block content %}
+
+    <table class = 'table'>
+        <thead>
+            <th>Parte del Experimento</th>
+            <th>Pago en Moneda Experimental</th>
+        </thead>
+        <tbody>
+            {% for app, pago in pagos_apps.items %}
+                {% if app == 'Cuarta'%}
+                    <tr>
+                        <td>{{ app }}</td>
+                        <td>{{ pago }} Solex</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>{{ app }}</td>
+                        <td>{{ pago }} Puntos</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            <tr></tr>
+        </tbody>
+    </table>
+
+    <div class="card bg-light" style = "padding: 20px;">
+        <strong>
+            <u>Recordar:</u> Para la parte I, II y III su pago será en una moneda experimental llamada “Puntos”  donde cada Punto equivale a {{ exchange_points }} Soles. 
+            Mientras que para la Parte IV la moneda experimental es “Solex” donde cada Solex equivale a {{ exchange_solex }} Soles 
+        </strong>
+    </div>
+    <br>
+
+    <p>
+        <strong>Pago: </strong>En Soles <strong>{{ pago_total_soles }}</strong> + <strong>{{ participant_fee }}</strong> (Pago por participar) = S/.<strong>{{ pago_total_soles_fee }}</strong>
+    </p>
+    {% next_button %}
+
+{% endblock %}

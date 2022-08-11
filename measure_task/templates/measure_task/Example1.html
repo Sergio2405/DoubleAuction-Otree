@@ -1,0 +1,583 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Ejemplo 1
+{% endblock %}
+
+{% block content %}
+
+
+<p align=”justify”>Este ejemplo es el mismo que la <b>Serie 1</b>. Hay dos planes: <strong>plan A</strong> y <strong>plan B</strong> para cada pregunta. Hay 
+  10 bolillas numeradas 1,2,3,4,5,6,7,8,9 y 10 que determinan los pagos de cada plan. Usted debe escoger <strong>plan A</strong> o 
+  <strong>plan B</strong> en cada pregunta
+</p>
+
+<p align=”justify”>Observemos la Pregunta 1</p>
+
+<style type="text/css">
+  .tg  {border-collapse:collapse;border-spacing:0;}
+  .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+  .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;
+  }
+  .tg .tg-1wig{font-weight:bold;text-align:left;vertical-align:top;text-align: center;}
+  .tg .tg-g1fv{background-color:#333333;color:#ffffff;border-color:inherit;text-align:center;vertical-align:top}
+  .tg .tg-0449{background-color:#333333;color:#ffffff;border-color:inherit;text-align:center;vertical-align:top;}
+  .tg .tg-fymr{font-weight:bold;border-color:inherit;text-align:left;vertical-align:top;text-align: center;}
+  .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top;
+  text-align: center;}
+  .tg .tg-0lax{text-align:left;vertical-align:top;text-align: center;}
+  
+  .bolilla{
+    background-color:#fff;
+      border: 1px solid black;    
+      height:15px;
+      border-radius:50%;
+      -moz-border-radius:50%;
+      -webkit-border-radius:50%;
+      width:15px;
+      display: inline-block;
+      font-size: 10px;
+      text-align: center;
+  }
+  </style>
+<table class="tg" width = 980>
+  <tr>
+    <th class="tg-g1fv">Pregunta</th>
+    <th class="tg-0449" colspan="2">Plan A</th>
+    <th class="tg-0449" colspan="2">Plan B</th>
+  </tr>
+  <tr>
+    <td class="tg-fymr">1</td>
+    <td class="tg-0pky" style = "text-align: center;">
+      40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0pky" >
+      10 Solex |
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0pky">68 Solex |
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0pky">5 Solex |
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+  </tr>
+</table>
+
+<p align=”justify”>
+  <br>
+  La computadora seleccionará al azar un valor entre 10 posibles opciones: 1, 2, 3, ... 9, 10. <br><br>
+
+  De esta manera, si el número 1 es seleccionado al azar por la computadora, quienes escogieron el <strong>plan A</strong>
+  recibirán 40 Solex y; quienes escogieron el <strong>plan B</strong>, recibirán 68 Solex. <br><br>
+
+  Asimismo, si el número 3 es seleccionado al azar por la computadora, quienes hayan escogido el <strong>plan A</strong> recibirán 40 Solex y, quienes escogieron el
+  <strong>plan B</strong>, recibirán 5 Solex. <br><br>
+
+  Si el número 6 es seleccionado al azar por la computadora, quienes hayan escogido el <strong>plan A</strong> recibirán
+  10 Solex y, quienes escogieron el <strong>plan B</strong>, recibirán 5 Solex. <br><br>
+</p>
+
+<p align=”justify”>
+  Supongamos que usted escoge el <strong>plan A</strong> desde la pregunta 1 hasta la pregunta 5; y el <strong>plan B</strong> desde la pregunta 6 hasta la pregunta 14. 
+  Entonces, sus respuestas se pueden ilustrar de la siguiente manera (note las preguntas resaltadas para los planes <b>A</b>–preguntas 1 a la 5 y <b>B</b>–preguntas 6 a la 14):
+</p>
+
+<p align=”justify”>
+  <style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+    .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;
+    }
+    .tg .tg-1wig{font-weight:bold;text-align:left;vertical-align:top;text-align: center;}
+    .tg .tg-g1fv{background-color:#333333;color:#ffffff;border-color:inherit;text-align:center;vertical-align:top}
+    .tg .tg-0449{background-color:#333333;color:#ffffff;border-color:inherit;text-align:center;vertical-align:top;}
+    .tg .tg-fymr{font-weight:bold;border-color:inherit;text-align:left;vertical-align:top;text-align: center;}
+    .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top;
+    text-align: center;}
+    .tg .tg-0lax{text-align:left;vertical-align:top;text-align: center;}
+    
+    .bolilla{
+      background-color:#fff;
+        border: 1px solid black;    
+        height:15px;
+        border-radius:50%;
+        -moz-border-radius:50%;
+        -webkit-border-radius:50%;
+        width:15px;
+        display: inline-block;
+        font-size: 10px;
+        text-align: center;
+    }
+    </style>
+<table class="tg" width = 980>
+  <tr>
+    <th class="tg-g1fv">Pregunta</th>
+    <th class="tg-0449" colspan="2">Plan A</th>
+    <th class="tg-0449" colspan="2">Plan B</th>
+  </tr>
+  <tr>
+    <td class="tg-fymr">1</td>
+    <td class="tg-0pky" style = "background-color: rgb(250, 243, 201);">
+      40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0pky" style = "background-color: rgb(250, 243, 201);">
+      10 Solex |
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0pky">68 Solex |
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0pky">5 Solex |
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-fymr">2</td>
+    <td class="tg-0pky" style = "background-color: rgb(250, 243, 201);">40 Solex | 
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0pky" style = "background-color: rgb(250, 243, 201);">10 Solex | 
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0pky">75 Solex | 
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0pky">5 Solex |
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-fymr">3</td>
+    <td class="tg-0pky" style = "background-color: rgb(250, 243, 201);">40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0pky" style = "background-color: rgb(250, 243, 201);">10 solex |
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0pky">83 Solex |
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0pky">5 Solex |
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-1wig">4</td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">10 Solex | 
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0lax">93 Solex |
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0lax">5 Solex |
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-1wig">5</td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">10 Solex |
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0lax">106.5 Solex |
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0lax">5 Solex |
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-1wig">6</td>
+    <td class="tg-0lax">40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0lax">10 Solex | 
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">125 Solex |
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">5 Solex | 
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-1wig">7</td>
+    <td class="tg-0lax">40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0lax">10 Solex |
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">150 Solex | 
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">5 Solex |
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-1wig">8</td>
+    <td class="tg-0lax">40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0lax">10 Solex |
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">185 Solex | 
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">5 Solex |
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div> 
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-1wig">9</td>
+    <td class="tg-0lax">40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0lax">10 Solex |
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">220 Solex |
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">5 Solex | 
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div> 
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-1wig">10</td>
+    <td class="tg-0lax">40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0lax">10 Solex |
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">300 Solex | 
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">5 Solex |
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div> 
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-1wig">11</td>
+    <td class="tg-0lax">40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0lax">10 Solex |
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">400 Solex |
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">5 Solex |
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div> 
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-1wig">12</td>
+    <td class="tg-0lax">40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0lax">10 Solex |
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">600 Solex | 
+      <div class = "bolilla">1</div> 
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">5 Solex |
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div> 
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-1wig">13</td>
+    <td class="tg-0lax">40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0lax">10 Solex |
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">1000 Solex
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">5 Solex | 
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div> 
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-1wig">14</td>
+    <td class="tg-0lax">40 Solex |
+      <div class = "bolilla">1</div>
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+    </td>
+    <td class="tg-0lax">10 Solex |
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">1700 Solex | 
+      <div class = "bolilla">1</div>
+    </td>
+    <td class="tg-0lax" style = "background-color: rgb(250, 243, 201);">5 Solex |
+      <div class = "bolilla">2</div>
+      <div class = "bolilla">3</div>
+      <div class = "bolilla">4</div>
+      <div class = "bolilla">5</div>
+      <div class = "bolilla">6</div>
+      <div class = "bolilla">7</div>
+      <div class = "bolilla">8</div>
+      <div class = "bolilla">9</div>
+      <div class = "bolilla">10</div> 
+    </td>
+  </tr>
+</table>
+</p>
+
+    <p align=”justify”>
+      Escojo el <strong>plan A</strong> desde la pregunta 1 hasta la pregunta: <b>5</b> <br><br>
+      Escojo el <strong>plan B</strong> desde la pregunta: <b>6</b>
+    </p>
+
+    {% next_button %}
+
+{% endblock %}

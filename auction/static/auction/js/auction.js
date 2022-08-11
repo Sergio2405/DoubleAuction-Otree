@@ -1,5 +1,5 @@
 function validation(price, quantity) {
-    return ((price > 0) && (quantity > 0))
+    return (((price > 0) && (price < 999)) && (quantity > 0))
 }
 
 function HighOfferToBuy() {

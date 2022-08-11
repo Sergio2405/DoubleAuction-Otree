@@ -1,0 +1,32 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Resultados
+{% endblock %}
+
+{% block content %}
+    <p>
+    <table class="table" style="width:500px; margin-top:20px;">
+
+    <tr><td>Pregunta elegida para el pago:</td><td>&nbsp;&nbsp;{{ player.random_lottery }}</td></tr>
+
+    <tr><td>Plan pagado:</td><td>&nbsp;&nbsp;{{ player.selected_lottery }}</td></tr>
+
+    <tr><td>Bolilla escogida al azar:</td><td>&nbsp;&nbsp;{{ player.random_draw }}</td></tr>
+
+    <tr><td>Monto obtenido:</td><td>&nbsp;&nbsp;{{ player.payoff }} Solex</td></tr>
+    {% if loss %}
+        <tr><td>Dotación Base:</td><td>&nbsp;&nbsp;{{ Constants.endowment }} Solex</td></tr>
+        <tr><td>Monto obtenido Actualizado:</td><td>&nbsp;&nbsp;{{ pago_points }} Solex</td></tr>
+    {% endif %}
+
+    <tr><td>Monto obtenido en Soles:</td><td>&nbsp;&nbsp;{{ pago_soles }}</td></tr>
+
+    </table>
+
+    </p>
+    {% next_button %}
+{% endblock %}
+
+

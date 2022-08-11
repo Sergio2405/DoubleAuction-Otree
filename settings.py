@@ -1,15 +1,20 @@
 from os import environ
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
+    real_world_currency_per_point=1.00, participation_fee=5.00, solex_soles = 0.003, points_soles = 0.07, doc=""
 )
+
+PARTICIPANT_FIELDS = ['payoff_auction','payoff_measure_task']
 
 SESSION_CONFIGS = [
     dict(
-       name='Auction',
-       display_name="Auction",
-       num_demo_participants=10,
-       app_sequence=['auction']
+       name = 'Tesis_Sergio_Mejia',
+       display_name = "Tesis_Sergio_Mejia",
+       num_demo_participants = 10,
+       app_sequence = ['initial_page', 'auction', 'measure_task', 'payments'],
+       app_names = {'auction':'Primera','measure_task':'Segunda'},
+       participant_fee = SESSION_CONFIG_DEFAULTS["participation_fee"],
+       exchange_rates = {"Solex": SESSION_CONFIG_DEFAULTS["solex_soles"], "Points": SESSION_CONFIG_DEFAULTS['points_soles']}
     ),
 ]
 
