@@ -2,6 +2,20 @@ from otree.api import Currency as c, currency_range
 from ._builtin import Page, WaitPage
 from .models import Constants
 
+class Demographics(Page):
+    
+    form_model = 'player'
+    form_fields = [
+        'edad',
+        'sexo',
+        'distrito_residencia',
+        'escala',
+        'ciclo',
+        'carrera',
+        'nivel_estudios_padres',
+        'participado_antes'
+    ]
+
 class Pagos(Page):
     
     def vars_for_template(self):
@@ -41,5 +55,5 @@ class Pagos_info(Page):
     def vars_for_template(self):
         return dict(participant_id=self.participant.label)
 
-page_sequence = [Pagos,Pagos_info]
+page_sequence = [Demographics, Pagos, Pagos_info]
 
