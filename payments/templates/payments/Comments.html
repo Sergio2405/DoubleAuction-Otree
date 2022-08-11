@@ -1,0 +1,84 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Comentarios
+{% endblock %}
+
+{% block content %}
+
+<p>Déjanos tus comentarios acerca del experimento, te pedimos total honestidad!</p>
+<p>Tus respuestas irán entre 0 y 20, donde 20 es lo mejor y 0 todo lo contrario. Imagina que pones una nota así como en la universidad</p>
+
+{% formfield player.interfaz %}
+{% formfield player.instrucciones %}
+{% formfield player.espera %}
+{% formfield player.preguntas_control %}
+{% formfield player.sugerencia %}
+
+<br>
+
+<h2>Preguntas Adicionales</h2>
+<p>
+    En la Parte I del experimento, usted debía escoger entre reportar el grupo al que fue asignado en una ronda o reportar un grupo distinto del asignado. 
+</p>
+
+<p>
+    <b>1.</b>¿Cuán probable cree usted que es que un <strong>participante varón</strong> de esta sesión haya escogido reportar el grupo que realmente le tocó?
+</p>
+<table>
+    <thead>
+        <th>Muy improbable 0%</th>
+        <th>Muy probable 100%</th>
+    </thead>
+    <tr>
+        <td>
+            <div>
+                <input type="range" style='width:500px;' id="pregunta1" name = "pregunta1" min = '0' step = '1' max = '100' oninput = "{label_1.innerText=this.value + '%' }" disabled>
+            </div>
+        </td>
+        <td>
+            <div style = "margin-left: 50px;margin-bottom: 7px;">
+                <label><u>Probabilidad</u>: </label>
+                <label for = "pregunta1" id = "label_1"></label>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<p>
+    <b>2.</b>¿Cuán probable cree usted que es que una <strong>participante mujer</strong> de esta sesión haya escogido reportar el grupo que realmente le tocó?
+</p>
+<table>
+    <thead>
+        <th>Muy improbable 0%</th>
+        <th>Muy probable 100%</th>
+    </thead>
+    <tr>
+        <td>
+            <div>
+                <input type="range" style='width:500px;' id="pregunta2" name = "pregunta2" min = '0' step = '1' max = '100' oninput = "{label_2.innerText=this.value + '%' }" disabled>
+            </div>
+        </td>
+        <td>
+            <div style = "margin-left: 50px;margin-bottom: 7px;">
+                <label><u>Probabilidad</u>: </label>
+                <label for = "pregunta2" id = "label_2"></label>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+    {% next_button %}
+
+    <script>
+        $("#pregunta1").closest("div").click(function(){
+    $(this).find("input:disabled").attr("disabled", false);
+  })
+
+  $("#pregunta2").closest("div").click(function(){
+    $(this).find("input:disabled").attr("disabled", false);
+  })
+    </script>
+{% endblock %}

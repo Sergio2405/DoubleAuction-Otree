@@ -1,0 +1,23 @@
+
+<table class = "table">
+    <thead>
+        <th>Player</th>
+        <th>Participation Fee</th>
+        <th>Honesty</th>
+        <th>RuleFollowing</th>
+        <th>Inequity List</th>
+        <th>Measure Task</th>
+        <th>Total</th>
+    </thead>
+    <tbody>
+        {% for player,app_payments in payments.items %}
+            <tr>
+                <td>P{{ player }}</td>
+                <td>5</td>
+                {% for app,payment in app_payments.items %}
+                <td>{{ payment }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

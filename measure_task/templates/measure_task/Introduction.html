@@ -1,0 +1,37 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Parte IV
+{% endblock %}
+
+{% block content %}
+
+    <h4>
+        Instrucciones
+    </h4>
+
+    <p>
+        En esta parte, sus ganancias dependen parcialmente de sus decisiones y parcialmente del azar. <strong>Hay 3 series de preguntas.</strong> 
+        La <strong>primera</strong> y <strong>segunda</strong> tienen 14 preguntas cada una, y la <strong>tercera</strong> tiene 7. Ello da un total de 35 preguntas. En cada pregunta , se le
+        ofrecerá dos planes: <strong>plan A</strong> y <strong>plan B</strong>. Usted debe escoger <strong>plan A</strong> o <strong>plan B</strong> en cada pregunta. En cada serie, puede escoger el <strong>plan A</strong> para cierto número de preguntas y el <strong>plan B</strong> 
+        para el resto; puede escoger el <strong>plan B</strong> para todas las preguntas; o puede escoger el <strong>plan B</strong> para todas las preguntas. 
+    </p>    
+    <p>
+        Usaremos un deslizador (slider) para facilitar sus elecciones. 
+        Una vez que usted escoja su plan preferido en todas las preguntas, una de esas preguntas (de la 1 a la 35) será escogida por nosotros al azar y se implementará el plan que usted escogió en esa pregunta, 
+        para el cálculo de sus ganancias en Soles. Si, por ejemplo, el número escogido al azar es el 21, se implementará el plan que escogió en la pregunta 21. Una vez que determinemos la pregunta por la cual se les 
+        pagará, se escogerá un número entre 1 y 10, que determinará el pago por el plan escogido en la pregunta seleccionada. 
+    </p>
+
+    <div class="card bg-light" style = "padding: 20px;">
+        <strong>
+            Recuerde que para esta parte del experimento cada Solex equivale a {{ exchange_solex }} Soles. 
+        </strong>
+    </div>
+
+    <br>
+
+    {% next_button %}
+
+{% endblock %}
