@@ -25,7 +25,7 @@ class Constants(BaseConstants):
 
     name_in_url = 'auction'
     players_per_group = None
-    num_rounds = 6
+    num_rounds = 6 + 2 # 2 rondas de practica
 
     time_per_round = 2 # time in minutes
 
@@ -36,9 +36,11 @@ class Constants(BaseConstants):
         "Low" : [[20,30],[0.5,0.5]]
     }
 
-    pay_round = random.randint(1,num_rounds) # chossing pay round
+    pay_round = random.randint(3,num_rounds) # chossing pay round
     
     treatments = dict(
+        PR = {},
+        PR1 = {},
         AB = {"fixed": 20, "bonus": 0.01, "exceed": 1000},
         TB1 = {"fixed" : 20, "bonus": 80, "threshold": 0.30},
         TB2 = {"fixed" : 20, "bonus": 80, "threshold": 0.70},
@@ -190,7 +192,7 @@ class Group(BaseGroup):
 
                 player.fixed_payment = treatment["fixed"]
 
-            else: 
+            elif self.treatment == "TP2":  
                 
                 treatment = treatments["TP2"] # 0.70
 
@@ -205,6 +207,12 @@ class Group(BaseGroup):
                     player.bonus_penalty = 0
                 
                 player.fixed_payment = treatment["fixed"]
+
+            else:
+
+                player.payoff = 0
+                player.bonus_penalty = 0
+                player.fixed_payment = 0
 
             if player.round_number == Constants.pay_round:
                 player.participant.vars["payoff_auction"] = player.payoff
@@ -474,7 +482,7 @@ class Player(BasePlayer):
                 self.group.high_risk_orders = aux
             # print(self.group.high_risk_orders)
         if self.group.low_risk_orders != "": 
-            
+
             aux  = ("-".join(list(map(lambda order: str(order),low_risk_orders))) + "-")[0:]
             if aux == "-":
                 self.group.low_risk_orders = ""

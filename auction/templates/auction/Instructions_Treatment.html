@@ -2,7 +2,11 @@
 {% load otree static %}
 
 {% block title %}
-    Instrucciones: Ronda {{ round_number }}
+    {% if round_number > 2 %}
+        Instrucciones: Ronda {{ round_number }}
+    {% else %}
+        Instrucciones: Ronda de Práctica {{ round_number }}
+    {% endif %}
 {% endblock %}
 
 {% block styles %}
@@ -15,7 +19,12 @@
 
 {% block content %}
 
-    <p>Lo que esta dentró de este recuadro <strong>cambiará cada ronda,</strong> por favor siempre leerlo.</p>
+    {% if round_number > 2 %}
+        {% if round_number == 3 %}
+            <p>A partir de esta ronda empiezan las rondas oficiales</p>
+        {% endif %}
+        <p>Lo que esta dentró de este recuadro <strong>cambiará cada ronda,</strong> por favor siempre leerlo.</p>
+    {% endif %}
     <div class="card text-white bg-success mb-3">
         <div class="card-header" style = "padding-top: 15px;">
             <h3>Pagos</h3>
@@ -25,43 +34,37 @@
             <p class="card-text">
             {% if treatment == "AB" %}
                 <strong>
-                    Cada trader recibirá un pago fijo de 20 Soles más un bonus de 0.01 Soles por cada Punto de su beneficio final
-                    que exceda los 1000 Puntos.  
-                </strong>
-            {% endif %}
-
-            {% if treatment == "AP" %}
+                    Cada trader recibirá un pago fijo de {{ treatments.AB.fixed }} Soles más un bonus de {{ treatments.AB.bonus }}
+                     Soles por cada Punto de su beneficio final que exceda los {{ treatments.AB.exceed }} Puntos.  
+                </strong>      
+            {% elif treatment == "AP" %}
                 <strong>
-                    Cada trader recibirá un pago fijo de 100 Soles menos una deducción de 0.01 Soles por cada Punto de su beneficio final
-                    que este por debajo de los 5000 Puntos. 
+                    Cada trader recibirá un pago fijo de {{ treatments.AP.fixed }} Soles menos una deducción de {{ treatments.AP.penalty }} 
+                    Soles por cada Punto de su beneficio final que este por debajo de los {{ treatments.AP.below }} Puntos. 
                 </strong>
-            {% endif %}
-
-            {% if treatment == "TB1" %}
+            {% elif treatment == "TB1" %}
                 <strong>
-                    Cada trader recibirá un pago fijo de 20 Soles más un bonus de 80 Soles si su beneficio final se encuentra dentro del top 7  
-                    de mejores beneficios de la ronda.
+                    Cada trader recibirá un pago fijo de {{ treatments.TB1.fixed }} Soles más un bonus de {{ treatments.TB1.bonus }} Soles 
+                    si su beneficio final se encuentra dentro del top 7 de mejores beneficios de la ronda.
                 </strong>
-            {% endif %}
-
-            {% if treatment == "TB2" %}
+            {% elif treatment == "TB2" %}
                 <strong>
-                    Cada trader recibirá un pago fijo de 20 Soles más un bonus de 80 Soles si su beneficio final se encuentra dentro del top 3  
-                    de mejores beneficios de la ronda.
+                    Cada trader recibirá un pago fijo de {{ treatments.TB2.fixed }} Soles más un bonus de {{ treatments.TB2.bonus }} Soles 
+                    si su beneficio final se encuentra dentro del top 3 de mejores beneficios de la ronda.
                 </strong>
-            {% endif %}
-
-            {% if treatment == "TP1" %}
+            {% elif treatment == "TP1" %}
                 <strong>
-                    Cada trader recibirá un pago fijo de 100 Soles menos una dedución de 80 Soles si su beneficio final se encuentra fuera del top 7  
-                    de mejores beneficios de la ronda.
+                    Cada trader recibirá un pago fijo de {{ treatments.TP1.fixed }} Soles menos una dedución de {{ treatments.TP1.penalty }} Soles 
+                    si su beneficio final se encuentra fuera del top 7 de mejores beneficios de la ronda.
                 </strong>
-            {% endif %}
-
-            {% if treatment == "TP2" %}
+            {% elif treatment == "TP2" %}
                 <strong>
-                    Cada trader recibirá un pago fijo de 100 Soles menos una dedución de 80 Soles si su beneficio final se encuentra fuera del 
-                    top 3 de mejores beneficios de la ronda.
+                    Cada trader recibirá un pago fijo de {{ treatments.TP2.fixed }} Soles menos una dedución de {{ treatments.TP2.penalty }} Soles 
+                    si su beneficio final se encuentra fuera del top 3 de mejores beneficios de la ronda.
+                </strong>
+            {% else %}
+                <strong>
+                    Esta es una ronda de práctica por lo que no hay pagos. 
                 </strong>
             {% endif %}
             </p>
@@ -77,12 +80,17 @@
             </li>
             <br>
             <li>
+                <strong>No puedes borrar las ofertas que ya colocaste en el mercado</strong>. Por lo que se le sugiere que antes de colocar una oferta, este al tanto del estado actual de su portafolio, precios
+                de mercado asi como el precio y la cantidad de las ofertas de los demás traders.
+            </li>
+            <br>
+            <li>
                 <strong>Coloque sus ofertas con moderación</strong>, es decir, no presione repetidas veces el botón de enviar oferta porque esta, lógicamente, aparecerá en las pantallas de los demás
                 traders por lo que puede saturar tanto el mercado como confundir a los demás.
             </li>
             <br>
             <li>
-                <strong>Esté atento al temporizador</strong> que aparecerá en la pantalla ya que cuando resten aproximadamente 10 segundos, la computadora ya no recibirá más ofertas, por lo que le pedimos
+                <strong>Esté atento al temporizador</strong> que aparecerá en la pantalla ya que cuando resten aproximadamente 10 segundos, la computadora ya no recibirá más ofertas, por lo que se le pide
                 tener este punto en cuenta.
             </li>
             <br>

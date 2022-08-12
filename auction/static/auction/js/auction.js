@@ -277,6 +277,8 @@ function LowBuy() {
 
     let quantity = parseInt(document.getElementById("LowBuyMarket").value);
 
+    let high_risk_orders_sorted = high_risk_orders.sort((order1,order2) => order1.price - order2.price)
+
     if (quantity > 0) {
 
         let offer = {
@@ -335,8 +337,8 @@ function liveRecv(data) {
     low_price = low_price == 0 ? "" : low_price
 
 
-    document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>High Risk</td><td>' +  quantity.high_risk + '</td><td>'+ holdings.high_risk +'</td></tr>';
-    document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Low Risk</td><td>' + quantity.low_risk + '</td><td>'+ holdings.low_risk +'</td></tr>';
+    document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>Alto Riesgo</td><td>' +  quantity.high_risk + '</td><td>'+ holdings.high_risk +'</td></tr>';
+    document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Bajo Riesgo</td><td>' + quantity.low_risk + '</td><td>'+ holdings.low_risk +'</td></tr>';
 
     document.getElementById("TotalHoldings").innerHTML = 'Capital Total =  '  + '<strong>' + holdings.total + ' Puntos</strong>';
 
