@@ -21,7 +21,7 @@ function HighOfferToBuy() {
         }
 
         let amount = price * quantity;
-        console.log(holdings)
+        
         if (amount > holdings){
             alert(`
                 \t NO PROCEDE LA OFERTA DE COMPRA \t \n
@@ -307,10 +307,13 @@ function LowBuy() {
     }
 }
 
+var high_risk_orders;
+var low_risk_orders;
+
 function liveRecv(data) {
     
-    let high_risk_orders = data["high_risk_orders"];
-    let low_risk_orders = data["low_risk_orders"];
+    high_risk_orders = data["high_risk_orders"];
+    low_risk_orders = data["low_risk_orders"];
 
     let players = data["players"];
     let my_player;
