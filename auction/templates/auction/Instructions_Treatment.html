@@ -16,52 +16,56 @@
 {% block content %}
 
     <p>Lo que esta dentró de este recuadro <strong>cambiará cada ronda,</strong> por favor siempre leerlo.</p>
-    <div class = "card bg-light" style="padding:10px;margin-bottom: 8px;">
-        <h4>Pagos</h4>
+    <div class="card text-white bg-success mb-3">
+        <div class="card-header" style = "padding-top: 15px;">
+            <h3>Pagos</h3>
+        </div>
+        <div class="card-body">
+            <p class="card-title">Los pagos de esta ronda serán de la siguiente manera:</p>
+            <p class="card-text">
+            {% if treatment == "AB" %}
+                <strong>
+                    Cada trader recibirá un pago fijo de 20 Soles más un bonus de 0.01 Soles por cada Punto de su beneficio final
+                    que exceda los 1000 Puntos.  
+                </strong>
+            {% endif %}
 
-        <p>Los pagos de esta ronda serán de la siguiente manera:</p>
+            {% if treatment == "AP" %}
+                <strong>
+                    Cada trader recibirá un pago fijo de 100 Soles menos una deducción de 0.01 Soles por cada Punto de su beneficio final
+                    que este por debajo de los 5000 Puntos. 
+                </strong>
+            {% endif %}
 
-        {% if treatment == "AB" %}
-        <strong>
-            Cada trader recibirá un pago fijo de 20 Soles más un bonus de 0.01 Soles por cada Punto de su beneficio final
-            que exceda los 1000 Puntos.  
-        </strong>
-        {% endif %}
+            {% if treatment == "TB1" %}
+                <strong>
+                    Cada trader recibirá un pago fijo de 20 Soles más un bonus de 80 Soles si su beneficio final se encuentra dentro del top 7  
+                    de mejores beneficios de la ronda.
+                </strong>
+            {% endif %}
 
-        {% if treatment == "AP" %}
-        <strong>
-            Cada trader recibirá un pago fijo de 100 Soles menos una deducción de 0.01 Soles por cada Punto de su beneficio final
-            que este por debajo de los 5000 Puntos. 
-        </strong>
-        {% endif %}
+            {% if treatment == "TB2" %}
+                <strong>
+                    Cada trader recibirá un pago fijo de 20 Soles más un bonus de 80 Soles si su beneficio final se encuentra dentro del top 3  
+                    de mejores beneficios de la ronda.
+                </strong>
+            {% endif %}
 
-        {% if treatment == "TB1" %}
-        <strong>
-            Cada trader recibirá un pago fijo de 20 Soles más un bonus de 80 Soles si su beneficio final se encuentra dentro del top 7  
-            de mejores beneficios de la ronda.
-        </strong>
-        {% endif %}
+            {% if treatment == "TP1" %}
+                <strong>
+                    Cada trader recibirá un pago fijo de 100 Soles menos una dedución de 80 Soles si su beneficio final se encuentra fuera del top 7  
+                    de mejores beneficios de la ronda.
+                </strong>
+            {% endif %}
 
-        {% if treatment == "TB2" %}
-        <strong>
-            Cada trader recibirá un pago fijo de 20 Soles más un bonus de 80 Soles si su beneficio final se encuentra dentro del top 3  
-            de mejores beneficios de la ronda.
-        </strong>
-        {% endif %}
-
-        {% if treatment == "TP1" %}
-        <strong>
-            Cada trader recibirá un pago fijo de 100 Soles menos una dedución de 80 Soles si su beneficio final se encuentra fuera del top 7  
-            de mejores beneficios de la ronda.
-        </strong>
-        {% endif %}
-
-        {% if treatment == "TP2" %}
-        <strong>
-            Cada trader recibirá un pago fijo de 100 Soles menos una dedución de 80 Soles si su beneficio final se encuentra fuera del 
-            top 3 de mejores beneficios de la ronda.
-        </strong>
-        {% endif %}
+            {% if treatment == "TP2" %}
+                <strong>
+                    Cada trader recibirá un pago fijo de 100 Soles menos una dedución de 80 Soles si su beneficio final se encuentra fuera del 
+                    top 3 de mejores beneficios de la ronda.
+                </strong>
+            {% endif %}
+            </p>
+        </div>
     </div>
 
     <div>
