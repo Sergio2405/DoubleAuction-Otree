@@ -199,10 +199,11 @@ function HighBuy() {
 
     let holdings = parseFloat(document.getElementById("HighHoldings").value);
 
-    let price = parseFloat(document.getElementById("HighPrice").value);
-    price = Math.round(price * 100) / 100;
-
     let quantity = parseInt(document.getElementById("HighBuyMarket").value)
+
+    let high_risk_orders_sorted = high_risk_orders.sort((order1,order2) => order1.price - order2.price);
+    let price = high_risk_orders_sorted.reverse()[0].Price;
+    price = Math.round(price * 100) / 100;
 
     if (quantity > 0) {
 
@@ -272,12 +273,11 @@ function LowBuy() {
 
     let holdings = parseInt(document.getElementById("LowHoldings").value);
 
-    let price = parseFloat(document.getElementById("LowPrice").value);
-    price = Math.round(price * 100) / 100;
-
     let quantity = parseInt(document.getElementById("LowBuyMarket").value);
 
-    let high_risk_orders_sorted = high_risk_orders.sort((order1,order2) => order1.price - order2.price)
+    let low_risk_orders_sorted = low_risk_orders.sort((order1,order2) => order1.price - order2.price);
+    let price = low_risk_orders_sorted.reverse()[0].Price;
+    price = Math.round(price * 100) / 100;
 
     if (quantity > 0) {
 
@@ -294,7 +294,7 @@ function LowBuy() {
             alert(`
                 \t NO PROCEDE LA OFERTA DE COMPRA \t \n
                 Nota: \t
-                • El precio promedio del activo es: ${price} y ofreces comprar una cantidad: ${quantity} 
+                • El precio más bajo  del activo es: ${price} y ofreces comprar una cantidad: ${quantity} 
                 • lo cual supera tu actual presupuesto de: ${holdings} 
             `)
         }else{
