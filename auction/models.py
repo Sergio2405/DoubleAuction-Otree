@@ -103,8 +103,6 @@ class Group(BaseGroup):
         players = self.get_players()
         players_ranking = sorted(players, key = lambda player: player.earnings, reverse = True)
 
-        print("Ranking generated!")
-
         return players_ranking
     
     def set_payoffs(self):
@@ -112,8 +110,6 @@ class Group(BaseGroup):
         players = self.get_players()
         players_ranking = self.generate_ranking()
         treatments = Constants.treatments
-
-        print("Ranking: ",players_ranking)
 
         for player in players: 
 

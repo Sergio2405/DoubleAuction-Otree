@@ -327,7 +327,9 @@ function liveRecv(data) {
     let prices = my_player["prices"];
     
     let high_price = Math.round(prices["high"] * 100) / 100;
+    high_price = high_price == 0 ? "" : high_price
     let low_price = Math.round(prices["low"] * 100) / 100;
+    low_price = low_price == 0 ? "" : low_price
 
 
     document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>High Risk</td><td>' +  quantity.high_risk + '</td><td>'+ holdings.high_risk +'</td></tr>';
@@ -335,6 +337,7 @@ function liveRecv(data) {
 
     document.getElementById("TotalHoldings").innerHTML = 'Capital Total =  '  + '<strong>' + holdings.total + ' Puntos</strong>';
 
+    
     document.getElementById("AssetPrices").innerHTML = `<td>${high_price}</td><td>${low_price}</td>`;
     document.getElementById("HighPrice").value = high_price
     document.getElementById("LowPrice").value = low_price

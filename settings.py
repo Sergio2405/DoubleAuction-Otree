@@ -1,7 +1,7 @@
 from os import environ
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, participation_fee=5.00, solex_soles = 0.003, points_soles = 0.07, doc=""
+    real_world_currency_per_point=1.00, participation_fee=5.00, solex_soles = 0.003, doc=""
 )
 
 PARTICIPANT_FIELDS = ['payoff_auction','payoff_measure_task']
@@ -14,8 +14,20 @@ SESSION_CONFIGS = [
        app_sequence = ['initial_page', 'auction', 'measure_task', 'payments'],
        app_names = {'auction':'Primera','measure_task':'Segunda'},
        participant_fee = SESSION_CONFIG_DEFAULTS["participation_fee"],
-       exchange_rates = {"Solex": SESSION_CONFIG_DEFAULTS["solex_soles"], "Points": SESSION_CONFIG_DEFAULTS['points_soles']}
+       exchange_rates = {"Solex": SESSION_CONFIG_DEFAULTS["solex_soles"]}
     ),
+    dict(
+        name = 'Auction',
+       display_name = "Auction",
+       num_demo_participants = 2,
+       app_sequence = ['auction'],
+    ),
+    dict(
+        name = 'Tanaka',
+       display_name = "Tanaka",
+       num_demo_participants = 1,
+       app_sequence = ['measure_task'],
+    )
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs

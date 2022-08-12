@@ -6,6 +6,11 @@ class Instructions(Page):
     
     def is_displayed(self):
         return self.player.round_number == 1
+    
+class InterfaceInstructions(Page):
+
+    def is_displayed(self):
+        return self.player.round_number == 1
 
 class InstructionsWaitPage(WaitPage):
     
@@ -25,7 +30,7 @@ class AuctionWaitPage(WaitPage):
 
 class Auction(Page):
 
-    timeout_seconds = 60
+    timeout_seconds = 60*Constants.time_per_round
     timer_text = 'El mercado cierra en :'
 
     live_method = 'live_auction'
@@ -87,6 +92,7 @@ class Ranking(Page):
 
 page_sequence = [
     Instructions, 
+    InterfaceInstructions,
     InstructionsWaitPage, 
     Instructions_Treatment, 
     AuctionWaitPage, 

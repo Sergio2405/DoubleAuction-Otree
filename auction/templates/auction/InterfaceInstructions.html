@@ -1,0 +1,90 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Interfaz del Mercado
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+
+    <p>Para que usted interactue en el mercado se le presentará la siguiente interfaz.</p>
+
+    <img height="600" width="1000" src="{% static 'auction/img/Market.png'%}"/>
+
+    <p>A continuación se le explicará cada parte de la interfaz.</p>
+
+    <h4>1. Temporizador</h4>
+    <p>El cuadro de color amarillo que dice "El mercado cierra en: 1:15" se encargará de medir el tiempo.</p>
+
+    <h4>2. Mercados</h4>
+    <p>Se tienen 2 mercados, uno para el activo de Alto Riesgo y el otro para el activo de Bajo Riesgo. En cada uno de estos mercados usted puede
+        realizar acciones de compra y venta. En la Imagen se puede ver ambos mercados.
+    </p>
+
+    <h4>3. Precios de Mercado</h4>
+    <p>Se mostrará el precio promedio de cada activo conforme los traders realicen las transacciones</p>
+
+    <h4>4. Portafolio</h4>
+    <p>Entre los dos mercados se tiene un espacio que muestra el estado de tu portafolio. Ahí podrás ver la cantidad de unidades que tienes por activo
+        asi como el capital que puedes invertir para cada activo. <strong>No confundir Capital con el Beneficio al final de la ronda.</strong>
+    </p>
+    <ul>
+        <li>
+            <strong>Capital</strong> es el presupuesto que se te dará en cada ronda para que lo inviertas en la compra/venta de tus activos.
+        </li>
+        <li>
+            <strong>Beneficio</strong> es el monto que obtienes cuando se recompra la cantidad de cada activo al final de la ronda. Por ejemplo, si al final 
+            de la ronda te quedaste con 15u de Alto Riesgo y 17u de Bajo Riesgo, y los precios de recompra elegidos de manera aleatoria son 65 y 20 respectivamente
+            entonces tu <strong>Beneficio = 15 x 65 + 17 x 20 = 1315 Puntos</strong>
+        </li>
+    </ul>
+
+    <h4>5. Transacciones</h4>
+    <p>Para entender las transacciones se colocará de ejemplo el mercado del activo de Alto Riesgo (para el mercado de Bajo Riesgo funciona igual)</p>
+    <div style = "display: flex; flex-direction:row">
+        <img height="500" width="450" src="{% static 'auction/img/HighRisk.png'%}"/>
+        <div style = "font-size: 15px;">
+            <ul>
+                <li>
+                    <strong>Parte Izquierda</strong>
+                    <ol>
+                        <li><strong>La Oferta de Compra</strong> es para colocar lo que tu estás dispuesto a pagar por el activo asi como
+                            la cantidad que te gustaria comprar.
+                        </li>
+                        <li>
+                            En el espacio vacío se mostrarán las <strong>Ofertas de Compra</strong> de todos los traders. Las tuyas aparecerán 
+                            sombreadas de color azul, mientras que las ofertas de los demás aparecerán sombreadas de color gris.
+                        </li>
+                        <li>
+                            Dadas las <strong>Ofertas de Compra</strong> que aparecerán de todos los traders puedes colocar una cantidad que desees vender del activo
+                            . La computadora elegirá de las ofertas de compra que no son tuyas, la que ofrece un mayor Precio.
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    <strong>Parte Derecha</strong>
+                    <ol>
+                        <li><strong>La Oferta de Venta</strong> es lo opuesto a la oferta de compra, consiste en colocar lo que tu estas dispuesto a 
+                            recibir por una cierta cantidad.
+                        </li>
+                        <li>
+                            En el espacio vacío se mostrarán las <strong>Ofertas de Venta</strong> de todos los traders. Las tuyas aparecerán 
+                            sombreadas de color azul, mientras que las ofertas de los demás aparecerán sombreadas de color gris.
+                        </li>
+                        <li>
+                            Dadas las <strong>Ofertas de Venta</strong> que aparecerán de todos los traders puedes colocar una cantidad que desees comprar del activo
+                            . La computadora elegirá de las ofertas de venta que no son tuyas, la que ofrece un menor Precio.
+                        </li>
+                    </ol>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <br>
+    {% next_button %}
+
+{% endblock %}
