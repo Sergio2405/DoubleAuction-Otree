@@ -21,7 +21,7 @@ function HighOfferToBuy() {
         }
 
         let amount = price * quantity;
-        console.log(holdings)
+        
         if (amount > holdings){
             alert(`
                 \t NO PROCEDE LA OFERTA DE COMPRA \t \n
@@ -199,10 +199,11 @@ function HighBuy() {
 
     let holdings = parseFloat(document.getElementById("HighHoldings").value);
 
-    let price = parseFloat(document.getElementById("HighPrice").value);
-    price = Math.round(price * 100) / 100;
-
     let quantity = parseInt(document.getElementById("HighBuyMarket").value)
+
+    let high_risk_orders_sorted = high_risk_orders.sort((order1,order2) => order1.price - order2.price);
+    let price = high_risk_orders_sorted.reverse()[0].Price;
+    price = Math.round(price * 100) / 100;
 
     if (quantity > 0) {
 
@@ -272,10 +273,11 @@ function LowBuy() {
 
     let holdings = parseInt(document.getElementById("LowHoldings").value);
 
-    let price = parseFloat(document.getElementById("LowPrice").value);
-    price = Math.round(price * 100) / 100;
-
     let quantity = parseInt(document.getElementById("LowBuyMarket").value);
+
+    let low_risk_orders_sorted = low_risk_orders.sort((order1,order2) => order1.price - order2.price);
+    let price = low_risk_orders_sorted.reverse()[0].Price;
+    price = Math.round(price * 100) / 100;
 
     if (quantity > 0) {
 
@@ -292,7 +294,7 @@ function LowBuy() {
             alert(`
                 \t NO PROCEDE LA OFERTA DE COMPRA \t \n
                 Nota: \t
-                • El precio promedio del activo es: ${price} y ofreces comprar una cantidad: ${quantity} 
+                • El precio más bajo  del activo es: ${price} y ofreces comprar una cantidad: ${quantity} 
                 • lo cual supera tu actual presupuesto de: ${holdings} 
             `)
         }else{
@@ -307,10 +309,13 @@ function LowBuy() {
     }
 }
 
+var high_risk_orders;
+var low_risk_orders;
+
 function liveRecv(data) {
     
-    let high_risk_orders = data["high_risk_orders"];
-    let low_risk_orders = data["low_risk_orders"];
+    high_risk_orders = data["high_risk_orders"];
+    low_risk_orders = data["low_risk_orders"];
 
     let players = data["players"];
     let my_player;
@@ -327,14 +332,17 @@ function liveRecv(data) {
     let prices = my_player["prices"];
     
     let high_price = Math.round(prices["high"] * 100) / 100;
+    high_price = high_price == 0 ? "" : high_price
     let low_price = Math.round(prices["low"] * 100) / 100;
+    low_price = low_price == 0 ? "" : low_price
 
 
-    document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>High Risk</td><td>' +  quantity.high_risk + '</td><td>'+ holdings.high_risk +'</td></tr>';
-    document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Low Risk</td><td>' + quantity.low_risk + '</td><td>'+ holdings.low_risk +'</td></tr>';
+    document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>Alto Riesgo</td><td>' +  quantity.high_risk + '</td><td>'+ holdings.high_risk +'</td></tr>';
+    document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Bajo Riesgo</td><td>' + quantity.low_risk + '</td><td>'+ holdings.low_risk +'</td></tr>';
 
     document.getElementById("TotalHoldings").innerHTML = 'Capital Total =  '  + '<strong>' + holdings.total + ' Puntos</strong>';
 
+    
     document.getElementById("AssetPrices").innerHTML = `<td>${high_price}</td><td>${low_price}</td>`;
     document.getElementById("HighPrice").value = high_price
     document.getElementById("LowPrice").value = low_price

@@ -6,6 +6,11 @@ class Instructions(Page):
     
     def is_displayed(self):
         return self.player.round_number == 1
+    
+class InterfaceInstructions(Page):
+
+    def is_displayed(self):
+        return self.player.round_number == 1
 
 class InstructionsWaitPage(WaitPage):
     
@@ -17,15 +22,19 @@ class Instructions_Treatment(Page):
     def vars_for_template(self):
         return {
             "round_number" : self.player.round_number,
-            "treatment": self.group.treatment
+            "treatment": self.group.treatment,
+            "treatments" : Constants.treatments,
+            "rondita" : self.player.round_number - 2
         }
 
 class AuctionWaitPage(WaitPage):
-    pass
+
+    title_text = "Entrando al mercado..."
+    body_text = "Espere que los demás traders entren al mercado"
 
 class Auction(Page):
 
-    timeout_seconds = 60
+    timeout_seconds = 60*Constants.time_per_round
     timer_text = 'El mercado cierra en :'
 
     live_method = 'live_auction'
@@ -64,6 +73,10 @@ class Statistics(Page):
         self.group.generate_ranking()
 
 class RankingWaitPage(WaitPage):
+
+    title_text = "Por favor Espere"
+    body_text = "Generando ranking de beneficios..."
+
     after_all_players_arrive = 'set_payoffs'
 
 class Ranking(Page): 
@@ -71,12 +84,16 @@ class Ranking(Page):
     timeout_seconds = 30
     timer_text = 'Tiempo restante para ver sus resultados :'
 
+    def is_displayed(self):
+        return self.player.round_number > 2
+
     def vars_for_template(self): 
 
         players = self.group.get_players()
         players_ranking = sorted(players, key = lambda player: player.earnings, reverse = True)
 
-        ranking = True if self.group.treatment != "AB" or self.group.treatment != "AP" else False
+        treatments_not = ["PR", "PR1", "AB", "AP"]
+        ranking = True if self.group.treatment not in treatments_not else False
 
         players_list = players_ranking if ranking else players
       
@@ -87,6 +104,7 @@ class Ranking(Page):
 
 page_sequence = [
     Instructions, 
+    InterfaceInstructions,
     InstructionsWaitPage, 
     Instructions_Treatment, 
     AuctionWaitPage, 

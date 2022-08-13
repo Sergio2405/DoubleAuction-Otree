@@ -2,35 +2,35 @@
 {% load otree static %}
 
 {% block title %}
-    Statistics
+    Estadísticas
 {% endblock %}
 
 {% block content %}
     <table class = "table">
         <thead>
-            <th>Asset</th>
-            <th>Quantity</th>
-            <th>Buyback</th>
-            <th>Earnings</th>
+            <th>Activo</th>
+            <th>Cantidad</th>
+            <th>Precio de Recompra</th>
+            <th>Beneficio</th>
         </thead>
         <tbody>
             <tr>
-                <td>High Risk</td>
+                <td>Alto Riesgo</td>
                 <td>{{ high_risk_quantity }}</td>
                 <td>{{ high_risk_buyback }}</td>
-                <td>{{ high_buyback_holdings }} Points</td>
+                <td>{{ high_buyback_holdings }} Puntos</td>
             </tr>
             <tr>
-                <td>Low Risk</td>
+                <td>Bajo Riesgo</td>
                 <td>{{ low_risk_quantity }}</td>
                 <td>{{ low_risk_buyback }}</td>
-                <td>{{ low_buyback_holdings }} Points</td>
+                <td>{{ low_buyback_holdings }} Puntos</td>
             </tr>
             <tr>
                 <td></td>
                 <td></td>
                 <td><strong>Total</strong></td>
-                <td><strong>{{ total_holdings }} Points</strong></td>
+                <td><strong>{{ total_holdings }} Puntos</strong></td>
             </tr>
         </tbody>
     </table>

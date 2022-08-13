@@ -8,8 +8,8 @@
 {% block content %}
 
     <div class = "auction-market-name">
-        <div>Market High Risk</div>
-        <div>Market Low Risk</div>
+        <div>Mercado de Alto Riesgo</div>
+        <div>Mercado de Bajo Riesgo</div>
     </div>
     <div class = "auction-market-screen">
         <div class = "auction-market-1">
@@ -17,8 +17,8 @@
                 <div class = "market-half-1-limitOffer">
                     <table style = "width:100%">
                         <thead>
-                            <th>Offer to Buy</th>
-                            <th>Quantity</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
                         </thead>
                         <tbody>
                             <tr>
@@ -31,29 +31,29 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button type = "button" id = "HighOfferToBuyButton" onclick = {HighOfferToBuy()} style = "width: 100%;background-color:rgb(253, 119, 119)">Offer to buy</button>
+                    <button type = "button" id = "HighOfferToBuyButton" onclick = {HighOfferToBuy()} style = "width: 100%;background-color:rgb(253, 119, 119)">Oferta de Compra</button>
                 </div>
                 <div class = "market-half-1-list">
                     <table style = "width:100%">
                         <thead>
-                            <th>Offers to Buy</th>
-                            <th>Quantity</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
                         </thead>
                         <tbody id = "HighBuyTable"></tbody>
                     </table>    
                 </div>  
                 <div class = "market-half-1-marketOffer">
-                    <label>Quantity</label>
+                    <label>Cantidad</label>
                     <input type = "number" id = "HighSellMarket" style = "width: 70%;"/>
-                    <button type = "button" style = "width:100%" onclick = {HighSell()}>Sell</button>
+                    <button type = "button" style = "width:100%" onclick = {HighSell()}>Vender</button>
                 </div>  
             </div>
             <div class = "market-half-2">
                 <div class = "market-half-1-limitOffer">
                     <table style = "width:100%">
                         <thead>
-                            <th>Offer to Sell</th>
-                            <th>Quantity</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
                         </thead>
                         <tbody>
                             <tr>
@@ -66,34 +66,34 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button type = "button" id = "HighOfferToSellButton" onclick = {HighOfferToSell()} style = "width: 100%;">Offer to Sell</button>
+                    <button type = "button" id = "HighOfferToSellButton" onclick = {HighOfferToSell()} style = "width: 100%;">Oferta de Venta</button>
                 </div>
                 <div class = "market-half-1-list">
                     <table style = "width:100%">
                         <thead>
-                            <th>Offers to Sell</th>
-                            <th>Quantity</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
                         </thead>
                         <tbody id = "HighSellTable"></tbody>
                     </table>
                 </div>  
                 <div class = "market-half-1-marketOffer">
-                    <label>Quantity</label>
+                    <label>Cantidad</label>
                     <input type = "number" id = "HighBuyMarket" style = "width: 70%;"/>
-                    <button type = "button" onclick = {HighBuy()}  style = "width: 100%;background-color:rgb(253, 119, 119)">Buy</button>
+                    <button type = "button" onclick = {HighBuy()}  style = "width: 100%;background-color:rgb(253, 119, 119)">Comprar</button>
                 </div>  
             </div>
         </div>
         <div class = "auction-market-monitor">
             <div class = "auction-trader-budget">
                 <div style = "text-align: center">
-                    Your Holdings
+                    Portafolio
                 </div>
                 <div style = "text-align: center" id = "TotalHoldings"></div>
                 <table style = "width:100%">
                     <thead>
-                        <th>Asset</th>
-                        <th>Quantity</th>
+                        <th>Activo</th>
+                        <th>Cantidad</th>
                         <th>Capital</th>
                     </thead>
                     <tbody>
@@ -104,12 +104,12 @@
             </div>
             <div class = "auction-market-prices">
                 <div style = "text-align: center">
-                    Market Prices
+                    Precios de Mercado
                 </div>
                 <table style = "width:100%">
                     <thead>
-                        <th>Price High Risk</th>
-                        <th>Price Low Risk</th>
+                        <th>Precio de Alto Riesgo</th>
+                        <th>Precio de Bajo Riesgo</th>
                     </thead>
                     <tbody>
                         <tr id = "AssetPrices">
@@ -124,8 +124,8 @@
                 <div class = "market-half-1-limitOffer">
                     <table style = "width:100%">
                         <thead>
-                            <th>Offer to Buy</th>
-                            <th>Quantity</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
                         </thead>
                         <tbody>
                             <tr>
@@ -138,29 +138,29 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button type = "button" id = "LowOfferToBuyButton" onclick = {LowOfferToBuy()} style = "width: 100%;background-color:rgb(253, 119, 119)">Offer to buy</button>
+                    <button type = "button" id = "LowOfferToBuyButton" onclick = {LowOfferToBuy()} style = "width: 100%;background-color:rgb(253, 119, 119)">Oferta de Compra</button>
                 </div>
                 <div class = "market-half-1-list">
                     <table style = "width:100%">
                         <thead>
-                            <th>Offers to Buy</th>
-                            <th>Quantity</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
                         </thead>
                         <tbody id = "LowBuyTable"></tbody>
                     </table>
                 </div>  
                 <div class = "market-half-1-marketOffer">
-                    <label>Quantity</label>
+                    <label>Cantidad</label>
                     <input type = "number" id = "LowSellMarket" style = "width: 70%;"/>
-                    <button type = "button" onclick = {LowSell()} style = "width:100%">Sell</button>
+                    <button type = "button" onclick = {LowSell()} style = "width:100%">Vender</button>
                 </div>  
             </div>
             <div class = "market-half-2">
                 <div class = "market-half-1-limitOffer">
                     <table style = "width:100%">
                         <thead>
-                            <th>Offer to Sell</th>
-                            <th>Quantity</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
                         </thead>
                         <tbody>
                             <tr>
@@ -173,22 +173,22 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button type = "button" id = "LowOfferToSellButton" onclick = {LowOfferToSell()} style = "width: 100%;">Offer to Sell</button>
+                    <button type = "button" id = "LowOfferToSellButton" onclick = {LowOfferToSell()} style = "width: 100%;">Oferta de Venta</button>
                 </div>
                 <div class = "market-half-1-list">
                     <table style = "width:100%">
                         <thead>
-                            <th>Offers to Sell</th>
-                            <th>Quantity</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
                         </thead>
                         <tbody id = "LowSellTable"></tbody>
                     </table>
                 </div>  
                 <div class = "market-half-1-marketOffer">
-                    <label>Quantity</label>
+                    <label>Cantidad</label>
                     <input type = "number" id = "LowBuyMarket" style = "width: 70%;"/>
                     <button type = "button" onclick = {LowBuy()}
-                    style = "width: 100%;background-color:rgb(253, 119, 119)">Buy</button>
+                    style = "width: 100%;background-color:rgb(253, 119, 119)">Comprar</button>
                 </div>  
             </div>
         </div>

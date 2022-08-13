@@ -2,7 +2,11 @@
 {% load otree static %}
 
 {% block title %}
-    Instrucciones: Ronda {{ round_number }}
+    {% if round_number > 2 %}
+        Instrucciones: Ronda {{ rondita }}
+    {% else %}
+        Instrucciones: Ronda de Práctica {{ round_number }}
+    {% endif %}
 {% endblock %}
 
 {% block styles %}
@@ -14,59 +18,66 @@
 {% endblock %}
 
 {% block content %}
-
-    <p>Lo que esta dentró de este recuadro <strong>cambiará cada ronda,</strong> por favor siempre leerlo.</p>
-    <div class = "card bg-light" style="padding:10px;margin-bottom: 8px;">
-        <h4>Pagos</h4>
-
-        <p>Los pagos de esta ronda serán de la siguiente manera:</p>
-
-        {% if treatment == "AB" %}
-        <strong>
-            Cada trader recibirá un pago fijo de 20 Soles más un bonus de 0.01 Soles por cada Punto de su beneficio final
-            que exceda los 1000 Puntos.  
-        </strong>
+    {% if round_number > 2 %}
+        {% if round_number == 3 %}
+            <p>A partir de esta ronda empiezan las rondas oficiales</p>
         {% endif %}
-
-        {% if treatment == "AP" %}
-        <strong>
-            Cada trader recibirá un pago fijo de 100 Soles menos una deducción de 0.01 Soles por cada Punto de su beneficio final
-            que este por debajo de los 5000 Puntos. 
-        </strong>
-        {% endif %}
-
-        {% if treatment == "TB1" %}
-        <strong>
-            Cada trader recibirá un pago fijo de 20 Soles más un bonus de 80 Soles si su beneficio final se encuentra dentro del top 7  
-            de mejores beneficios de la ronda.
-        </strong>
-        {% endif %}
-
-        {% if treatment == "TB2" %}
-        <strong>
-            Cada trader recibirá un pago fijo de 20 Soles más un bonus de 80 Soles si su beneficio final se encuentra dentro del top 3  
-            de mejores beneficios de la ronda.
-        </strong>
-        {% endif %}
-
-        {% if treatment == "TP1" %}
-        <strong>
-            Cada trader recibirá un pago fijo de 100 Soles menos una dedución de 80 Soles si su beneficio final se encuentra fuera del top 7  
-            de mejores beneficios de la ronda.
-        </strong>
-        {% endif %}
-
-        {% if treatment == "TP2" %}
-        <strong>
-            Cada trader recibirá un pago fijo de 100 Soles menos una dedución de 80 Soles si su beneficio final se encuentra fuera del 
-            top 3 de mejores beneficios de la ronda.
-        </strong>
-        {% endif %}
+        <p>Lo que esta dentró de este recuadro <strong>cambiará cada ronda,</strong> por favor siempre leerlo.</p>
+    {% endif %}
+    <div class="card text-white bg-success mb-3">
+        <div class="card-header" style = "padding-top: 15px;">
+            <h3>Pagos</h3>
+        </div>
+        <div class="card-body">
+            <p class="card-title">Los pagos de esta ronda serán de la siguiente manera:</p>
+            <p class="card-text">
+            {% if treatment == "AB" %}
+                <strong>
+                    Cada trader recibirá un pago fijo de {{ treatments.AB.fixed }} Soles más un bonus de {{ treatments.AB.bonus }}
+                     Soles por cada Punto de su beneficio final que exceda los {{ treatments.AB.exceed }} Puntos.  
+                </strong>      
+            {% elif treatment == "AP" %}
+                <strong>
+                    Cada trader recibirá un pago fijo de {{ treatments.AP.fixed }} Soles menos una deducción de {{ treatments.AP.penalty }} 
+                    Soles por cada Punto de su beneficio final que este por debajo de los {{ treatments.AP.below }} Puntos. 
+                </strong>
+            {% elif treatment == "TB1" %}
+                <strong>
+                    Cada trader recibirá un pago fijo de {{ treatments.TB1.fixed }} Soles más un bonus de {{ treatments.TB1.bonus }} Soles 
+                    si su beneficio final se encuentra dentro del top 7 de mejores beneficios de la ronda.
+                </strong>
+            {% elif treatment == "TB2" %}
+                <strong>
+                    Cada trader recibirá un pago fijo de {{ treatments.TB2.fixed }} Soles más un bonus de {{ treatments.TB2.bonus }} Soles 
+                    si su beneficio final se encuentra dentro del top 3 de mejores beneficios de la ronda.
+                </strong>
+            {% elif treatment == "TP1" %}
+                <strong>
+                    Cada trader recibirá un pago fijo de {{ treatments.TP1.fixed }} Soles menos una dedución de {{ treatments.TP1.penalty }} Soles 
+                    si su beneficio final se encuentra fuera del top 7 de mejores beneficios de la ronda.
+                </strong>
+            {% elif treatment == "TP2" %}
+                <strong>
+                    Cada trader recibirá un pago fijo de {{ treatments.TP2.fixed }} Soles menos una dedución de {{ treatments.TP2.penalty }} Soles 
+                    si su beneficio final se encuentra fuera del top 3 de mejores beneficios de la ronda.
+                </strong>
+            {% else %}
+                <strong>
+                    Esta es una ronda de práctica por lo que no hay pagos. 
+                </strong>
+            {% endif %}
+            </p>
+        </div>
     </div>
 
     <div>
         <p>Puntos importantes a tener en cosideración una vez que se abre el mercado.</p>
         <ul>
+            <li>
+                <strong>No puedes borrar las ofertas que ya colocaste en el mercado</strong>. Por lo que se le sugiere que antes de colocar una oferta, este al tanto del estado actual de su portafolio, precios
+                de mercado asi como el precio y la cantidad de las ofertas de los demás traders.
+            </li>
+            <br>
             <li>
                 <strong>El Precio puede tener decimales</strong>, mientras que <strong>la Cantidad solo puede tener valores enteros</strong>. En caso usted introduzca un valor decimal en la casilla 
                 donde se coloca la cantidad y coloca la oferta en el mercado, la computadora va a redondear hacia abajo la Cantidad que usted puso en la casilla.
@@ -78,7 +89,7 @@
             </li>
             <br>
             <li>
-                <strong>Esté atento al temporizador</strong> que aparecerá en la pantalla ya que cuando resten aproximadamente 10 segundos, la computadora ya no recibirá más ofertas, por lo que le pedimos
+                <strong>Esté atento al temporizador</strong> que aparecerá en la pantalla ya que cuando resten aproximadamente 10 segundos, la computadora ya no recibirá más ofertas, por lo que se le pide
                 tener este punto en cuenta.
             </li>
             <br>
