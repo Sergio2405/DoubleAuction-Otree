@@ -23,7 +23,8 @@ class Instructions_Treatment(Page):
         return {
             "round_number" : self.player.round_number,
             "treatment": self.group.treatment,
-            "treatments" : Constants.treatments
+            "treatments" : Constants.treatments,
+            "rondita" : self.player.round_number - 2
         }
 
 class AuctionWaitPage(WaitPage):
