@@ -1,0 +1,113 @@
+.auction-market-screen {
+    border: 1px solid black; 
+    margin-left : -170px;
+    margin-top : -5px;
+    width: 1300px;
+    height:540px;
+    display:flex;
+    flex-direction: row
+}
+
+.auction-market-1 {
+    width : 40%;
+    height : 100%;
+    display: flex;
+}
+
+.auction-market-2 {
+    width : 40%;
+    height : 100%;
+    display: flex;
+}
+
+.market-half-1 { 
+    width : 50%;
+    border : 1px solid black;
+}
+
+.market-half-2 { 
+    width : 50%;
+    border : 1px solid black;
+}
+
+.auction-market-monitor {
+    border : 1px solid green;
+    width : 20%;
+    height : 100%
+}
+
+.market-half-1 { 
+    display: inline;
+}
+
+.market-half-1-limitOffer { 
+    width: 100%;
+    height: 18%;
+    border: 1px solid black;
+    display:flex;
+    flex-direction: column;
+    row-gap: 7%
+}
+
+.market-half-1-list { 
+    width: 100%;
+    height: 70%;
+    border: 1px solid black;
+    overflow: auto;
+    text-align: center
+}
+
+tr { 
+    border-bottom : 1px solid black
+}   
+
+input { 
+    width: 100%;
+    background-color: rgb(207, 207, 245)
+}
+
+.auction-market-name { 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 30px;
+    font-weight : bold
+}
+
+.auction-trader-budget { 
+    border: 1px solid black;
+    width: 100%;
+    height: 30%;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    text-align: center
+}
+
+.auction-market-prices { 
+    border: 1px solid black;
+    width: 100%;
+    height: 70%;
+    padding-top: 30px;
+    text-align: center
+}
+
+button {
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    box-shadow: 0 2px #999;
+    border-radius: 2px
+}
+
+button:active {
+    box-shadow: 0 2px #666;
+    transform: translateY(2px);
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 2px #999;
+}
