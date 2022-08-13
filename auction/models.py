@@ -41,12 +41,12 @@ class Constants(BaseConstants):
     treatments = dict(
         PR = {},
         PR1 = {},
-        AB = {"fixed": 20, "bonus": 0.01, "exceed": 1000},
-        TB1 = {"fixed" : 20, "bonus": 80, "threshold": 0.30},
-        TB2 = {"fixed" : 20, "bonus": 80, "threshold": 0.70},
-        AP = {"fixed": 100, "penalty": 0.01, "exceed": 1000, "below": 5000},
-        TP1 = {"fixed" : 100, "penalty": 80, "threshold": 0.30},
-        TP2 = {"fixed" : 100, "penalty": 80, "threshold": 0.70},
+        AB = {"fixed": 2, "bonus": 0.001, "exceed": 1000},
+        TB1 = {"fixed" : 2, "bonus": 3.5, "threshold": 0.30},
+        TB2 = {"fixed" : 2, "bonus": 3.5, "threshold": 0.70},
+        AP = {"fixed": 3.5, "penalty": 0.001, "exceed": 1000, "below": 1100},
+        TP1 = {"fixed" : 3.5, "penalty": 2, "threshold": 0.30},
+        TP2 = {"fixed" : 3.5, "penalty": 2, "threshold": 0.70},
     )
 
 class Subsession(BaseSubsession):

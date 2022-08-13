@@ -1,7 +1,7 @@
 from os import environ
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, participation_fee=5.00, solex_soles = 0.003, doc=""
+    real_world_currency_per_point=1.00, participation_fee=5.00, solex_soles = 0.001, doc=""
 )
 
 PARTICIPANT_FIELDS = ['payoff_auction','payoff_measure_task']
@@ -18,15 +18,15 @@ SESSION_CONFIGS = [
     ),
     dict(
         name = 'Auction',
-       display_name = "Auction",
-       num_demo_participants = 2,
-       app_sequence = ['auction'],
+        display_name = "Auction",
+        num_demo_participants = 2,
+        app_sequence = ['auction'],
     ),
     dict(
         name = 'Tanaka',
-       display_name = "Tanaka",
-       num_demo_participants = 1,
-       app_sequence = ['measure_task'],
+        display_name = "Tanaka",
+        num_demo_participants = 1,
+        app_sequence = ['measure_task'],
     )
 ]
 
