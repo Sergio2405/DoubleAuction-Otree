@@ -47,7 +47,6 @@ class Pagos(Page):
             participant_fee = self.session.config["participant_fee"],
             pago_total_soles = pago_total_soles,
             pago_total_soles_fee = pago_total_soles + self.session.config["participant_fee"],
-            exchange_points = self.session.config['exchange_rates']['Points'],
             exchange_solex = self.session.config['exchange_rates']['Solex']
         )
 

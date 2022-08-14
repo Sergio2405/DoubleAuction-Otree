@@ -10,11 +10,11 @@
     <table class = 'table'>
         <thead>
             <th>Parte del Experimento</th>
-            <th>Pago en Moneda Experimental</th>
+            <th>Pago</th>
         </thead>
         <tbody>
             {% for app, pago in pagos_apps.items %}
-                {% if app == 'Cuarta'%}
+                {% if app == 'Segunda'%}
                     <tr>
                         <td>{{ app }}</td>
                         <td>{{ pago }} Solex</td>
@@ -22,7 +22,7 @@
                 {% else %}
                     <tr>
                         <td>{{ app }}</td>
-                        <td>{{ pago }} Puntos</td>
+                        <td>{{ pago }} Soles</td>
                     </tr>
                 {% endif %}
             {% endfor %}
@@ -32,8 +32,8 @@
 
     <div class="card bg-light" style = "padding: 20px;">
         <strong>
-            <u>Recordar:</u> Para la parte I, II y III su pago será en una moneda experimental llamada “Puntos”  donde cada Punto equivale a {{ exchange_points }} Soles. 
-            Mientras que para la Parte IV la moneda experimental es “Solex” donde cada Solex equivale a {{ exchange_solex }} Soles 
+            <u>Recordar:</u>
+           En la Parte II la moneda experimental es “Solex” donde cada Solex equivale a {{ exchange_solex }} Soles 
         </strong>
     </div>
     <br>
