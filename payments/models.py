@@ -59,7 +59,6 @@ class Player(BasePlayer):
         label = 'Indica tu sexo:',
         widget = widgets.RadioSelectHorizontal,
         choices = [[0,'Hombre'],[1,'Mujer']],
-        default = 0
     )
 
     distrito_residencia = models.IntegerField(

@@ -79,6 +79,9 @@ class RankingWaitPage(WaitPage):
 
     after_all_players_arrive = 'set_payoffs'
 
+    def is_displayed(self):
+        return self.player.round_number > 2
+
 class Ranking(Page): 
 
     timeout_seconds = 30

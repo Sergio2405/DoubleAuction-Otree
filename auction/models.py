@@ -41,10 +41,10 @@ class Constants(BaseConstants):
     treatments = dict(
         PR = {},
         PR1 = {},
-        AB = {"fixed": 2, "bonus": 0.001, "exceed": 1000},
+        AB = {"fixed": 2, "bonus": 0.0035, "exceed": 1000},
         TB1 = {"fixed" : 2, "bonus": 3.5, "threshold": 0.30},
         TB2 = {"fixed" : 2, "bonus": 3.5, "threshold": 0.70},
-        AP = {"fixed": 3.5, "penalty": 0.001, "exceed": 1000, "below": 1100},
+        AP = {"fixed": 3.5, "penalty": 0.002, "exceed": 1000, "below": 5000},
         TP1 = {"fixed" : 3.5, "penalty": 2, "threshold": 0.30},
         TP2 = {"fixed" : 3.5, "penalty": 2, "threshold": 0.70},
     )
@@ -70,27 +70,41 @@ class Group(BaseGroup):
     # buyback prices 
     high_risk_buyback = models.IntegerField(default = 0)
     low_risk_buyback = models.IntegerField(default = 0)
-    
-    # vars usadas como almacenadores de ordenes temporales (vars auxiliares)
-    high_risk_orders = models.LongStringField(default = "")
-    low_risk_orders = models.LongStringField(default = "")
 
     # cantidad de ordenes segun tipo
     limit_orders = models.IntegerField(default = 0) # num de limit orders
     market_orders = models.IntegerField(default = 0) # num de market orders
 
-    # guardando las ordenes segun tipo
-    high_risk_limit_orders = models.LongStringField(default = "")
-    high_risk_market_orders = models.LongStringField(default = "")
-
-    low_risk_limit_orders = models.LongStringField(default = "")
-    low_risk_market_orders = models.LongStringField(default = "")
-
+    # variables para obtenre precio de mercado (precio por ronda)
     high_risk_orders_count = models.IntegerField(default = 0)
     low_risk_orders_count = models.IntegerField(default = 0)
     
     high_risk_acum_price = models.FloatField(default = 0)
     low_risk_acum_price = models.FloatField(default = 0)
+
+    # volumen por mercado
+    high_risk_volume = models.FloatField(default = 0)
+    low_risk_volume = models.FloatField(default = 0)
+
+    demand_high_risk_price = models.FloatField(default = 0)
+    demand_high_risk_quantity = models.FloatField(default = 0)
+    demand_high_risk_offers = models.IntegerField(default = 0)
+
+    supply_high_risk_price = models.FloatField(default = 0)
+    supply_high_risk_quantity = models.FloatField(default = 0)
+    supply_high_risk_offers = models.IntegerField(default = 0)
+
+    demand_low_risk_price = models.FloatField(default = 0)
+    demand_low_risk_quantity = models.FloatField(default = 0)
+    demand_low_risk_offers = models.IntegerField(default = 0)
+
+    supply_low_risk_price = models.FloatField(default = 0)
+    supply_low_risk_quantity = models.FloatField(default = 0)
+    supply_low_risk_offers = models.IntegerField(default = 0)
+
+    #### vars usadas como almacenadores de ordenes temporales (vars auxiliares) #####
+    high_risk_orders = models.LongStringField(default = "")
+    low_risk_orders = models.LongStringField(default = "")
 
     def generate_ranking(self): 
 
@@ -100,7 +114,7 @@ class Group(BaseGroup):
             high_risk_quantity = 0 if player.high_risk_quantity < 0 else player.high_risk_quantity
             low_risk_quantity = 0 if player.low_risk_quantity < 0 else player.low_risk_quantity
 
-            player.earnings = high_risk_quantity * self.high_risk_buyback + low_risk_quantity * self.low_risk_buyback
+            player.earnings = high_risk_quantity * self.high_risk_buyback + low_risk_quantity * self.low_risk_buyback + player.total_holdings
 
         players = self.get_players()
         players_ranking = sorted(players, key = lambda player: player.earnings, reverse = True)
@@ -166,7 +180,7 @@ class Group(BaseGroup):
                 
                 treatment = treatments["AP"]
                 if player.earnings < treatment["below"]:
-                    penalty_payment = treatment["penalty"] * (player.earnings - treatment["exceed"]) 
+                    penalty_payment = treatment["penalty"] * abs(player.earnings - treatment["exceed"]) 
                     player.bonus_penalty = penalty_payment
                 else:
                     penalty_payment = 0
@@ -245,7 +259,7 @@ class Group(BaseGroup):
 
         return players_parsed
 
-    def get_order_issuer(self,order): 
+    def get_order_issuer(self, order): 
 
         players = self.get_players()
         issuer_id = order["player_id"] 
@@ -330,7 +344,6 @@ class Player(BasePlayer):
             if data["Asset"] == "High": 
 
                 self.group.high_risk_orders += str(data) + "-"
-                self.group.high_risk_limit_orders += str(data) + "-"
 
                 if data["Action"] == "Buy":
 
@@ -338,16 +351,23 @@ class Player(BasePlayer):
                     self.demand_high_risk_quantity += data["Quantity"]
                     self.demand_high_risk_offers += 1
 
+                    self.group.demand_high_risk_price += data["Price"]
+                    self.group.demand_high_risk_quantity += data["Quantity"]
+                    self.group.demand_high_risk_offers += 1
+
                 else:
 
                     self.supply_high_risk_price += data["Price"]
                     self.supply_high_risk_quantity += data["Quantity"]
                     self.supply_high_risk_offers += 1
 
+                    self.group.supply_high_risk_price += data["Price"]
+                    self.group.supply_high_risk_quantity += data["Quantity"]
+                    self.group.supply_high_risk_offers += 1
+
             else: 
 
                 self.group.low_risk_orders += str(data) + "-"
-                self.group.low_risk_limit_orders += str(data) + "-"
 
                 if data["Action"] == "Buy":
 
@@ -355,11 +375,15 @@ class Player(BasePlayer):
                     self.demand_low_risk_quantity += data["Quantity"]
                     self.demand_low_risk_offers += 1
 
+                    self.group.demand_low_risk_price += data["Price"]
+                    self.group.demand_low_risk_quantity += data["Quantity"]
+                    self.group.demand_low_risk_offers += 1
+
                 else:
 
-                    self.supply_low_risk_price += data["Price"]
-                    self.supply_low_risk_quantity += data["Quantity"]
-                    self.supply_low_risk_offers += 1
+                    self.group.supply_low_risk_price += data["Price"]
+                    self.group.supply_low_risk_quantity += data["Quantity"]
+                    self.group.supply_low_risk_offers += 1
     
         # cualquier operacion que se quiera realizar con las ordenes se hace a partir del mapeo
         high_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.high_risk_orders.split("-")[:-1]))
@@ -377,8 +401,6 @@ class Player(BasePlayer):
                 
                 if data["Asset"] == "High": 
 
-                    self.group.high_risk_market_orders += str(data) + "-"
-
                     high_risk_orders_rest = list(filter(lambda order: order["player_id"] != self.id_in_group ,high_risk_orders))
 
                     if data["Action"] == "Buy" and high_risk_orders_rest:
@@ -391,6 +413,8 @@ class Player(BasePlayer):
 
                         self.high_risk_quantity += quantity_to_buy 
                         self.high_risk_holdings -= quantity_to_buy * high_risk_best_sell_offer["Price"]
+
+                        self.group.high_risk_volume += quantity_to_buy 
 
                         self.group.high_risk_orders_count += 1
                         self.group.high_risk_acum_price += high_risk_best_sell_offer["Price"]
@@ -413,6 +437,8 @@ class Player(BasePlayer):
                             self.high_risk_quantity -= quantity_to_sell 
                             self.high_risk_holdings += quantity_to_sell * high_risk_best_buy_offer["Price"]
 
+                            self.group.high_risk_volume += quantity_to_sell
+
                             self.group.high_risk_orders_count += 1
                             self.group.high_risk_acum_price += high_risk_best_buy_offer["Price"]
 
@@ -424,8 +450,6 @@ class Player(BasePlayer):
             if low_risk_orders:
 
                 if data["Asset"] == "Low": 
-
-                    self.group.low_risk_market_orders += str(data) + "-"
 
                     low_risk_orders_rest = list(filter(lambda order: order["player_id"] != self.id_in_group ,low_risk_orders))
 
@@ -439,6 +463,8 @@ class Player(BasePlayer):
 
                         self.low_risk_quantity += quantity_to_buy 
                         self.low_risk_holdings -= quantity_to_buy * low_risk_best_sell_offer["Price"]
+
+                        self.group.low_risk_volume += quantity_to_buy
 
                         self.group.low_risk_orders_count += 1
                         self.group.low_risk_acum_price += low_risk_best_sell_offer["Price"]
@@ -462,6 +488,8 @@ class Player(BasePlayer):
                             self.low_risk_quantity -= quantity_to_sell 
                             self.low_risk_holdings += quantity_to_sell * low_risk_best_buy_offer["Price"]
 
+                            self.group.low_risk_volume += quantity_to_sell
+
                             self.group.low_risk_orders_count += 1
                             self.group.low_risk_acum_price += low_risk_best_buy_offer["Price"]
 
@@ -476,6 +504,7 @@ class Player(BasePlayer):
         if  self.group.high_risk_orders != "": 
 
             aux = ("-".join(list(map(lambda order: str(order),high_risk_orders))) + "-")[0:]
+
             if aux == "-":
                 self.group.high_risk_orders = ""
             else:
@@ -484,6 +513,7 @@ class Player(BasePlayer):
         if self.group.low_risk_orders != "": 
 
             aux  = ("-".join(list(map(lambda order: str(order),low_risk_orders))) + "-")[0:]
+
             if aux == "-":
                 self.group.low_risk_orders = ""
             else:

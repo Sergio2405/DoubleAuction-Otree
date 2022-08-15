@@ -36,7 +36,7 @@ function HighOfferToBuy() {
         alert(`
                 \t VALORES INGRESADOS NO VÁLIDOS \t \n
                 Nota: \t
-                • El Precio o la Cantidad es negativo o igual a 0
+                • El Precio o la Cantidad es negativo, o es igual a 0, o el Precio supera el límite admitido
             `)
     }
 }
@@ -74,7 +74,7 @@ function HighOfferToSell() {
         alert(`
                 \t VALORES INGRESADOS NO VÁLIDOS \t \n
                 Nota: \t
-                • El Precio o la Cantidad es negativo o igual a 0
+                • El Precio o la Cantidad es negativo, o es igual a 0, o el Precio supera el límite admitido
             `)
     }
 }
@@ -114,7 +114,7 @@ function LowOfferToBuy() {
         alert(`
                 \t VALORES INGRESADOS NO VÁLIDOS \t \n
                 Nota: \t
-                • El Precio o la Cantidad es negativo o igual a 0
+                • El Precio o la Cantidad es negativo, o es igual a 0, o el Precio supera el límite admitido
             `)
     }
 
@@ -153,7 +153,7 @@ function LowOfferToSell() {
         alert(`
                 \t VALORES INGRESADOS NO VÁLIDOS \t \n
                 Nota: \t
-                • El Precio o la Cantidad es negativo o igual a 0
+                • El Precio o la Cantidad es negativo, o es igual a 0, o el Precio supera el límite admitido
             `)
     }
 
@@ -190,7 +190,7 @@ function HighSell() {
         alert(`
                 \t VALORES INGRESADOS NO VÁLIDOS \t \n
                 Nota: \t
-                • El Precio debe ser mayor que 0
+                • La cantidad debe ser mayor a 0
             `)
     }
 }
@@ -230,7 +230,7 @@ function HighBuy() {
         alert(`
                 \t VALORES INGRESADOS NO VÁLIDOS \t \n
                 Nota: \t
-                • El Precio debe ser mayor que 0
+                • La cantidad debe ser mayor a 0
             `)
     }
 }
@@ -264,7 +264,7 @@ function LowSell() {
         alert(`
                 \t VALORES INGRESADOS NO VÁLIDOS \t \n
                 Nota: \t
-                • El Precio debe ser mayor que 0
+                • La cantidad debe ser mayor a 0
             `)
     }
 }
@@ -304,7 +304,7 @@ function LowBuy() {
         alert(`
                 \t VALORES INGRESADOS NO VÁLIDOS \t \n
                 Nota: \t
-                • El Precio debe ser mayor que 0
+                • La cantidad debe ser mayor a 0
             `)
     }
 }

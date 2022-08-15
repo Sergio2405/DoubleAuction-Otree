@@ -12,24 +12,20 @@
             <th>Beneficio</th>
             <th>Pago Bonus</th>
             <th>Pago Fijo</th>
-            <th>Ganancia</th>
+            <th>Pago Final</th>
         </thead>
         <tbody>
             {% for player in players %}
                 <tr>
                     {% if player.id_in_group == player_id %}
-                        <td>You</td>
+                        <td>Tú</td>
                     {% else %}
                         <td>{{ player.id_in_group }}</td>
                     {% endif %}
-                    <td>{{ player.earnings }}</td>
-                    {% if player.bonus_penalty == False %}
-                        <td>0</td>
-                    {% else %}
-                        <td>{{ player.bonus_penalty }}</td>
-                    {% endif %}
-                    <td>{{ player.fixed_payment }}</td>
-                    <td>{{ player.payoff }}</td>
+                    <td>{{ player.earnings }} Puntos</td>
+                    <td>S/. {{ player.bonus_penalty }}</td>
+                    <td>S/. {{ player.fixed_payment }}</td>
+                    <td>S/. {{ player.payoff }}</td>
                 </tr>
             {% endfor %}
         </tbody>
