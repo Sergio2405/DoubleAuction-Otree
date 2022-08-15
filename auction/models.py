@@ -289,7 +289,7 @@ class Player(BasePlayer):
     limit_orders = models.IntegerField(default = 0)
 
     bonus_penalty = models.FloatField(default = 0)
-    fixed_payment = models.IntegerField(default = 0)
+    fixed_payment = models.FloatField(default = 0)
 
     earnings = models.FloatField(default = 0)
 
