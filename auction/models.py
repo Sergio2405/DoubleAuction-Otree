@@ -44,7 +44,7 @@ class Constants(BaseConstants):
         AB = {"fixed": 2, "bonus": 0.0012, "exceed": 1000},
         TB1 = {"fixed" : 2, "bonus": 3.5, "threshold": 0.30},
         TB2 = {"fixed" : 2, "bonus": 3.5, "threshold": 0.70},
-        AP = {"fixed": 3.5, "penalty": 0.0007, "below": 5000},
+        AP = {"fixed": 3.5, "penalty": 0.0007, "below": 4000},
         TP1 = {"fixed" : 3.5, "penalty": 2, "threshold": 0.30},
         TP2 = {"fixed" : 3.5, "penalty": 2, "threshold": 0.70},
     )
