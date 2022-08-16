@@ -41,10 +41,10 @@ class Constants(BaseConstants):
     treatments = dict(
         PR = {},
         PR1 = {},
-        AB = {"fixed": 2, "bonus": 0.0035, "exceed": 1000},
+        AB = {"fixed": 2, "bonus": 0.0012, "exceed": 1000},
         TB1 = {"fixed" : 2, "bonus": 3.5, "threshold": 0.30},
         TB2 = {"fixed" : 2, "bonus": 3.5, "threshold": 0.70},
-        AP = {"fixed": 3.5, "penalty": 0.002, "exceed": 1000, "below": 5000},
+        AP = {"fixed": 3.5, "penalty": 0.0007, "below": 5000},
         TP1 = {"fixed" : 3.5, "penalty": 2, "threshold": 0.30},
         TP2 = {"fixed" : 3.5, "penalty": 2, "threshold": 0.70},
     )
@@ -180,7 +180,7 @@ class Group(BaseGroup):
                 
                 treatment = treatments["AP"]
                 if player.earnings < treatment["below"]:
-                    penalty_payment = treatment["penalty"] * abs(player.earnings - treatment["exceed"]) 
+                    penalty_payment = treatment["penalty"] * abs(player.earnings - treatment["below"]) 
                     player.bonus_penalty = penalty_payment
                 else:
                     penalty_payment = 0
