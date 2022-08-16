@@ -10,7 +10,11 @@
         <thead>
             <th>Participante</th>
             <th>Beneficio</th>
-            <th>Pago Bonus</th>
+            {% if player.round_number > 5 %}
+                <th>Penalidad</th>
+            {% else %}
+                <th>Bonus</th>
+            {% endif %}
             <th>Pago Fijo</th>
             <th>Pago Final</th>
         </thead>

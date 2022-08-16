@@ -41,12 +41,12 @@ class Constants(BaseConstants):
     treatments = dict(
         PR = {},
         PR1 = {},
-        AB = {"fixed": 2, "bonus": 0.0012, "exceed": 1000},
-        TB1 = {"fixed" : 2, "bonus": 3.5, "threshold": 0.30},
-        TB2 = {"fixed" : 2, "bonus": 3.5, "threshold": 0.70},
-        AP = {"fixed": 3.5, "penalty": 0.0007, "below": 4000},
-        TP1 = {"fixed" : 3.5, "penalty": 2, "threshold": 0.30},
-        TP2 = {"fixed" : 3.5, "penalty": 2, "threshold": 0.70},
+        AB = {"fixed": 3.75, "bonus": 0.0004, "exceed": 1000},
+        TB1 = {"fixed" : 3.75, "bonus": 3.75, "threshold": 0.30},
+        TB2 = {"fixed" : 3.75, "bonus": 3.75, "threshold": 0.70},
+        AP = {"fixed": 7.5, "penalty": 0.0015, "below": 5000},
+        TP1 = {"fixed" : 7.5, "penalty": 3.75, "threshold": 0.30},
+        TP2 = {"fixed" : 7.5, "penalty": 3.75, "threshold": 0.70},
     )
 
 class Subsession(BaseSubsession):
@@ -135,7 +135,7 @@ class Group(BaseGroup):
 
                 if player.earnings > treatment["exceed"]:
                     bonus_payment = treatment["bonus"] * (player.earnings - treatment["exceed"])
-                    player.bonus_penalty = bonus_payment
+                    player.bonus_penalty = round(bonus_payment,2)
                 else: 
                     bonus_payment = 0
                     player.bonus_penalty = round(bonus_payment,2)

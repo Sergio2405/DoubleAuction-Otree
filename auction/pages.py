@@ -46,7 +46,7 @@ class Auction(Page):
 
 class Statistics(Page):
 
-    timeout_seconds = 20
+    timeout_seconds = 30
     timer_text = 'Tiempo restante para ver sus resultados :'
 
     def vars_for_template(self):
@@ -66,7 +66,9 @@ class Statistics(Page):
             "low_risk_buyback" : low_risk_buyback,
             "high_buyback_holdings" : high_buyback_holdings,
             "low_buyback_holdings" : low_buyback_holdings,
-            "total_holdings" : high_buyback_holdings + low_buyback_holdings
+            "capital" : self.group.total_holdings,
+            "total_holdings" : high_buyback_holdings + low_buyback_holdings,
+            "total_holdings_capital" : high_buyback_holdings + low_buyback_holdings + self.group.total_holdings
         }
 
     def before_next_page(self):
