@@ -106,6 +106,10 @@ class Group(BaseGroup):
     high_risk_orders = models.LongStringField(default = "")
     low_risk_orders = models.LongStringField(default = "")
 
+    def clear_orders(self):
+        self.high_risk_orders = ""
+        self.low_risk_orders = ""
+
     def generate_ranking(self): 
 
         players = self.get_players()
@@ -558,7 +562,5 @@ class Player(BasePlayer):
                 "players" : self.group.get_players_parser(),
             },
         }
-
-        print(response)
 
         return response

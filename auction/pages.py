@@ -44,6 +44,9 @@ class Auction(Page):
             player_id = self.player.id_in_group
         )
 
+    def before_next_page(self):
+        self.group.clear_orders()
+
 class Statistics(Page):
 
     timeout_seconds = 30
