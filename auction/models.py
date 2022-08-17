@@ -541,7 +541,7 @@ class Player(BasePlayer):
                 self.group.high_risk_orders = ""
             else:
                 self.group.high_risk_orders = aux
-            # print(self.group.high_risk_orders)
+    
         if self.group.low_risk_orders != "": 
 
             aux  = ("-".join(list(map(lambda order: str(order),low_risk_orders))) + "-")[0:]
@@ -558,5 +558,7 @@ class Player(BasePlayer):
                 "players" : self.group.get_players_parser(),
             },
         }
+
+        print(response)
 
         return response
