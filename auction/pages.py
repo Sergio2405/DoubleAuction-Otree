@@ -66,9 +66,9 @@ class Statistics(Page):
             "low_risk_buyback" : low_risk_buyback,
             "high_buyback_holdings" : high_buyback_holdings,
             "low_buyback_holdings" : low_buyback_holdings,
-            "capital" : self.group.total_holdings,
+            "capital" : self.player.total_holdings,
             "total_holdings" : high_buyback_holdings + low_buyback_holdings,
-            "total_holdings_capital" : high_buyback_holdings + low_buyback_holdings + self.group.total_holdings
+            "total_holdings_capital" : high_buyback_holdings + low_buyback_holdings + self.player.total_holdings
         }
 
     def before_next_page(self):
