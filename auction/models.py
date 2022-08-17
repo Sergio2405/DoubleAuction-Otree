@@ -75,7 +75,7 @@ class Group(BaseGroup):
     limit_orders = models.IntegerField(default = 0) # num de limit orders
     market_orders = models.IntegerField(default = 0) # num de market orders
 
-    # variables para obtenre precio de mercado (precio por ronda)
+    # variables para obtener precio de mercado (precio por ronda)
     high_risk_orders_count = models.IntegerField(default = 0)
     low_risk_orders_count = models.IntegerField(default = 0)
     
