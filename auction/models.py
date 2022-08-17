@@ -414,13 +414,13 @@ class Player(BasePlayer):
                         self.high_risk_quantity += quantity_to_buy 
                         self.high_risk_holdings -= quantity_to_buy * high_risk_best_sell_offer["Price"]
 
-                        self.demand_high_risk_price += high_risk_best_sell_offer["Price"]
-                        self.demand_high_risk_quantity += quantity_to_buy
-                        self.demand_high_risk_offers += 1
+                        # self.demand_high_risk_price += high_risk_best_sell_offer["Price"]
+                        # self.demand_high_risk_quantity += quantity_to_buy
+                        # self.demand_high_risk_offers += 1
 
-                        self.group.demand_high_risk_price += high_risk_best_sell_offer["Price"]
-                        self.group.demand_high_risk_quantity += quantity_to_buy
-                        self.group.demand_high_risk_offers += 1
+                        # self.group.demand_high_risk_price += high_risk_best_sell_offer["Price"]
+                        # self.group.demand_high_risk_quantity += quantity_to_buy
+                        # self.group.demand_high_risk_offers += 1
 
                         self.group.high_risk_volume += quantity_to_buy 
 
@@ -445,13 +445,13 @@ class Player(BasePlayer):
                             self.high_risk_quantity -= quantity_to_sell 
                             self.high_risk_holdings += quantity_to_sell * high_risk_best_buy_offer["Price"]
 
-                            self.supply_high_risk_price += high_risk_best_buy_offer["Price"]
-                            self.supply_high_risk_quantity += quantity_to_sell
-                            self.supply_high_risk_offers += 1
+                            # self.supply_high_risk_price += high_risk_best_buy_offer["Price"]
+                            # self.supply_high_risk_quantity += quantity_to_sell
+                            # self.supply_high_risk_offers += 1
 
-                            self.group.supply_high_risk_price += high_risk_best_buy_offer["Price"]
-                            self.group.supply_high_risk_quantity += quantity_to_sell
-                            self.group.supply_high_risk_offers += 1
+                            # self.group.supply_high_risk_price += high_risk_best_buy_offer["Price"]
+                            # self.group.supply_high_risk_quantity += quantity_to_sell
+                            # self.group.supply_high_risk_offers += 1
 
                             self.group.high_risk_volume += quantity_to_sell
 
@@ -480,13 +480,13 @@ class Player(BasePlayer):
                         self.low_risk_quantity += quantity_to_buy 
                         self.low_risk_holdings -= quantity_to_buy * low_risk_best_sell_offer["Price"]
 
-                        self.demand_low_risk_price += low_risk_best_sell_offer["Price"]
-                        self.demand_low_risk_quantity += quantity_to_buy
-                        self.demand_low_risk_offers += 1
+                        # self.demand_low_risk_price += low_risk_best_sell_offer["Price"]
+                        # self.demand_low_risk_quantity += quantity_to_buy
+                        # self.demand_low_risk_offers += 1
 
-                        self.group.demand_low_risk_price += low_risk_best_sell_offer["Price"]
-                        self.group.demand_low_risk_quantity += quantity_to_buy
-                        self.group.demand_low_risk_offers += 1
+                        # self.group.demand_low_risk_price += low_risk_best_sell_offer["Price"]
+                        # self.group.demand_low_risk_quantity += quantity_to_buy
+                        # self.group.demand_low_risk_offers += 1
 
                         self.group.low_risk_volume += quantity_to_buy
 
@@ -512,13 +512,13 @@ class Player(BasePlayer):
                             self.low_risk_quantity -= quantity_to_sell 
                             self.low_risk_holdings += quantity_to_sell * low_risk_best_buy_offer["Price"]
 
-                            self.supply_low_risk_price += low_risk_best_buy_offer["Price"]
-                            self.supply_low_risk_quantity += quantity_to_sell
-                            self.supply_low_risk_offers += 1
+                            # self.supply_low_risk_price += low_risk_best_buy_offer["Price"]
+                            # self.supply_low_risk_quantity += quantity_to_sell
+                            # self.supply_low_risk_offers += 1
 
-                            self.group.supply_low_risk_price += low_risk_best_buy_offer["Price"]
-                            self.group.supply_low_risk_quantity += quantity_to_sell
-                            self.group.supply_low_risk_offers += 1
+                            # self.group.supply_low_risk_price += low_risk_best_buy_offer["Price"]
+                            # self.group.supply_low_risk_quantity += quantity_to_sell
+                            # self.group.supply_low_risk_offers += 1
 
                             self.group.low_risk_volume += quantity_to_sell
 
