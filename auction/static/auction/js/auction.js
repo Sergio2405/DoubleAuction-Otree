@@ -309,6 +309,10 @@ function LowBuy() {
     }
 }
 
+function Round(number) { 
+    return (Math.round(number)*100)/100
+}
+
 var high_risk_orders;
 var low_risk_orders;
 
@@ -337,10 +341,10 @@ function liveRecv(data) {
     low_price = low_price == 0 ? "" : low_price
 
 
-    document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>Alto Riesgo</td><td>' +  quantity.high_risk + '</td><td>'+ holdings.high_risk +'</td></tr>';
-    document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Bajo Riesgo</td><td>' + quantity.low_risk + '</td><td>'+ holdings.low_risk +'</td></tr>';
+    document.getElementById("HighRiskHoldings").innerHTML = '<tr><td>Alto Riesgo</td><td>' +  Round(quantity.high_risk) + '</td><td>'+ Round(holdings.high_risk) +'</td></tr>';
+    document.getElementById("LowRiskHoldings").innerHTML = '<tr><td>Bajo Riesgo</td><td>' + Round(quantity.low_risk) + '</td><td>'+ Round(holdings.low_risk) +'</td></tr>';
 
-    document.getElementById("TotalHoldings").innerHTML = 'Capital Total =  '  + '<strong>' + holdings.total + ' Puntos</strong>';
+    document.getElementById("TotalHoldings").innerHTML = 'Capital Total =  '  + '<strong>' + Round(holdings.total) + ' Puntos</strong>';
 
     
     document.getElementById("AssetPrices").innerHTML = `<td>${high_price}</td><td>${low_price}</td>`;
