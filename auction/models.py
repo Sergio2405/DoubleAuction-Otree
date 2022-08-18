@@ -340,10 +340,6 @@ class Player(BasePlayer):
         if data["Type"] == "Limit":
 
             data["order_id"] = self.group.limit_orders
-            
-            self.limit_orders += 1
-
-            self.group.limit_orders += 1
 
             if data["Asset"] == "High": 
 
@@ -359,6 +355,9 @@ class Player(BasePlayer):
                     self.group.demand_high_risk_quantity += data["Quantity"]
                     self.group.demand_high_risk_offers += 1
 
+                    self.limit_orders += 1
+                    self.group.limit_orders += 1
+
                 else:
 
                     self.supply_high_risk_price += data["Price"]
@@ -368,6 +367,9 @@ class Player(BasePlayer):
                     self.group.supply_high_risk_price += data["Price"]
                     self.group.supply_high_risk_quantity += data["Quantity"]
                     self.group.supply_high_risk_offers += 1
+
+                    self.limit_orders += 1
+                    self.group.limit_orders += 1
 
             else: 
 
@@ -383,11 +385,17 @@ class Player(BasePlayer):
                     self.group.demand_low_risk_quantity += data["Quantity"]
                     self.group.demand_low_risk_offers += 1
 
+                    self.limit_orders += 1
+                    self.group.limit_orders += 1
+
                 else:
 
                     self.group.supply_low_risk_price += data["Price"]
                     self.group.supply_low_risk_quantity += data["Quantity"]
                     self.group.supply_low_risk_offers += 1
+
+                    self.limit_orders += 1
+                    self.group.limit_orders += 1
     
         # cualquier operacion que se quiera realizar con las ordenes se hace a partir del mapeo
         high_risk_orders = list(map(lambda order: ast.literal_eval(order),self.group.high_risk_orders.split("-")[:-1]))
@@ -396,10 +404,6 @@ class Player(BasePlayer):
         if data["Type"] == "Market": 
 
             data["order_id"] = self.group.market_orders
-
-            self.market_orders += 1
-
-            self.group.market_orders += 1
 
             if high_risk_orders:
                 
@@ -431,6 +435,9 @@ class Player(BasePlayer):
                         self.group.high_risk_orders_count += 1
                         self.group.high_risk_acum_price += high_risk_best_sell_offer["Price"]
 
+                        self.market_orders += 1
+                        self.group.market_orders += 1
+
                         order_issuer = self.group.get_order_issuer(high_risk_best_sell_offer)
                         order_issuer.update_issuer_holdings(data,high_risk_best_sell_offer["Price"],quantity_to_buy)
                         #delete offer from high_risk_orders
@@ -461,6 +468,9 @@ class Player(BasePlayer):
 
                             self.group.high_risk_orders_count += 1
                             self.group.high_risk_acum_price += high_risk_best_buy_offer["Price"]
+
+                            self.market_orders += 1
+                            self.group.market_orders += 1
 
                             order_issuer = self.group.get_order_issuer(high_risk_best_buy_offer)
                             order_issuer.update_issuer_holdings(data,high_risk_best_buy_offer["Price"],quantity_to_sell)
@@ -497,6 +507,9 @@ class Player(BasePlayer):
                         self.group.low_risk_orders_count += 1
                         self.group.low_risk_acum_price += low_risk_best_sell_offer["Price"]
 
+                        self.market_orders += 1
+                        self.group.market_orders += 1
+
                         order_issuer = self.group.get_order_issuer(low_risk_best_sell_offer)
                         order_issuer.update_issuer_holdings(data,low_risk_best_sell_offer["Price"],quantity_to_buy)
 
@@ -528,6 +541,9 @@ class Player(BasePlayer):
 
                             self.group.low_risk_orders_count += 1
                             self.group.low_risk_acum_price += low_risk_best_buy_offer["Price"]
+
+                            self.market_orders += 1
+                            self.group.market_orders += 1
 
                             order_issuer = self.group.get_order_issuer(low_risk_best_buy_offer)
                             order_issuer.update_issuer_holdings(data,low_risk_best_buy_offer["Price"],quantity_to_sell)
