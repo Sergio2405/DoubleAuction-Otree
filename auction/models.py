@@ -5,12 +5,13 @@ from otree.api import (
     BaseSubsession,
     BaseGroup,
     BasePlayer,
-    Currency as c,
+
     currency_range,
 )
 
 import ast
 import random
+
 import numpy as np
 
 author = 'Sergio Gonzalo Mejia Ramos'
@@ -105,7 +106,7 @@ class Group(BaseGroup):
     #### vars usadas como almacenadores de ordenes temporales (vars auxiliares) #####
     high_risk_orders = models.LongStringField(default = "")
     low_risk_orders = models.LongStringField(default = "")
-
+    
     def clear_orders(self):
         self.high_risk_orders = ""
         self.low_risk_orders = ""
@@ -272,6 +273,7 @@ class Group(BaseGroup):
         for player in players: 
             if player.id_in_group == issuer_id:
                 issuer = player
+
                 break
 
         return issuer
