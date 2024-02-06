@@ -8,7 +8,7 @@ h2==4.1.0
 hpack==4.0.0
 hyperframe==6.0.1
 numpy==1.21.6
-otree==3.4.0
+otree==5.0.1
 priority==2.0.0
 pytz==2019.2
 sqlparse==0.4.2
